@@ -1,0 +1,86 @@
+
+sudo apt-get install git
+git init
+ git remote add origin https://github.com/vmktharun/Events-Mobile.git
+ git remote -v
+ git status
+
+
+git checkout -b branch_name
+ git add .
+ git status
+git commit -m '2 Aug 2019 Harshith login module with validation,fetch,post and get response from mock api'
+git push origin branch_name
+
+
+
+killall -9 node
+npm start -- --reset-cache
+
+
+{
+"ename": "Event App launch",
+"venue": " Masha Hall",
+"description": "Event",
+"totalseats": 5000,
+"organiser": "Harshith S",
+"date": "2019-10-02",
+"time": "10:20:00"
+}
+
+
+
+ 'response12 enroll', [ { _id: '5d6a0feef535de53c525e103',
+                             │ eventID: '5d680029f6aaae3580c447ca',
+                             │ participantID: '5d63d3183151245630ecc862',
+                             │ feedback: 0,
+                             │ isAccepted: true,
+                             │ isArchived: false,
+                             │ createdAt: '2019-08-31T06:13:02.988Z',
+                             │ updatedAt: '2019-08-31T06:13:02.988Z',
+                             │ events:
+                             │ { _id: '5d680029f6aaae3580c447ca',
+                             │ ename: 'Krishna Janma Asthami',
+                             │ venue: 'Roush Building',
+                             │ description: 'Celebration of Asthami Festival Festival',
+                             │ organiser: '5d63c3f73151245630ecc861',
+                             │ typeofEvent: 'Pre Festive Celebration',
+                             └ startTime: '2019-09-03T16:30:00.000Z' } } ]
+
+
+
+organized   [11:10:11] W | ReactNativeJS ▶︎ { _id: '5d6800aaf6aaae3580c447cb',
+                             │ ename: 'Nineleaps Sports Day',
+                             │ venue: 'Roush Building',
+                             │ description: 'Annual Sports Day Nineleaps',
+                             │ capacity: 200,
+                             │ organiser: '5d63d3183151245630ecc862',
+                             │ typeofEvent: 'Employee Engagement',
+                             │ startTime: '2019-09-10T10:30:00.000Z',
+                             │ endTime: '2019-09-11T18:34:00.000Z',
+                             │ isAccepted: true,
+                             │ isArchived: false,
+                             │ createdAt: '2019-08-29T16:43:22.672Z',
+                             │ updatedAt: '2019-08-29T16:43:22.672Z',
+                             └ __v: 0 }
+
+
+componentwillmount---------->https://developmentarc.gitbooks.io/react-indepth/content/life_cycle/birth/premounting_with_componentwillmount.html
+
+
+   implementation 'com.facebook.fresco:fresco:1.+'
+
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:1.+'
+
+    // For WebP support, including animated WebP
+    implementation 'com.facebook.fresco:animated-webp:1.+'
+    implementation 'com.facebook.fresco:webpsupport:1.+'
+
+
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+
+
+include ':@react-native-community_blur'
+project(':@react-native-community_blur').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/blur/android')
