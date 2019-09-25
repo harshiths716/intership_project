@@ -8,16 +8,19 @@ import Stacknav from "./bottomnav.js";
 // import Eventdetail from "./eventdetails";
 // import Eventalter from "./eventalter";
 // import DrawerNavigator from "./Stacknav";
-//import GoogleButton from '../screens/login_screen/GoogleButton'
+import GoogleButton from '../login_screen/GoogleButton'
+import Notification from '../login_screen/notification'
+
 const Firststack = createStackNavigator(
   {
-   // goo:{screen:Login},
+    noti:{screen:Notification},
+   goo:{screen:GoogleButton},
    login: { screen: Login },
     stack: { screen: Stacknav },
   //  alter: { screen: Eventalter }
   },
   {
-    initialRouteName: 'stack',
+    initialRouteName: 'noti',
 
     headerMode: "none"
   }
