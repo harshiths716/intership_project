@@ -2,7 +2,7 @@ import React from "react";
 //import Apicall from "../../networking/apicall";
 
 
-
+import {sign_in} from '../../../app/Actions/login-actions'
 
 //import SplashScreen from './splashscreen'
 import AsyncStorage from "@react-native-community/async-storage";
@@ -41,11 +41,11 @@ import { Dimensions } from "react-native";
 //     );
 //   }
 // }
+import { connect } from 'react-redux';
 
 
-
-
-export default class Loginsc extends React.Component {
+//var userdata
+ class Loginsc extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -146,7 +146,14 @@ export default class Loginsc extends React.Component {
 
   }
 
+  handleSubmit(obj) {
+   // const { user } = this.state;
+    this.props.sign_in( obj);
+  }
+
   render() {
+  userdata={username:this.props.username,password:this.props.password}
+//console.warn(userdata)
     // if (this.state.isLoading) {
     //   return <SplashScreen />;
     // }
@@ -182,9 +189,9 @@ export default class Loginsc extends React.Component {
 
            <TouchableOpacity
               style={styles.button}
-              onPress={
+              onPress={()=>
                // this.validateit() || this._onSubmit();
-               this.props.sign_in
+              this.handleSubmit(userdata)
               }
             >
               <Text style={styles.txt}>SIGN IN</Text>
@@ -195,6 +202,32 @@ export default class Loginsc extends React.Component {
     );
   }
 }
+
+
+
+
+import {TYPE_USERNAME,TYPE_PASSWORD,SIGN_IN,RECEIVE_LOGIN_API}  from '../../../app/Actions/Login_ActionTypes'
+const mapStateToProps = (state) => ({
+    username: state.TextChanger.username,
+    password: state.TextChanger.password
+});
+
+const mapDispatchToProps = (dispatch) => ({
+   typeusername: (val) => dispatch({type:TYPE_USERNAME,payload:val}),
+   typepassword: (val) => dispatch({type:TYPE_PASSWORD,payload:val}),
+   sign_in:(userdata)=>dispatch(sign(userdata))
+});
+
+//login_api_hit=(val)=>dispatch({type:RECEIVE_LOGIN_API,payload:val})
+
+function sign(userdata) {
+  return {type:SIGN_IN,payload:userdata}
+}
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Loginsc);
+
 
 const styles = StyleSheet.create({
   container: {

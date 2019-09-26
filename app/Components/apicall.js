@@ -9,10 +9,10 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {bindActionCreators} from 'redux';
+//import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import requestApiData from '../Actions/actions';
-import { REQUEST_API_DATA } from "../Actions/actions";
+//import requestApiData from '../Actions/actions';
+import { REQUEST_API_DATA } from "../Actions/mock_actions";
 
 class Apidisplay extends React.Component {
   constructor(props){
