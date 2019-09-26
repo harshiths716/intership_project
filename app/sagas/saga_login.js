@@ -1,17 +1,18 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
-import { REQUEST_API_DATA, receiveApiData } from "../Actions/mock_actions";
-import { fetchData } from "../Actions/api";
+import {TYPE_USERNAME,TYPE_PASSWORD,SIGN_IN}  from '../Actions/Login_ActionTypes'
+import { Login_api} from "../Actions/api";
+import {login_api_hit} from '../Actions/login-actions'
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getApiData(actions) {
-    console.warn('i am inside saga')
+    console.warn(ac)
   try {
     console.warn('i am inside saga')
 
     // do api call
-    const data = yield call(fetchData);
-    yield put(receiveApiData(data));
+    const data = yield call(Login_api(actions.payload));
+    yield put(login_api_hit(data));
   } catch (e) {
     console.warn(e);
   }
@@ -27,5 +28,5 @@ function* getApiData(actions) {
 //console.warn('i am inside saga')
 
 export default function* mySaga() {
-  yield takeEvery(REQUEST_API_DATA, getApiData);
+ // yield takeEvery(SIGN_IN, getApiData);
 }

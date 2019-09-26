@@ -16,43 +16,45 @@ import Myevents from '../my_events/myevents'
 import Eventalter from '../my_events/eventalter'
 //import Waiting from '../my_events/waitinglist'
 import Attendence from '../my_events/attendence'
-const Eventview = createStackNavigator(
-  {
-    //calen: { screen: Usercalen },
-    create: { screen: Createvent }
-  });
+import Upcoming from '../view_events/Upcoming'
 
-  Eventview.navigationOptions = ({ navigation }) => {
-    let tabBarVisible;
-    if (navigation.state.routes.length > 1) {
-      navigation.state.routes.map(route => {
-        if (route.routeName === "detail") {
-          tabBarVisible = false;
-        } else {
-          tabBarVisible = true;
-        }
-      });
-    }
+// export const Eventview = createStackNavigator(
+//   {
+//     //calen: { screen: Usercalen },
+//     create: { screen: Createvent }
+//   });
+
+//   Eventview.navigationOptions = ({ navigation }) => {
+//     let tabBarVisible;
+//     if (navigation.state.routes.length > 1) {
+//       navigation.state.routes.map(route => {
+//         if (route.routeName === "detail") {
+//           tabBarVisible = false;
+//         } else {
+//           tabBarVisible = true;
+//         }
+//       });
+//     }
   
-    return {
-      tabBarVisible
-    };
-  };
+//     return {
+//       tabBarVisible
+//     };
+//   };
   
 
-const Eventcreate = createStackNavigator(
-  {
-    create: { screen: Createvent },//{headerLayoutPreset: 'center'},
-   // calen: { screen: Usercalen }
+// export const Eventcreate = createStackNavigator(
+//   {
+//     create: { screen: Createvent },//{headerLayoutPreset: 'center'},
+//    // calen: { screen: Usercalen }
 
-  },{
-   // headerMode: "none"
+//   },{
+//    // headerMode: "none"
 
-  }
+//   }
   
-);
+// );
 
-const Eventmy = createStackNavigator(
+export const Eventmy = createStackNavigator(
   {
     myevents:{screen:Myevents},
     eventalter:{screen:Eventalter},
@@ -62,16 +64,11 @@ const Eventmy = createStackNavigator(
     },
 );
 
-const Stacknav = createBottomTabNavigator(
+export  const bottomUser = createBottomTabNavigator(
   {
-
-
-
-    View: { screen: Eventview },
-    Create: { screen: Eventcreate },
-
+    View: { screen: Upcoming },
+    //Create: { screen: Eventcreate },
     'My events':{screen:Eventmy},
-
    // Delete: { screen: Eventdele },
 
   },
@@ -105,10 +102,53 @@ const Stacknav = createBottomTabNavigator(
 );
 
 
+// export  const Stacknav = createBottomTabNavigator(
+//   {
+
+
+
+//     View: { screen: Eventview },
+//     Create: { screen: Eventcreate },
+
+//     'My events':{screen:Eventmy},
+
+//    // Delete: { screen: Eventdele },
+
+//   },
+//   {
+//     defaultNavigationOptions: ({ navigation }) => ({
+//       tabBarIcon: ({ focused, horizontal, tintColor }) => {
+//         const { routeName } = navigation.state;
+//         let IconComponent = Icon;
+//         let iconName;
+//         if (routeName === "View") {
+//           iconName = 'home'//${focused ? "" : "-open"};
+//         } else if (routeName === "Create") {
+//           iconName = 'edit';
+//         }
+//         else if (routeName === "My events") {
+//           iconName = 'mail';
+//         }
+//         return <IconComponent name={iconName} size={40} color={tintColor} />;
+//       }
+//     }),
+//     tabBarOptions: {
+    
+//       activeTintColor: "#4796ae",
+//       inactiveTintColor: "black",
+//       activeBackgroundColor:'white',
+//       inactiveBackgroundColor:'white'
+//       //  fontWeight: 'bold',
+//       //fontSize: 30,
+//     }
+//   }
+// );
+
+
 // const DrawerNavigator = createDrawerNavigator({
 //   Stacknav
 // });
 
 // export default createAppContainer(DrawerNavigator);
 
-export default createAppContainer(Stacknav);
+//export default createAppContainer(Stacknav);
