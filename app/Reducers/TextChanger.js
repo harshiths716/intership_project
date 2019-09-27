@@ -1,7 +1,7 @@
 import * as Actions from '../Actions/Login_ActionTypes';
 import {TYPE_USERNAME,TYPE_PASSWORD,SIGN_IN,RECEIVE_LOGIN_API}  from '../Actions/Login_ActionTypes'
-
-const TextChanger = (state = {username: '', password: '', status:'',userdata: ''},action) => {
+import {SEND_UPCOMING,RECEIVE_UPCOMING}  from '../Actions/upcoming'
+const TextChanger = (state = {username: '', password: '', status:'',userdata: '',upcoming:''},action) => {
   switch (action.type) {
     case Actions.TYPE_USERNAME:
       // console.warn(state);
@@ -26,6 +26,11 @@ const TextChanger = (state = {username: '', password: '', status:'',userdata: ''
       return {
         ...state,
         status: action.payload,
+      };
+      case RECEIVE_UPCOMING:
+      return{
+        ...state,
+        upcoming:action.payload
       };
     case RECEIVE_LOGIN_API:
        // console.warn('i am inside REV',JSON.stringify(action.payload))

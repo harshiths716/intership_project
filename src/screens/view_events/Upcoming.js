@@ -8,63 +8,47 @@ import { ScrollView } from "react-native-gesture-handler";
 import CountDown from 'react-native-countdown-component';
 import AsyncStorage from "@react-native-community/async-storage";
 import StarRating from 'react-native-star-rating';
- 
-
-const data = [
-  {
-    startTime: '345687',
-    venue: 'park',
-    description: 'play',
-    ename: 'run',
-    time: '2019:09-20T19:22:22:022Z',
-   
-  },
-  
-  {
-    startTime: '345688',
-    venue: 'park',
-    description: 'play',
-    ename: 'run',
-
-
-  },
-  {
-    startTime: '345689',
-    venue: 'park',
-    description: 'play',
-    ename: 'run',
-
-  },
-  {
-    startTime: '345686',
-    venue: 'park',
-    description: 'play',
-    ename: 'run',
-   
-  },
-
-
-]
-
-export default class Upcoming extends React.Component {
+import Apicall from '../networking/apicall2';
+import { connect } from 'react-redux';
+// data=[ { _id: '5d8bd664826c65560c243366',
+//  eName: 'Hackathon 2k19',
+//   venue: 'Pasta Street, Koramangala',
+//   description: '4th year of Hackathon Event',
+//   isOpen: true,
+//   msgs: ' ',
+//   startTime: '2019-10-10T09:30:00.000Z',
+//   endTime: '2019-10-10T09:30:00.000Z',
+//   __v: 0 },
+//   { _id: '5d8bd94711c20f5994e1b051',
+//   eName: 'World\'s Men\'s Day',
+//   venue: 'Pasta Street, Koramangala',
+//   description: 'Celebrating and Appreciating the Men\'s for being the strong pillar',
+//   isOpen: true,
+//   msgs: ' ',
+//   startTime: '2019-10-15T09:30:00.000Z',
+//   endTime: '2019-10-15T09:30:00.000Z',
+//   __v: 0 } ]
+class Upcoming extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       token: "",
       username: "",
       date: "",
-      dataResponse: "",
+      dataResponse: [],
       date3: "",
       date: '',
       date5: '',
       date8: '',
       daa: '',
+      data: [],
       C: '',
       D: '',
       A: '',
-      starCount:3,
+      
+      // starCount:3,
     };
-    // this.renderItem = this.renderItem.bind(this);
+    //this.renderItem = this.renderItem.bind(this);
     // this.upevents = this.upevents.bind(this);
   }
   static navigationOptions = {
@@ -88,37 +72,30 @@ export default class Upcoming extends React.Component {
     }
   };
 
- 
-  renderItem = ({ item, index }) => {
 
-    console.warn(item);
-    const { navigate } = this.props.navigation;
-    
+  renderItem = ({ item }) => {
+
+    // console.warn(item);
+    //const { navigate } = this.props.navigation;
+
 
     return (
-     
-      
-      
-      
+
+
+
       <ScrollView style={styles.container}>
 
-        <View
-
-          style={styles.bottomItem}>
+        <View style={styles.bottomItem}>
           <TouchableOpacity
             style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("eventalter", item);
-            }}
           >
-            <Text
-              style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
-            >
 
-              {item.startTime}
-            </Text>
             <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.ename}
+              {item.eName}
+            </Text>
+            <Text style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}>
+
+              {item.startTime.substr(0, 10)}
             </Text>
             <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
               {item.venue}
@@ -128,34 +105,35 @@ export default class Upcoming extends React.Component {
               style={{ color: "white", fontSize: 14, fontFamily: "Roboto" }}
             >
               {item.description}
-            </Text>
-
-
-          </TouchableOpacity>
+            </Text>
+        </TouchableOpacity>
 
         </View>
 
       </ScrollView>
+
     );
   }
 
 
-  _upcoming = () => {
+  // _upcoming = () => {
 
-    body = {
-      participantID: this.state.username,
-      date: this.state.date,
-    }
-    endpoint = "upcoming"
+  //   // body = {
+  //   //   participantID: this.state.eventID,
+  //   //   // date: this.state.date,
+  //   // }
+  //   endpoint = "/events/upcoming"
 
 
-    Apicall(endpoint, body, this.state.token).then(responseJson => {
-      this.setState({ dataResponse: responseJson });
-    })
+  //   Apicall(endpoint, this.state.token).then(responseJson => {
+  //     this.setState({ dataResponse: responseJson });
+  //   })
 
-  }
+  // }
+
+
   upevents = () => {
-    if (this.state.dataResponse.result) {
+    if (this.props.upcoming.result) {
       return (
         <View style={{ flex: 1 }}>
           <Text
@@ -173,125 +151,96 @@ export default class Upcoming extends React.Component {
     } else {
       return (
         <FlatList
-          // numColumns={3}
-          data={data.slice(0, 3)}
-          // style={styles.container}
+          data={this.props.upcoming}
           renderItem={this.renderItem}
-        // numColumns={numColumns}
+
         />
       );
     }
   };
 
-  componentDidMount() {
-    //     var date = new Date().getDate();
-    // var hours = new Date().getHours(); //Current Hours
-    // var min = new Date().getMinutes(); //Current Minutes
-    // var sec = new Date().getSeconds(); //Current Seconds
-    //  await this.setState({date8:(hours*60*60) + (min*60) +sec});
-    //  await this.setState({
+  // componentDidMount() {
+  //   //     var date = new Date().getDate();
+  //   // var hours = new Date().getHours(); //Current Hours
+  //   // var min = new Date().getMinutes(); //Current Minutes
+  //   // var sec = new Date().getSeconds(); //Current Seconds
+  //   //  await this.setState({date8:(hours*60*60) + (min*60) +sec});
+  //   //  await this.setState({
 
-    //     date:
-    //       hours + ':' + min + ':' + sec,
-    //   });
-
-
-    const A = moment(data[0].time);
-    var dateobj = new Date();
-
-    // Contents of above date object is 
-    // converted into a string using toISOString() function. 
-    var B = dateobj.toISOString();
-    // await this.setState({C:B});
+  //   //     date:
+  //   //       hours + ':' + min + ':' + sec,
+  //   //   });
 
 
-    var diffInMinutes = A.diff(B, 'minutes');
-    this.setState({ D: diffInMinutes });
-  }
+  // //   const A = moment(data[0].time);
+  // //   var dateobj = new Date();
+
+  // //   // Contents of above date object is 
+  // //   // converted into a string using toISOString() function. 
+  // //   var B = dateobj.toISOString();
+  // //   // await this.setState({C:B});
+
+
+  // //   var diffInMinutes = A.diff(B, 'minutes');
+  // //   this.setState({ D: diffInMinutes });
+  // }
   onStarRatingPress(rating) {
     this.setState({
       starCount: rating
     });
   }
-  // date4= () => {
-  // /// let date3;
-  //   var dddd = new Date();
-  //   console.log("@new Date  ", dddd.toISOString().substr(0, 10));
+  //asmitha1@nineleaps.com
+  //password123
 
-  //  this.setState({ date3: dddd.toISOString().substr(0, 10) });
+  // upcomcall = async () => {
 
+
+
+
+
+  // //    await Apicall().then(res => {
+  // //       this.setState({ dataResponse: res });
+  // //     });
+
+  // // console.warn(this.state.dataResponse)
   // };
-  // async componentDidMount() {
 
+  componentDidMount() {
+    this.props.sendUpcoming(data_data)
+  }
 
-  //   var dddd = new Date();
-  //   console.log("@new Date  ", dddd.toISOString().substr(0, 10));
+  componentDidUpdate() {
+    console.warn('update', JSON.stringify(this.props.upcoming))
+  }
 
-  //   await this.setState({ date: dddd.toISOString().substr(0, 10) });
-
-
-  //   try {
-  //     const value = await AsyncStorage.getItem("token");
-  //     const value1 = await AsyncStorage.getItem("username");
-  //     if (value && value1 !== null) {
-  //       await this.setState({ token: value });
-  //       await this.setState({ username: value1 });
-  //       //   console.log(value)
-  //     }
-  //   } catch (e) {
-  //     // error reading value
-  //   }
-  // //  this._upcoming();
-
-  // }
   render() {
+
+
+    var dddd = new Date();
+    //   //  console.warn("@new Date  ", dddd.toISOString());
+    let date = dddd.toISOString()
+    //  //   await this.setState({ date3: dddd.toISOString().substr(0, 10) });
+
+    //     endpoint = "events/upcoming"+"/"+date;
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiNWQ4YjBhNzVlY2E2ZTkzZmJkZGFlMzI1IEFzbWl0aGEgUyBhc21pdGhhMUBuaW5lbGVhcHMuY29tIiwiaWF0IjoxNTY5NDkxODU2LCJleHAiOjE1NzIwODM4NTZ9.0zNP_EycHuPdJ2YbJLcxMlGJxtgKzXOcNM5PYgy37JE"
+
+    data_data = { date: date, token: token }
+
     //  console.warn(data.users[0].name)
     return (
 
       <ScrollView style={styles.scrollView}>
         <View style={{ backgroundColor: "white" }}>
-        <View>
-          
-    <Image
-    style={styles.stretch}
-    source={require('../resources/img.jpg')}
-  />
-  
-</View>
+          <View>
 
-          <View
-            style={{
-              // flexDirection: "row",
-              //flexWrap}}: "wrap-reverse",
-              alignSelf: "center"
-            }}
-          >
+            <Image
+              style={styles.stretch}
+              source={require('../resources/img.jpg')}
+            />
 
           </View>
-
-
           {this.upevents()}
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                fontSize: 20,
-              }}>
-              Current Date Time
-        </Text>
-            <Text
-              style={{
-                fontSize: 20,
-                marginTop: 16,
-              }}>: null
-              {this.state.D}
-            </Text>
 
-          </View>
 
           <CountDown
             style={styles.count}
@@ -304,18 +253,47 @@ export default class Upcoming extends React.Component {
 
 
         </View>
-        <View>
+        {/* <View>
         <StarRating
         disabled={false}
         maxStars={5}
         rating={this.state.starCount}
         selectedStar={(rating) => this.onStarRatingPress(rating)}
       />
-      </View>
+      </View> */}
       </ScrollView>
     );
   }
 }
+
+
+import { SEND_UPCOMING, RECEIVE_UPCOMING } from '../../../app/Actions/upcoming'
+const mapStateToProps = (state) => ({
+  upcoming: state.TextChanger.upcoming,
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  sendUpcoming: (data) => dispatch(send_Upcoming(data)),
+  //sendUpcoming:()=>dispatch({type:SEND_UPCOMING}),
+  //  typeusername: (val) => dispatch({type:TYPE_USERNAME,payload:val}),
+  //  typepassword: (val) => dispatch({type:TYPE_PASSWORD,payload:val}),
+  //  sign_in:(userdata)=>dispatch(sign(userdata)),
+  // navigate:()=>this.props.navigation.navigate('User')
+});
+
+//login_api_hit=(val)=>dispatch({type:RECEIVE_LOGIN_API,payload:val})
+
+function send_Upcoming(data) {
+  console.warn('inside send func')
+  return { type: SEND_UPCOMING, payload: data }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Upcoming);
+
+
 
 
 const styles = StyleSheet.create({
@@ -349,59 +327,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // marginVertical: 20
   },
-  //   item: {
-  //     backgroundColor: '#4D243D',
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //     flex: 1,
-  //     margin: 1,
-  //     height: Dimensions.get('window').width / numColumns, // approximate a square
-  //   },
-  //   itemInvisible: {
-  //     backgroundColor: 'transparent',
-  //   },
-  //   itemText: {
-  //     color: '#fff',
-  //   },
-  //   container: {
-  //     // width: "93%",
 
-  //    },
-  //    flatlist: {
-  //    //  flexWrap: 'wrap',
-  //   // flexDirection:'column'
-  //    },
-  //    content: {
-  //    // alignItems: 'flex-end'
-  //    },
-  //   top: {
-  //     //height: "45%",
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //     backgroundColor: "green"
-  //   },
-  //   profileimage: {
-  //     width: 140,
-  //     height: 140,
-  //     borderRadius: 100,
-  //     borderWidth: 4,
-  //     borderColor: "black",
-  //     backgroundColor: "yellow"
-  //   },
-  //   center: {
-  //    // height: "10%",
-  //     backgroundColor: "#7fbcac"
-  //   },
-  //    bottom: {
-  //      //height: "100%",
-  //    //  alignSelf:'center',
-  //      //backgroundColor: "#7fbcac",
-  //     // flexDirection: "row",
-  //      //flexWrap: "wrap",
-  //     // padding: 5,
-
-  //     // margin:5
-  //    },
   count:
   {
     flexDirection: 'column-reverse'
@@ -411,13 +337,9 @@ const styles = StyleSheet.create({
   bottomItem: {
     width: "100%",
     padding: '2%'
-    //height: "85%",
   },
   bottomItemInner: {
-    // flex: 1,
     backgroundColor: "#4796ae",
-    //  width:'50%',
-    //  height: "200%",
     padding: 5,
     borderRadius: 7,
   },
@@ -430,5 +352,4 @@ const styles = StyleSheet.create({
 
 
 });
-
 
