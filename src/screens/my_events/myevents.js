@@ -17,26 +17,26 @@ export default class Myevents extends React.Component {
     dataResponse: ""
   };
 
-  static navigationOptions = {
+  // static navigationOptions = {
     
-     title: 'My events',
-     headerLeft: <LogoTitle />,
-     headerRight: (
-       <View style={{ flexDirection: "row" }}>
+  //    title: 'My events',
+  //    headerLeft: <LogoTitle />,
+  //    headerRight: (
+  //      <View style={{ flexDirection: "row" }}>
 
-       </View>
-     ),
-     headerStyle: {
-       backgroundColor: "white"
-     },
-     headerTintColor: "white",
-     headerTitleStyle: {
-       textAlign:'center',
-       color:'black',
-      // fontWeight: "bold",
-       fontFamily: "Roboto"
-     }
-   };
+  //      </View>
+  //    ),
+  //    headerStyle: {
+  //      backgroundColor: "white"
+  //    },
+  //    headerTintColor: "white",
+  //    headerTitleStyle: {
+  //      textAlign:'center',
+  //      color:'black',
+  //     // fontWeight: "bold",
+  //      fontFamily: "Roboto"
+  //    }
+  //  };
 
   toggleSwitch = value => {
     //onValueChange of the switch this function will be called

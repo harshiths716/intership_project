@@ -62,6 +62,11 @@ export const Eventmy = createStackNavigator(
     attend:{screen:Attendence}
 
     },
+    {
+         // initialRouteName: 'noti',
+      
+          headerMode: "none"
+        }
 );
 
 export  const bottomUser = createBottomTabNavigator(

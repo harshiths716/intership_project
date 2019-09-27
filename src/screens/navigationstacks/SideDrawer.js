@@ -6,6 +6,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {bottomUser} from './bottomnav';
 import EventsAssigned from '../view_events/EventsAssigned'
 import PastEvents from '../view_events/PastEvents'
+
 class NavigationDrawerStructure extends Component {
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();

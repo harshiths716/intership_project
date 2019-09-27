@@ -111,7 +111,9 @@ import { connect } from 'react-redux';
     
 
 
-    } catch (e) {}
+    } catch (e) {
+      console.warn(e)
+    }
   };
 // componentWillUpdate(){
 //   this.storeData()
@@ -171,6 +173,14 @@ import { connect } from 'react-redux';
   async componentDidUpdate(){
     await this.storeData(this.props.userdata1)
 
+    let res =JSON.stringify(this.props.userdata1)
+    if(res !== null ){
+      if(res.success === true)
+      this.props.navigation.navigate('User')
+else
+alert('invalid credentials')
+    }
+
 
     
     // try {
@@ -191,7 +201,6 @@ import { connect } from 'react-redux';
    console.warn('inside handlesubmit')
    this.props.sign_in( obj);
    
-this.props.navigation.navigate('User')
   }
 
   render() {
