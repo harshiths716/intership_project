@@ -46,8 +46,8 @@ import { connect } from 'react-redux';
 
 //var userdata
  class Loginsc extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: "",
       nameValidate: true,
@@ -91,14 +91,44 @@ import { connect } from 'react-redux';
     }
   }
 
-  storeData = async () => {
+  storeData = async (val) => {
+    //const { navigate } = this.props.navigation;
+
     try {
-      await AsyncStorage.setItem("username", this.state.dataResponse.UserID);
-      await AsyncStorage.setItem("token", this.state.dataResponse.token);
+      console.warn('inside storedata' +JSON.stringify(val))
+      await AsyncStorage.setItem("userdata", val);
+    //  const value = await AsyncStorage.getItem("userdata");
+     // console.warn('new store' +JSON.stringify(value))
+     // await AsyncStorage.setItem("token", this.state.dataResponse.token);
     //  await console.warn(this.state.dataResponse.token);
+
+    // let val1 =  JSON.stringify(val)
+    // console.warn('code.....',val1)
+    // if(val1.success=='true'){
+    //   console.warn('Code has reached navigate')
+    //   this.props.navigate
+    // }
+    
+
+
     } catch (e) {}
   };
+// componentWillUpdate(){
+//   this.storeData()
+// }
 
+
+// async componentDidUpdate(){
+//   try {
+//     const value = await AsyncStorage.getItem("userdata");
+//    // const value1 = await AsyncStorage.getItem("username");
+    // if (value !== null) {
+    //   //navigate("stack");
+    //   console.warn('component',JSON.stringify(value))
+    // }
+//   } catch (e) {}
+
+// }
   // _onSubmit = async () => {
   // //  console.warn("inside");
 
@@ -122,38 +152,53 @@ import { connect } from 'react-redux';
   // };
 
   async componentDidMount() {
-    // const { navigate } = this.props.navigation;
+    //console.warn("in com "+ this.props.userdata1)
+    const value = await AsyncStorage.getItem("userdata");
+    if (value !== null) {
+      //navigate("stack");
+      console.warn('component',JSON.stringify(value))
+    }
 
-    this.setState({ screenWidth: Math.round(Dimensions.get("window").width) });
-    this.setState({
-      screenHeight: Math.round(Dimensions.get("window").height)
-    });
 
+  //  const data = await this.performTimeConsumingTask();
+
+  //   if (data !== null) {
+  //     this.setState({ isLoading: false });
+  //   }
+
+  }
+
+  async componentDidUpdate(){
+    await this.storeData(this.props.userdata1)
+
+
+    
     // try {
-    //   const value = await AsyncStorage.getItem("token");
-    //   const value1 = await AsyncStorage.getItem("username");
-    //   if (value && value1 !== null) {
-    //     navigate("stack");
+    //   const value = await AsyncStorage.getItem("userdata");
+    //   console.warn(value+' new')
+    //  // const value1 = await AsyncStorage.getItem("username");
+    //   if (value !== null) {
+    //     //navigate("stack");
+    //     console.warn('component',JSON.stringify(value))
     //   }
-    // } catch (e) {}
-
-
-   // const data = await this.performTimeConsumingTask();
-
-    // if (data !== null) {
-    //   this.setState({ isLoading: false });
+    // } catch (e) {
+    //   console.warn(e)
     // }
-
   }
 
   handleSubmit(obj) {
    // const { user } = this.state;
-    this.props.sign_in( obj);
+   console.warn('inside handlesubmit')
+   this.props.sign_in( obj);
+   
+this.props.navigation.navigate('User')
   }
 
   render() {
-  userdata={username:this.props.username,password:this.props.password}
-//console.warn(userdata)
+
+
+
+  userdata={email:this.props.username,password:this.props.password}
     // if (this.state.isLoading) {
     //   return <SplashScreen />;
     // }
@@ -161,7 +206,7 @@ import { connect } from 'react-redux';
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Text>{this.props.username}{this.props.password}</Text>
+          <Text>{this.props.username}{this.props.password}{JSON.stringify(this.props.userdata1)}</Text>
           <View style={{ flex: 1 }}>
             <Image
               source={require("../resources/logo2.png")}
@@ -209,18 +254,21 @@ import { connect } from 'react-redux';
 import {TYPE_USERNAME,TYPE_PASSWORD,SIGN_IN,RECEIVE_LOGIN_API}  from '../../../app/Actions/Login_ActionTypes'
 const mapStateToProps = (state) => ({
     username: state.TextChanger.username,
-    password: state.TextChanger.password
+    password: state.TextChanger.password,
+   userdata1:state.TextChanger.userdata
 });
 
 const mapDispatchToProps = (dispatch) => ({
    typeusername: (val) => dispatch({type:TYPE_USERNAME,payload:val}),
    typepassword: (val) => dispatch({type:TYPE_PASSWORD,payload:val}),
-   sign_in:(userdata)=>dispatch(sign(userdata))
+   sign_in:(userdata)=>dispatch(sign(userdata)),
+   navigate:()=>this.props.navigation.navigate('User')
 });
 
 //login_api_hit=(val)=>dispatch({type:RECEIVE_LOGIN_API,payload:val})
 
 function sign(userdata) {
+  console.warn('inside sign func')
   return {type:SIGN_IN,payload:userdata}
 }
 

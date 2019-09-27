@@ -6,12 +6,13 @@ import {login_api_hit} from '../Actions/login-actions'
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getApiData(actions) {
-    console.warn(ac)
+  console.warn('inside getapidata',actions)
   try {
-    console.warn('i am inside saga')
+   console.warn('i am inside saga')
 
     // do api call
-    const data = yield call(Login_api(actions.payload));
+    const data = yield call(Login_api,actions.payload);
+    console.warn("data in saga"+JSON.stringify(data))
     yield put(login_api_hit(data));
   } catch (e) {
     console.warn(e);
@@ -27,6 +28,6 @@ function* getApiData(actions) {
 */
 //console.warn('i am inside saga')
 
-export default function* mySaga() {
- // yield takeEvery(SIGN_IN, getApiData);
+export default function* mySagaLogin() {
+ yield takeEvery(SIGN_IN, getApiData);
 }

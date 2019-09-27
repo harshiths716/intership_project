@@ -1,7 +1,6 @@
-import { React } from "react-native";
 //import {  createAppContainer } from "react-navigation";
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-
+//import App from '../../../app/App'
 import {createStackNavigator} from "react-navigation-stack"
 import Loginsc from "../login_screen/loginsc";
 // import Splash from "./splashscreen";
@@ -13,6 +12,11 @@ import Stacknav from "./bottomnav.js";
 import GoogleButton from '../login_screen/GoogleButton'
 import Notification from '../login_screen/notification'
 import User from './SideDrawer'
+import React, {Component} from 'react';
+
+import {Provider} from 'react-redux';
+
+import store from '../../../app/Reducers/index';
 // const Firststack = createStackNavigator(
 //   {
 //     noti:{screen:Notification},
@@ -44,4 +48,16 @@ const Firststack = createAppContainer(
     }
   )
 );
-export default Firststack
+//export default Firststack
+
+
+
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Firststack />
+      </Provider>
+    );
+  }
+}
