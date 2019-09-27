@@ -13,7 +13,7 @@ import GoogleButton from '../login_screen/GoogleButton'
 import Notification from '../login_screen/notification'
 import User from './SideDrawer'
 import React, {Component} from 'react';
-
+import Upcoming from '../view_events/Upcoming'
 import {Provider} from 'react-redux';
 
 import store from '../../../app/Reducers/index';
@@ -38,13 +38,14 @@ import store from '../../../app/Reducers/index';
 const Firststack = createAppContainer(
   createSwitchNavigator(
     {
+    Upcoming,
       Loginsc,
       User,
     //  SideDrawer
     },
     {
       headerMode: 'none',
-      initialRouteName: 'Loginsc'
+      initialRouteName: 'Upcoming'
     }
   )
 );
