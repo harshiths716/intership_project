@@ -3,7 +3,7 @@ import { combineReducers, createStore,applyMiddleware } from 'redux';
 import createSagaMiddleware from "redux-saga";
 import mySagaLogin from "../sagas/saga_login";
 import data from "./data";
-
+import mySagaUpcoming from '../sagas/saga_upcoming'
 
 import TextChanger from './TextChanger'
 //console.warn('iam in store')
@@ -25,3 +25,4 @@ export default store;
 // then run the saga
 
 sagaMiddleware.run(mySagaLogin);
+sagaMiddleware.run(mySagaUpcoming)
