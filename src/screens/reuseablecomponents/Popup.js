@@ -22,26 +22,26 @@ export default class popup extends Component{
         };
 }
 
-static navigationOptions = {
+// static navigationOptions = {
 
-    title: 'upcoming events',
-    headerLeft: <LogoTitle />,
-    headerRight: (
-      <View style={{ flexDirection: "row" }}>
+//     title: 'upcoming events',
+//     headerLeft: <LogoTitle />,
+//     headerRight: (
+//       <View style={{ flexDirection: "row" }}>
 
-      </View>
-    ),
-    headerStyle: {
-      backgroundColor: "white"
-    },
-    headerTintColor: "white",
-    headerTitleStyle: {
-      textAlign: 'center',
-      color: 'black',
-      // fontWeight: "bold",
-      fontFamily: "Roboto"
-    }
-  };
+//       </View>
+//     ),
+//     headerStyle: {
+//       backgroundColor: "white"
+//     },
+//     headerTintColor: "white",
+//     headerTitleStyle: {
+//       textAlign: 'center',
+//       color: 'black',
+//       // fontWeight: "bold",
+//       fontFamily: "Roboto"
+//     }
+//   };
 
   render() {
     //  console.warn(data.users[0].name)

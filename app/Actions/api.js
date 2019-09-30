@@ -13,7 +13,7 @@ export const fetchData = async () => {
   export const Login_api = async (body) => {
    console.warn('inside login_api')
    try{
-    const response= await fetch("http://c607ea32.ngrok.io/users/authenticate", {
+    const response= await fetch("http://12797f78.ngrok.io/users/authenticate", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -62,3 +62,36 @@ export const fetchData = async () => {
      }
        
        };
+
+
+
+
+     //  assignedEvents_api
+
+
+
+       export const assignedEvents_api = async (body) => {
+    
+          try{
+            //console.warn('api-token',body.token)
+    
+           const response= await fetch("http://12797f78.ngrok.io/events/eventAssignment", {
+             method: "GET",
+             headers: {   
+            Accept  : "application/json",
+               "Content-Type": "application/json",
+                Authorization: "Bearer "+ body.token
+             },
+             
+            // body:JSON.stringify(body)
+           })
+           
+           const data = await response.json();
+           console.warn('api-data',data)
+           return data;
+         }catch(e){
+           console.warn(e)
+         }
+           
+           };
+    
