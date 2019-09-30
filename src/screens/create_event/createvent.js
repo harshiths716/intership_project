@@ -46,7 +46,8 @@ export default class Createvent extends Component {
       capacityValidate: true,
       value: "",
       isDateTimePickerVisible: false,
-      image:''
+      image:'',
+      iscapacity:false,
       // dataResponse:'',
     };
   }
@@ -115,6 +116,19 @@ export default class Createvent extends Component {
     }else{
     this.setState({
       selectedvenue: value
+    });
+  }
+  }
+
+  onValueChangecapacity(value) {
+    if(value == 'other')
+    {
+      this.setState({
+        iscapacity: true
+      });  
+    }else{
+    this.setState({
+      iscapacity: value
     });
   }
   }
@@ -212,32 +226,7 @@ export default class Createvent extends Component {
     } else {
       alert("fields not field");
     }
-
-    //   return fetch("http://192.168.1.151:8000/newnotes", {
-    //     method: "POST",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //       Authorization: "Bearer " + this.state.token
-    //     },
-    //     body: JSON.stringify({
-    //       startTime: this.state.date + "T00:00:00Z",
-    //       endTime: this.state.date + "T23:59:00Z"
-    //     })
-    //   })
-    //     .then(response => response.json())
-    //     .then(responseText => {
-    //       this.setState({ dataResponse: responseText });
-    //       console.warn("usecalen", responseText);
-    //     })
-    //     .catch(error => {
-    //       console.error(error);
-    //     });
-    // } else {
-    //   alert("fields not filled");
-    // }
   };
-  // }
 
   typepicker = () => {
     return (
@@ -283,7 +272,31 @@ export default class Createvent extends Component {
       </Picker>
     );
   };
+capacitypicker=()=>{
+  return (
+  <View style={{flex:1,flexDirection:"row"}}>
+    <Text style={{fontSize:18}}>capacity</Text>
+    <Picker
+      //label='capacity'
+      mode="dropdown"
+      style={{ width: 250 }}
+      selectedValue={this.state.capacity}
+      onValueChange={this.onValueChangecapacity.bind(this)}
+    >
 
+      <Picker.Item
+        label="open"
+        value="open"
+      />
+      <Picker.Item
+        label="other"
+        value="other"
+      />
+
+    </Picker>
+    </View>
+  );
+}
   inputbox=(obj,obj2)=>{
     if(obj2=='type'){
     return(
@@ -299,7 +312,7 @@ export default class Createvent extends Component {
     />
     );
       }
-      else{
+      if(obj2=='venue'){
     return(
       <FloatingLabelInput
       label = {obj}
@@ -307,6 +320,20 @@ export default class Createvent extends Component {
       onChangeText={text =>{
         this.setState({
           selectedvenue: text
+        });      }}
+       // this.setState({ capacity: text });
+
+    />
+    );
+  }
+  if(obj2=='capacity'){
+    return(
+      <FloatingLabelInput
+      label = {obj}
+      value={this.state.capacity}
+      onChangeText={text =>{
+        this.setState({
+          capacity: text
         });      }}
        // this.setState({ capacity: text });
 
@@ -364,13 +391,16 @@ console.warn(response)
               this.setState({ desc: text });
             }}
           />
-          <FloatingLabelInput
+          {/* <FloatingLabelInput
             label="Event capacity"
             value={this.state.capacity}
             onChangeText={text => {
               this.setState({ capacity: text });
             }}
-          />
+          /> */}
+
+
+{this.state.iscapacity ? this.inputbox('enter the capacity','capacity'): this.capacitypicker()}
 
 {this.state.istypepicker ? this.typepicker() : this.inputbox('enter event type','type')}
 
@@ -413,6 +443,7 @@ console.warn(response)
 
           <TouchableOpacity
             style={{
+              marginTop:'5%',
               alignSelf: "center",
               width: "150%",
               borderRadius: 5,

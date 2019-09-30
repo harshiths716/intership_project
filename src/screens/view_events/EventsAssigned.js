@@ -1,105 +1,53 @@
 import React, { Component, Fragment } from "react";
-import { StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions } from "react-native";
+import { StyleSheet, KeyboardAvoidingView,TouchableOpacity, Button,Text, View, FlatList, Dimensions, TextInput } from "react-native";
 //import FadeInView from "./animation";
 import { Switch, Image } from "react-native";
 //import LogoTitle from "./headerlogo";
 import moment from "moment";
 import { ScrollView } from "react-native-gesture-handler";
 //import Eventinfo from "./Eventinfo";
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
+import FloatingLabelInput from '../reuseablecomponents/Floatinput'
+import {connect} from 'react-redux'
+import AsyncStorage from "@react-native-community/async-storage";
 
+var data 
 
-const data=[
-    {eventID:'1',
-      startTime:'345687',
-      venue:'ground',
-      description:'play',
-      ename:'Team run',
-      organizer:'steve',
-      description:'The quick brown fox jumps over the lazy dog',
-       time:'2019:09-20T19:22:22:022Z',
-    },
-    {eventID:'2',
-      startTime:'345688',
-      venue:'paaark',
-      description:'play',
-      organizer:'paul',
-      description:'The quick brown fox jumps over the lazy dog',
-      ename:'slowrun',
-    },
-    {eventID:'3',
-      startTime:'345689',
-      venue:'park',
-      description:'play',
-      organizer:'baul',
-      description:'asa22222ababaaaadadcasaasasxsaxaasdasdawawdawcxzczxczxc',
-      ename:'swim run',
-    },
-    {eventID:'4',
-      startTime:'345686',
-      venue:'park',
-      description:'play',
-      organizer:'tony',
-      description:'The quick brown fox jumps over the lazy dog',
-      ename:'never run',
-    },
-    {eventID:'5',
-      startTime:'34wwe5686',
-      venue:'park',
-      description:'play',
-      organizer:'tony',
-      description:'The quick brown fox jumps over the lazy dogdawcxzczxczxc',
-      ename:'jump run',
-    },
-    {eventID:'6',
-      startTime:'34sdsds5686',
-      venue:'park',
-      description:'play',
-      organizer:'tony',
-      description:'The quick brown fox jumps over the lazy dog',
-      ename:'alwaysrun',
-    },
-]
-    export default class EventsAssigned extends Component {
+class EventsAssigned extends Component {
         constructor(props) {
           super(props);
           this.state = {
-            token: "",
-            username: "",
-            date: "",
-            dataResponse: "",
-            date3: "",
-            date: '',
-            date5: '',
-            date8: '',
-            daa: '',
-        
+           comment:'',
+        visible:false,
           };
         }
-        // static navigationOptions = {
 
-        //   title: 'Event Managment',
-        //   headerLeft: <LogoTitle />,
-        //   headerRight: (
-        //     <View style={{ flexDirection: "row" }}>
-      
-        //     </View>
-        //   ),
-        //   headerStyle: {
-        //     backgroundColor: "white"
-        //   },
-        //   headerTintColor: "white",
-        //   headerTitleStyle: {
-        //     textAlign: 'center',
-        //     color: 'black',
-        //     // fontWeight: "bold",
-        //     fontFamily: "Roboto"
-        //   }
-        // };
+accept=()=>{
+
+}
+ async componentDidMount(){
+
+  try {
+    value = await AsyncStorage.getItem('userdata');
+    data = JSON.parse(value);
+      } catch (e) {
+        console.warn('async error')
+        console.warn(e)
+      }
+
+  this.props.sendAssignedEvents(data)
+}
+reject=(obj)=>{
+  console.warn('inside')
+
+  this.setState({visible:true})
+}
+
         renderItem = ({ item, index }) => {
 
           console.warn(item);
           const { navigate } = this.props.navigation;
-          // if (item.eventID) {
+        
       
           return (
             <ScrollView style={styles.container}>
@@ -121,19 +69,17 @@ const data=[
                     style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
                   >
       
-                    {item.startTime}
+                    {item.events.eName}
                   </Text>
                   <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-                    {item.ename}
+                    {item.events.venue}
                   </Text>
-                  <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-                    {item.venue}
-                  </Text>
+                 
                   <Text
                     numberOfLines={1}
                     style={{ color: "white", fontSize: 14, fontFamily: "Roboto" }}
                   >
-                    {item.description}
+                    {item.events.description}
                   </Text>
                   <View style={styles.containerr}>
                   <TouchableOpacity
@@ -144,17 +90,11 @@ const data=[
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.button1}
-                    onPress={this.onPress}
+                    onPress={()=>this.reject(item.eventID)}
                   >
                     <Text> Reject</Text>
                   </TouchableOpacity>
                   </View>
-                  <TouchableOpacity
-                    style={styles.button2}
-                    onPress={this.onPress}
-                  >
-                    <Text> Message</Text>
-                  </TouchableOpacity>
       
       
                 </TouchableOpacity>
@@ -166,7 +106,7 @@ const data=[
         }
         
         upevents = () => {
-          if (this.state.dataResponse.result) {
+          if (this.props.assignedEvents.length<1) {
             return (
               <View style={{ flex: 1 }}>
                 <Text
@@ -175,8 +115,7 @@ const data=[
                     fontSize: 30,
                     opacity: 0.1,
                     alignSelf: "center"
-                  }}
-                >
+                  }}>
                   no events
                     </Text>
               </View>
@@ -185,7 +124,7 @@ const data=[
             return (
               <FlatList
                 // numColumns={3}
-                data={data}
+                data={this.props.assignedEvents}
                 // style={styles.container}
                 renderItem={this.renderItem}
               // numColumns={numColumns}
@@ -198,29 +137,68 @@ const data=[
           //  console.warn(data.users[0].name)
           return (
       
+<KeyboardAvoidingView style={{flex:1}} behavior="padding" >
+           
+<Dialog
+width="80%"
+height='20%'
+//padding='10%'
+visible={this.state.visible}
+onTouchOutside={() => {
+this.setState({ visible: false });
+}}
+>
+<DialogContent>
+
+<FloatingLabelInput
+//style={{width:'100%',height:'100%'}}
+        label="comment"
+        value={this.props.username}
+        onChangeText={this.props.typeusername}
+      />
+</DialogContent>
+</Dialog>
+
+
+
+
             <ScrollView style={styles.scrollView}>
               <View style={{ backgroundColor: "white" }}>
       
       
-                <View
-                  style={{
-                    // flexDirection: "row",
-                    //flexWrap}}: "wrap-reverse",
-                    alignSelf: "center"
-                  }}
-                >
-      
-                </View>
-      
+              
       
                 {this.upevents()}
 
                 </View>
 
 </ScrollView>
+</KeyboardAvoidingView>
 );
 }
 }
+
+
+import {SEND_ASSIGNEDEVENTS} from '../../../app/Actions/eventsAssigned';
+const mapStateToProps = state => ({
+  assignedEvents: state.TextChanger.assignedEvents,
+});
+
+const mapDispatchToProps = dispatch => ({
+  sendAssignedEvents: data => dispatch(send_assignedEvents(data)),
+
+});
+
+
+function send_assignedEvents(data1) {
+  console.warn('inside send func');
+  return {type:SEND_ASSIGNEDEVENTS,payload:data1};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EventsAssigned);
 
 
 
@@ -234,10 +212,14 @@ const styles = StyleSheet.create({
   
   
   button: {
+    alignItems:'center',
+    height:'130%',
     flex: 1,
-    backgroundColor:'white',
+    backgroundColor:'green',
   },
   button1: {
+    alignItems:'center',
+    height:'130%',
     flex:1,
      backgroundColor: 'red',
   },
@@ -246,7 +228,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   scrollView: {
-    backgroundColor: 'pink',
+  //  backgroundColor: 'pink',
     marginHorizontal: 20,
   },
   count:
@@ -324,6 +306,7 @@ const styles = StyleSheet.create({
   },
   bottomItem: {
     width: "100%",
+    height:'50%',
     padding: '2%'
     //height: "85%",
   },
