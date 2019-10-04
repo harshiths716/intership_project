@@ -1,3 +1,6 @@
+
+var ip = 'http://26ed4235.ngrok.io'
+
 export const fetchData = async () => {
   console.warn('iam in fetchData')
     try {
@@ -13,7 +16,7 @@ export const fetchData = async () => {
   export const Login_api = async (body) => {
    console.warn('inside login_api')
    try{
-    const response= await fetch("http://12797f78.ngrok.io/users/authenticate", {
+    const response= await fetch(ip+"/users/authenticate", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -43,7 +46,7 @@ export const fetchData = async () => {
       try{
         //console.warn('api-token',body.token)
 
-       const response= await fetch("http://12797f78.ngrok.io/events/upcoming/"+date, {
+       const response= await fetch(ip+"/events/upcoming/"+date, {
          method: "GET",
          headers: {
           Accept: "application/json",
@@ -75,7 +78,7 @@ export const fetchData = async () => {
           try{
             //console.warn('api-token',body.token)
     
-           const response= await fetch("http://12797f78.ngrok.io/events/eventAssignment", {
+           const response= await fetch(ip+"/events/eventAssignment", {
              method: "GET",
              headers: {   
             Accept  : "application/json",

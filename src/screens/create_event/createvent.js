@@ -68,30 +68,30 @@ export default class Createvent extends Component {
   };
 
   validateit() {
-    if (this.state.ename == "") {
-      alert("Please enter the  event name");
-    }
-    if (this.state.selectedvenue == "") {
-      alert("Please enter the venue");
-    }
-    if (this.state.desc == "") {
-      alert("Please enter the desc");
-    }
-    if (this.state.capacity == "") {
-      alert("Please enter the capacity");
-    }
-    if (this.state.selectedtype == "") {
-      alert("Please enter type of event");
-    }
-    if (this.state.StartTime == "") {
-      alert("Please enter your password");
-    }
-    if (this.state.chosenDate == "") {
-      alert("Please enter your password");
-    }
-    if (this.state.EndTime == "") {
-      alert("Please enter your password");
-    }
+    // if (this.state.ename == "") {
+    //   alert("Please enter the  event name");
+    // }
+    // if (this.state.selectedvenue == "") {
+    //   alert("Please enter the venue");
+    // }
+    // if (this.state.desc == "") {
+    //   alert("Please enter the desc");
+    // }
+    // if (this.state.capacity == "") {
+    //   alert("Please enter the capacity");
+    // }
+    // if (this.state.selectedtype == "") {
+    //   alert("Please enter type of event");
+    // }
+    // if (this.state.StartTime == "") {
+    //   alert("Please enter your password");
+    // }
+    // if (this.state.chosenDate == "") {
+    //   alert("Please enter your password");
+    // }
+    // if (this.state.EndTime == "") {
+    //   alert("Please enter your password");
+    // }
   }
 
   onValueChangetype(value) {
@@ -198,34 +198,36 @@ export default class Createvent extends Component {
       this.state.chosenDate &&
       this.state.selectedvenue !== ""
     ) {
-      body = {
-        ename: this.state.ename,
-        venue: this.state.selectedvenue,
-        description: this.state.desc,
-        capacity: this.state.capacity,
-        organiser: this.state.username,
-        typeofEvent: this.state.selectedtype,
-        startTime: this.state.chosenDate + "T" + this.state.StartTime + "Z",
-        endTime: this.state.chosenDate + "T" + this.state.EndTime + "Z"
-      };
-      endpoint = "newnotes";
-      //  console.warn(body)
-      Apicall(endpoint, body, this.state.token).then(responseJson => {
-        this.setState({
-          ename: null,
-          selectedvenue: null,
-          capacity: null,
-          desc: null,
-          selectedtype: null,
-          chosenDate: null,
-          StartTime: null,
-          EndTime: null
-        });
-        alert(responseJson.message);
-      });
-    } else {
-      alert("fields not field");
-    }
+    //   body = {
+    //     ename: this.state.ename,
+    //     venue: this.state.selectedvenue,
+    //     description: this.state.desc,
+    //     capacity: this.state.capacity,
+    //     organiser: this.state.username,
+    //     typeofEvent: this.state.selectedtype,
+    //     startTime: this.state.chosenDate + "T" + this.state.StartTime + "Z",
+    //     endTime: this.state.chosenDate + "T" + this.state.EndTime + "Z"
+    //   };
+    //   endpoint = "newnotes";
+    //   //  console.warn(body)
+    //   Apicall(endpoint, body, this.state.token).then(responseJson => {
+    //     this.setState({
+    //       ename: null,
+    //       selectedvenue: null,
+    //       capacity: null,
+    //       desc: null,
+    //       selectedtype: null,
+    //       chosenDate: null,
+    //       StartTime: null,
+    //       EndTime: null
+    //     });
+    //     alert(responseJson.message);
+    //   });
+    // } else {
+    //   alert("fields not field");
+     }
+     this.props.navigation.navigate('todo')
+
   };
 
   typepicker = () => {
@@ -459,7 +461,7 @@ console.warn(response)
                 color: "white"
               }}
             >
-              Submit
+              NEXT
             </Text>
           </TouchableOpacity>
         </ScrollView>

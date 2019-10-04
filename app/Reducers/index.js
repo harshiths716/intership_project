@@ -6,10 +6,14 @@ import data from "./data";
 import mySagaUpcoming from '../sagas/saga_upcoming'
 import mySagaAssignedEvents from '../sagas/saga_assignedEvents'
 import TextChanger from './TextChanger'
-//console.warn('iam in store')
+//import todos from './todos'
+import visibilityFilter from './visibilityFilter'
+import todos from './todo'
 const AppReducers = combineReducers({
    TextChanger,
-    data
+    data,
+    todos,
+    visibilityFilter
 });
 const sagaMiddleware = createSagaMiddleware();
 

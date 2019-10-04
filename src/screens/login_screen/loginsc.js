@@ -109,14 +109,14 @@ class Loginsc extends React.Component {
         this.props.navigation.navigate('Organizer')
       }
      // console.warn('i am here');
-     this.props.navigation.navigate('User');
+     //this.props.navigation.navigate('User');
     }
   }
 
   handleSubmit(obj) {
     this.props.sign_in(obj);
   }
-
+  TodoApp
   render() {
     userdata = {email: this.props.username, password: this.props.password};
     // if (this.state.isLoading) {
