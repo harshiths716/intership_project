@@ -6,7 +6,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {bottomUser,bottomorganizer} from './bottomnav';
 import EventsAssigned from '../view_events/EventsAssigned'
 import PastEvents from '../view_events/PastEvents'
-//import  from './bottomnav'
+import TodoApp from '../Todo/TodoApp'
 class NavigationDrawerStructure extends Component {
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
@@ -68,18 +68,18 @@ const Past_Events = createStackNavigator({
     },
 });
 
-const User = createDrawerNavigator({
+const UserDrawer = createDrawerNavigator({
   Home: {screen: bottomUser_StackNavigator},
   'Events Assigned':{screen:Events_Assigned},
   'Past Events':{screen:Past_Events}
 
 });
 
-
+export const User= createAppContainer(UserDrawer)
 //export default createAppContainer(User);
 
 
-
+// export const User
 
 const bottomOrganizer_StackNavigator = createStackNavigator({
     First: {
@@ -96,14 +96,17 @@ const bottomOrganizer_StackNavigator = createStackNavigator({
 });
 
 
-const Organizer = createDrawerNavigator(
+
+
+const OrganizerDrawer = createDrawerNavigator(
     {
-Home:{screen:bottomOrganizer_StackNavigator}
+Home:{screen:bottomOrganizer_StackNavigator},
+'Events Assigned':{screen:Events_Assigned},
+'Past Events':{screen:Past_Events}
     }
 );
 
-export default createAppContainer(Organizer);
-
+export const Organizer = createAppContainer(OrganizerDrawer);
 
 // const Admin = createDrawerNavigator(
 //     {

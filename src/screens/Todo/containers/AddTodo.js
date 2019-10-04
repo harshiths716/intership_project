@@ -3,33 +3,50 @@ import {
     View,
     Text,
     StyleSheet,
+    TextInput,
     TouchableOpacity
 } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import { Icon } from 'react-native-elements'
-
+import { connect } from 'react-redux'
+import { addTodo } from '../../../../app/Actions/Todo_actions'
 class AddTodo extends Component {
+constructor(props){
+    super(props)
+
+    this.state = {
+        text: ''
+    }
+}
+   
+
+    addTodo = (text) => {
+        //redux store 
+        this.props.dispatch(addTodo(text))
+        this.setState({ text: '' })
+    }
+
     render() {
+     //   console.log('inside AddTodo')
+
         return (
-            <View style={{flexDirection:'row'}}>
-           <TextInput
-           placeholder='enter text'
-           style={{borderWidth:1,borderColor:'green',
-        backgroundColor:'white',height:50,flex:1,padding:5}}
-           
-           />
-           <TouchableOpacity>
-               <View style={{height:50,backgroundColor:'blue',
-            alignItems:'center',justifyContent:'center'}}>
-
-
-               </View>
-           </TouchableOpacity>
+            <View style={{ flexDirection: 'row',marginHorizontal: 20}}>
+                <TextInput
+                    onChangeText={(text) => this.setState({ text })}
+                    value={this.state.text}
+                    placeholder="Eg. Create New Video"
+                    style={{ borderWidth: 1, borderColor: '#f2f2e1', backgroundColor: '#eaeaea', height: 50, flex: 1, padding: 5 }}
+                />
+                <TouchableOpacity 
+                
+                style={{justifyContent:'center'}}
+                onPress={() => this.addTodo(this.state.text)}>
+                   
+                    <Text style={{fontSize:35}}>+</Text>
+                </TouchableOpacity>
             </View>
         );
     }
 }
-export default AddTodo;
+export default connect()(AddTodo);
 
 const styles = StyleSheet.create({
     container: {
@@ -37,4 +54,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     }
-});
+}); 
