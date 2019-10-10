@@ -1,0 +1,91 @@
+// class SplashScreen extends React.Component {
+//   render() {
+//     const viewStyles = [
+//     //  styles.container,
+//       { backgroundColor: 'orange' }
+//     ];
+//     const textStyles = {
+//       color: 'white',
+//       fontSize: 40,
+//       fontWeight: 'bold'
+//     };
+
+//     return (
+//       <View style={viewStyles}>
+//         <Text style={textStyles}>
+//           Splash Screen
+//         </Text>
+//       </View>
+//     );
+//   }
+// }
+
+  async componentDidMount() {
+    //console.warn("in com "+ this.props.userdata1)
+    //  const value = await AsyncStorage.getItem("userdata");
+    // if (value !== null) {
+    //   //navigate("stack");
+    //   console.warn('component',JSON.stringify(value))
+    // }
+    //  const data = await this.performTimeConsumingTask();
+    //   if (data !== null) {
+    //     this.setState({ isLoading: false });
+    //   }
+  }
+
+
+    storeData = async val => {};
+
+
+    // if (this.state.isLoading) {
+    //   return <SplashScreen />;
+    // }
+    // console.warn(this.props)
+
+
+    //import SplashScreen from './splashscreen'
+
+
+
+export class TodoList extends React.Component{
+
+constructor(props){
+    super(props)
+}
+
+navi=(item)=>{
+
+  //  console.warn(item)
+    this.props.navigateprops.navigate('taskinfo',item)
+}
+
+render(){
+
+    return(
+
+        <View style={{ padding: 20 }}>
+        {this.props.todos.map(todo =>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <TouchableOpacity
+          key={todo.id}
+          style={{flexDirection: 'row', justifyContent: 'space-between'}}
+          onPress={() => this.navi(todo)}>
+          <Text
+            style={{
+              fontSize: 24,
+              textDecorationLine: todo.completed ? 'line-through' : 'none',
+            }}>
+            {todo.text}
+          </Text>
+        </TouchableOpacity>
+
+        <Button title="DONE" onPress={() => toggleTodo(todo.id)} />
+      </View>
+            
+        )}
+    </View>
+
+
+    );
+            }
+}

@@ -8,7 +8,7 @@ class TodoApp extends Component {
       <View style={styles.container}>
         <AddTodo />
 
-        <View>
+        <View style={{flex:1}}>
           <VisibleTodos navigateprops={this.props.navigation} />
         </View>
       </View>
