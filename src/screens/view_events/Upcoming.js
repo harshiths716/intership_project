@@ -167,7 +167,7 @@ class Upcoming extends React.Component {
               source={require('../resources/img.jpg')}
             />
           </View>
-          {this.upevents()}
+          {this.props.upcoming!=null && this.upevents()}
 
           <CountDown
             style={styles.count}

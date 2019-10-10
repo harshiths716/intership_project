@@ -20,6 +20,9 @@ import Upcoming from '../view_events/Upcoming';
 import Createvent from '../create_event/createvent';
 import TodoApp from '../Todo/TodoApp';
 import Taskinfo from '../Todo/Task/Taskinfo'
+// import VisibleTodos from '../Todo/containers/VisibleTodos';
+import TodoList from '../Todo/components/TodoList';
+
 export const Eventmy = createStackNavigator(
   {
     myevents: {screen: Myevents},
@@ -72,7 +75,8 @@ export const CreateStack = createStackNavigator(
   {
     Create: {screen: Createvent},
     todo: {screen: TodoApp},
-    taskinfo:{screen:Taskinfo}
+    taskinfo:{screen:Taskinfo},
+    // VisibleTodos:{screen:TodoList}
   },
   {
     // initialRouteName: 'noti',

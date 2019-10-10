@@ -5,23 +5,27 @@ import mySagaLogin from "../sagas/saga_login";
 import data from "./data";
 import mySagaUpcoming from '../sagas/saga_upcoming'
 import mySagaAssignedEvents from '../sagas/saga_assignedEvents'
+import mySagaAssignedEventsaccept from '../sagas/saga_acceptEvent'
+
 import TextChanger from './TextChanger'
 //import todos from './todos'
 import visibilityFilter from './visibilityFilter'
 import todos from './todo'
+import AssignedEvents from './assignedEvents'
 const AppReducers = combineReducers({
    TextChanger,
     data,
     todos,
-    visibilityFilter
+    visibilityFilter,
+    AssignedEvents
 });
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = (state, action) => {
-	return AppReducers(state,action);
-}
+// const rootReducer = (state, action) => {
+// 	return AppReducers(state,action);
+// }
 
-let store = createStore(rootReducer,applyMiddleware(sagaMiddleware));
+let store = createStore(AppReducers,applyMiddleware(sagaMiddleware));
 //console.warn('iam in mid')
 
 
@@ -31,3 +35,4 @@ export default store;
 sagaMiddleware.run(mySagaLogin)
 sagaMiddleware.run(mySagaUpcoming)
 sagaMiddleware.run(mySagaAssignedEvents)
+sagaMiddleware.run(mySagaAssignedEventsaccept)

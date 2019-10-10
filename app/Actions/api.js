@@ -1,5 +1,5 @@
 
-var ip = 'http://26ed4235.ngrok.io'
+var ip = 'http://288b10ee.ngrok.io'
 
 export const fetchData = async () => {
   console.warn('iam in fetchData')
@@ -98,3 +98,25 @@ export const fetchData = async () => {
            
            };
     
+           export const apicall = async (userdata,endpoint,method,databody) =>{
+            console.warn('apicall')
+            try{
+             const response= await fetch(ip+endpoint, {
+               method: method,
+               headers: {
+                 Accept: "application/json",
+                 "Content-Type": "application/json",
+                  Authorization: "Bearer " + userdata.token
+               },
+               body:JSON.stringify(databody)
+             })
+             
+             const resdata = await response.json();
+             console.warn('api-data',resdata)
+             return resdata;
+           }catch(e){
+
+             console.warn('api error')
+           }
+           body
+             };

@@ -33,7 +33,18 @@ class EventsAssigned extends Component {
     };
   }
 
-  accept = () => {};
+  accept = async () => {
+
+    try {
+      value = await AsyncStorage.getItem('userdata');
+      data = JSON.parse(value);
+    } catch (e) {
+      console.warn('async error');
+      console.warn(e);
+    }
+
+this.props.acceptevent(data)
+  };
   async componentDidMount() {
     try {
       value = await AsyncStorage.getItem('userdata');
@@ -104,7 +115,7 @@ class EventsAssigned extends Component {
               fontSize: 30,
               opacity: 0.1,
               alignSelf: 'center',
-            }}>
+            }}>SEND_ASSIGNEDEVENTS
             no events
           </Text>
         </View>
@@ -142,14 +153,14 @@ class EventsAssigned extends Component {
 
          <Dialog
       width="80%"
-      height="20%"
+      height="40%"
       //padding='10%'
       visible={this.state.visible}
       onTouchOutside={() => {
         this.setState({visible: false});
       }}>
       <DialogContent>
-      <KeyboardAvoidingView behavior='height'>
+      <KeyboardAvoidingView behavior='padding'>
         <View style={{width: '100%', height: '100%'}}>
           <TextInput
             style={{fontSize: 24}}
@@ -160,11 +171,18 @@ class EventsAssigned extends Component {
 
           <TouchableOpacity
             style={{
+              margin:20,
+              alignSelf:'center',
               width: '60%',
-              height: '60%',
+              height: '30%',
               backgroundColor: 'green',
-            }}>
-            <Text>SEND</Text>
+            }} onpress={()=>{this.accept()}}
+            >
+            <Text style={{
+             fontSize:24 ,
+             alignSelf:'center',
+             paddingTop:10
+            }}>SEND</Text>
           </TouchableOpacity>
 
         </View>
@@ -177,19 +195,28 @@ class EventsAssigned extends Component {
   }
 }
 
-import {SEND_ASSIGNEDEVENTS} from '../../../app/Actions/eventsAssigned';
+import {SEND_ASSIGNEDEVENTS,ACCEPT_EVENT} from '../../../app/Actions/eventsAssigned';
 const mapStateToProps = state => ({
   assignedEvents: state.TextChanger.assignedEvents,
+  
 });
 
 const mapDispatchToProps = dispatch => ({
   sendAssignedEvents: data => dispatch(send_assignedEvents(data)),
+  acceptevent:data => dispatch(accept_event(data))
 });
 
 function send_assignedEvents(data1) {
   console.warn('inside send func');
   return {type: SEND_ASSIGNEDEVENTS, payload: data1};
 }
+
+function accept_event(data1) {
+//  console.warn('inside send func');
+  return {type: ACCEPT_EVENT, payload: data1};
+}
+
+
 
 export default connect(
   mapStateToProps,

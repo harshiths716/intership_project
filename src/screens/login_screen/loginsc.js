@@ -3,7 +3,6 @@ import React from 'react';
 
 import {sign_in} from '../../../app/Actions/login-actions';
 
-//import SplashScreen from './splashscreen'
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   View,
@@ -19,27 +18,6 @@ import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 
 import {Dimensions} from 'react-native';
 
-// class SplashScreen extends React.Component {
-//   render() {
-//     const viewStyles = [
-//     //  styles.container,
-//       { backgroundColor: 'orange' }
-//     ];
-//     const textStyles = {
-//       color: 'white',
-//       fontSize: 40,
-//       fontWeight: 'bold'
-//     };
-
-//     return (
-//       <View style={viewStyles}>
-//         <Text style={textStyles}>
-//           Splash Screen
-//         </Text>
-//       </View>
-//     );
-//   }
-// }
 import {connect} from 'react-redux';
 
 class Loginsc extends React.Component {
@@ -77,21 +55,6 @@ class Loginsc extends React.Component {
     }
   }
 
-  storeData = async val => {};
-
-  async componentDidMount() {
-    //console.warn("in com "+ this.props.userdata1)
-    //  const value = await AsyncStorage.getItem("userdata");
-    // if (value !== null) {
-    //   //navigate("stack");
-    //   console.warn('component',JSON.stringify(value))
-    // }
-    //  const data = await this.performTimeConsumingTask();
-    //   if (data !== null) {
-    //     this.setState({ isLoading: false });
-    //   }
-  }
-
   async componentDidUpdate() {
     try {
       await AsyncStorage.setItem(
@@ -99,30 +62,25 @@ class Loginsc extends React.Component {
         JSON.stringify(this.props.userdata1),
       );
     } catch (e) {
-      
       console.warn('async error');
     }
 
     if (this.props.userdata1.success === true) {
-      if(this.props.userdata1.isOrganiser === true)
-      {
-        this.props.navigation.navigate('Organizer')
+      if (this.props.userdata1.isOrganiser === true) {
+        this.props.navigation.navigate('Organizer');
       }
-     // console.warn('i am here');
-     //this.props.navigation.navigate('User');
     }
   }
 
   handleSubmit(obj) {
+var endpoint='/users/authenticate'
+var method = ''
     this.props.sign_in(obj);
   }
-  TodoApp
+
   render() {
     userdata = {email: this.props.username, password: this.props.password};
-    // if (this.state.isLoading) {
-    //   return <SplashScreen />;
-    // }
-    // console.warn(this.props)
+
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -158,10 +116,7 @@ class Loginsc extends React.Component {
 
             <TouchableOpacity
               style={styles.button}
-              onPress={() =>
-                // this.validateit() || this._onSubmit();
-                this.handleSubmit(userdata)
-              }>
+              onPress={() => this.handleSubmit(userdata)}>
               <Text style={styles.txt}>SIGN IN</Text>
             </TouchableOpacity>
           </View>
@@ -189,8 +144,6 @@ const mapDispatchToProps = dispatch => ({
   sign_in: userdata => dispatch(sign(userdata)),
   navigate: () => this.props.navigation.navigate('User'),
 });
-
-//login_api_hit=(val)=>dispatch({type:RECEIVE_LOGIN_API,payload:val})
 
 function sign(userdata) {
   console.warn('inside sign func');
@@ -221,15 +174,6 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 7,
   },
-  // inlineImg: {
-  //   position: "absolute",
-  //   zIndex: 99,
-  //   width: "10%",
-  //   height: "28%",
-  //   right: "2%",
-  //   bottom: "19%",
-  //   top: "19%"
-  // },
 
   txt: {
     paddingTop: 10,

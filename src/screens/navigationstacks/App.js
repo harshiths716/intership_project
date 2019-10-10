@@ -19,16 +19,15 @@ const Firststack = createAppContainer(
    TodoApp,
       Loginsc,
      User,
-    Organizer
-    //  SideDrawer
-    },
+    Organizer,
+    //GoogleButton   
+   },
     {
       headerMode: 'none',
       initialRouteName: 'Organizer'
     }
   )
 );
-//export default Firststack
 
 
 
