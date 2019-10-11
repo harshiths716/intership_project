@@ -6,7 +6,7 @@ import data from "./data";
 import mySagaUpcoming from '../sagas/saga_upcoming'
 import mySagaAssignedEvents from '../sagas/saga_assignedEvents'
 import mySagaAssignedEventsaccept from '../sagas/saga_acceptEvent'
-
+import subtodos from '../Reducers/subtodo'
 import TextChanger from './TextChanger'
 //import todos from './todos'
 import visibilityFilter from './visibilityFilter'
@@ -17,7 +17,8 @@ const AppReducers = combineReducers({
     data,
     todos,
     visibilityFilter,
-    AssignedEvents
+    AssignedEvents,
+    subtodos
 });
 const sagaMiddleware = createSagaMiddleware();
 

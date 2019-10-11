@@ -4,7 +4,7 @@ import {SEND_ASSIGNEDEVENTS,assignedEvents_api_hit}  from '../Actions/eventsAssi
 import { assignedEvents_api} from "../Actions/api";
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* getApiData(actions) {
+function* getassignedApiData(actions) {
   console.warn('inside getapidata',actions)
   try {
    console.warn('i am inside saga')
@@ -13,6 +13,25 @@ function* getApiData(actions) {
     const data = yield call(assignedEvents_api,actions.payload);
     console.warn("data in saga assigned"+JSON.stringify(data))
     yield put(assignedEvents_api_hit(data));
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+
+import {SEND_ASSIGNEDEVENTS,acceptEvents_api_hit,ACCEPT_EVENT}  from '../Actions/eventsAssigned'
+import {acceptAssigned_api} from "../Actions/api";
+
+// worker Saga: will be fired on USER_FETCH_REQUESTED actions
+function* getacceptApiData(actions) {
+  console.warn('inside getapidata',actions)
+  try {
+   console.warn('i am inside saga')
+
+    // do api call
+    const data = yield call(acceptAssigned_api,actions.payload);
+    console.warn("data in saga assigned"+JSON.stringify(data))
+    yield put(acceptEvents_api_hit(data));
   } catch (e) {
     console.warn(e);
   }
@@ -29,5 +48,7 @@ console.warn('i am inside saga')
 
 export default function* mySagaAssignedEvents() {
     console.warn('saga_assigned')
- yield takeEvery(SEND_ASSIGNEDEVENTS, getApiData);
+ yield takeEvery(SEND_ASSIGNEDEVENTS, getassignedApiData);
+ yield takeEvery(ACCEPT_EVENT, getacceptApiData);
+
 }

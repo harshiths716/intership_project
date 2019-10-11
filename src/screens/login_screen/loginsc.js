@@ -1,7 +1,7 @@
 import React from 'react';
 //import Apicall from "../../networking/apicall";
 
-import {sign_in} from '../../../app/Actions/login-actions';
+// import {sign_in} from '../../../app/Actions/login-actions';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import {
@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 
-import {Dimensions} from 'react-native';
+// import {Dimensions} from 'react-native';
 
 import {connect} from 'react-redux';
 
@@ -73,8 +73,8 @@ class Loginsc extends React.Component {
   }
 
   handleSubmit(obj) {
-var endpoint='/users/authenticate'
-var method = ''
+    // var endpoint='/users/authenticate'
+    // var method = ''
     this.props.sign_in(obj);
   }
 
@@ -132,6 +132,8 @@ import {
   SIGN_IN,
   RECEIVE_LOGIN_API,
 } from '../../../app/Actions/Login_ActionTypes';
+
+import {sign} from '../../../app/Actions/login-actions';
 const mapStateToProps = state => ({
   username: state.TextChanger.username,
   password: state.TextChanger.password,
@@ -144,11 +146,6 @@ const mapDispatchToProps = dispatch => ({
   sign_in: userdata => dispatch(sign(userdata)),
   navigate: () => this.props.navigation.navigate('User'),
 });
-
-function sign(userdata) {
-  console.warn('inside sign func');
-  return {type: SIGN_IN, payload: userdata};
-}
 
 export default connect(
   mapStateToProps,

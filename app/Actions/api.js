@@ -1,5 +1,5 @@
 
-var ip = 'http://288b10ee.ngrok.io'
+var ip = 'http://8c22b6bc.ngrok.io'
 
 export const fetchData = async () => {
   console.warn('iam in fetchData')
