@@ -6,6 +6,8 @@ import FloatingLabelInput from "../../reuseablecomponents/Floatinput";
 // import TodoList from '../components/TodoList';
 // import VisibleTodos from '../containers/VisibleTodos';
 import {connect} from 'react-redux';
+import {subtoggleTodo,addsubTodo} from '../../../../app/Actions/Todo_actions'
+
  class Taskinfo extends React.Component {
   constructor(props) {
     super(props);
@@ -38,10 +40,10 @@ subtask=()=>{
     <View style={{ flex:1,padding: 20 }}>
     {/* <TodoList todos={this.props.todos} toggleTodo={this.props.toggleTodo}  navigateprops={this.props.navigateprops}/> */}
  
-    { this.props.todos.map(todo =>
+    { this.props.subtodos.map(todo =>
      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
      <TouchableOpacity
-       key={todo.id}
+       key={todo.subid}
        style={{flexDirection: 'row', justifyContent: 'space-between'}}
        onPress={() => this.navi(todo)}>
        <Text
@@ -49,11 +51,11 @@ subtask=()=>{
            fontSize: 24,
            textDecorationLine: todo.completed ? 'line-through' : 'none',
          }}>
-         {todo.text}
+         {todo.subtext}
        </Text>
      </TouchableOpacity>
 
-     <Button title="DONE" onPress={() => this.props.toggleTodo(todo.id)} />
+     <Button title="DONE" onPress={() => this.props.subtoggleTodo(todo.id)} />
    </View>
          
      )}
@@ -63,13 +65,21 @@ subtask=()=>{
   );
 }
 
+
+
+// addTodo = text => {
+//   //redux store
+//   this.props.dispatch(addsubTodo(text));
+//   this.setState({text: ''});
+// };
+
 addsubtask=()=>{
 return(
   <View style={{flexDirection: 'row', marginHorizontal: 20}}>
   <TextInput
     onChangeText={text => this.setState({text})}
     value={this.state.text}
-    placeholder="Eg. Create New Video"
+    placeholder="Eg. Create New task"
     style={{
       borderWidth: 1,
       borderColor: '#f2f2e1',
@@ -81,7 +91,7 @@ return(
   />
   <TouchableOpacity
     style={{justifyContent: 'center'}}
-    onPress={() => this.addTodo(this.state.text)}>
+    onPress={() => this.props.addsubTodo(this.state.text)  && this.setState({text:''})  }>
     <Text style={{fontSize: 35}}>+</Text>
   </TouchableOpacity>
 </View>
@@ -136,20 +146,21 @@ return(
         });      
     }}
     />
-{      this.addsubtask()
-}{this.subtask()}
+{/* // {this.addsubtask()}
+// {this.subtask()} */}
     </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  todos: state.todos,
+  subtodos: state.subtodos,
   // navigateprops:this.props.navigateprops
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleTodo: id => dispatch(toggleTodo(id)),
+  subtoggleTodo: id => dispatch(subtoggleTodo(id)),
+  addsubTodo:text=>dispatch(addsubTodo(text))
 });
 console.log('inside VisibleTodos');
 

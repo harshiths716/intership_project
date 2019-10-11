@@ -20,6 +20,16 @@ import LogoTitle from "../reuseablecomponents/headerlogo";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import FloatingLabelInput from "../reuseablecomponents/Floatinput";
 
+
+
+
+
+
+
+
+emaildata=[{}]
+
+
 export default class Createvent extends Component {
   constructor(props) {
     super(props);
@@ -185,6 +195,20 @@ export default class Createvent extends Component {
       // error reading value
     }
   }
+
+
+  list(text) {
+    const newData = this.state.listHolder.filter(function (item) {
+        const itemData = item.substring(0, item.indexOf("@")).toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+    });
+    this.setState({ search: newData, email: text, });
+    if (text == '') {
+        this.setState({ search: '' })
+    }
+}
+
 
   _onSubmit = () => {
     if (
@@ -368,6 +392,40 @@ console.warn(response)
   });
 
 }
+
+
+renderItem = ({item}) => {
+
+
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.bottomItem}>
+        <TouchableOpacity style={styles.bottomItemInner}>
+          <Text
+            numberOfLines={1}
+            style={{fontSize: 17, fontFamily: 'Roboto'}}>
+            {item.eName}
+          </Text>
+          <Text
+            style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
+            {item.startTime.substr(0, 10)}
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={{fontSize: 17, fontFamily: 'Roboto'}}>
+            {item.venue}
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={{color: 'white', fontSize: 14, fontFamily: 'Roboto'}}>
+            {item.description}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
+
   render() {
     return (
       <View style={{ flex: 1, padding: 30, backgroundColor: "#f5fcff" }}>
@@ -393,13 +451,15 @@ console.warn(response)
               this.setState({ desc: text });
             }}
           />
-          {/* <FloatingLabelInput
-            label="Event capacity"
+          <FloatingLabelInput
+            label="Add organizers"
             value={this.state.capacity}
             onChangeText={text => {
               this.setState({ capacity: text });
             }}
-          /> */}
+          />
+     <FlatList data={emaildata} renderItem={this.renderItem} />
+
 
 
 {this.state.iscapacity ? this.inputbox('enter the capacity','capacity'): this.capacitypicker()}
