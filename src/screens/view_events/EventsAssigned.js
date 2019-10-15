@@ -20,7 +20,7 @@ import Dialog, {DialogContent} from 'react-native-popup-dialog';
 import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import acceptEvents from '../../../app/Actions/eventsAssigned'
 var data;
 
 class EventsAssigned extends Component {
@@ -90,7 +90,7 @@ this.props.acceptevent(data)
               {item.events.description}
             </Text>
             <View style={styles.containerr}>
-              <TouchableOpacity style={styles.button} onPress={this.onPress}>
+              <TouchableOpacity style={styles.button} onPress={()=>this.props.acceptEvents(item.eventID)}>
                 <Text> Accept </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -141,6 +141,10 @@ this.props.acceptevent(data)
   // }
 
   render() {
+    if(!this.props.apicall){
+  this.props.sendAssignedEvents(data);
+
+    }
     //  console.warn(data.users[0].name)
     return (
       <View style={{flex:1}}>
@@ -198,12 +202,12 @@ this.props.acceptevent(data)
 import {SEND_ASSIGNEDEVENTS,ACCEPT_EVENT} from '../../../app/Actions/eventsAssigned';
 const mapStateToProps = state => ({
   assignedEvents: state.TextChanger.assignedEvents,
-  
+  apicall:state.AssignedEvents.apicall
 });
 
 const mapDispatchToProps = dispatch => ({
   sendAssignedEvents: data => dispatch(send_assignedEvents(data)),
-  acceptevent:data => dispatch(accept_event(data))
+  acceptEvents:data => dispatch(acceptEvents(data))
 });
 
 function send_assignedEvents(data1) {
@@ -211,10 +215,10 @@ function send_assignedEvents(data1) {
   return {type: SEND_ASSIGNEDEVENTS, payload: data1};
 }
 
-function accept_event(data1) {
-//  console.warn('inside send func');
-  return {type: ACCEPT_EVENT, payload: data1};
-}
+// function accept_event(data1) {
+// //  console.warn('inside send func');
+//   return {type: ACCEPT_EVENT, payload: data1};
+// }
 
 
 
