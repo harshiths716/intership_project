@@ -1,6 +1,6 @@
-import AsyncStorage from "@react-native-community/async-storage";
-import imagepicker from 'react-native-image-picker'
-import React, { Component } from "react";
+import AsyncStorage from '@react-native-community/async-storage';
+import imagepicker from 'react-native-image-picker';
+import React, {Component} from 'react';
 import {
   View,
   StatusBar,
@@ -12,69 +12,68 @@ import {
   Text,
   Image,
   StyleSheet,
-  TouchableOpacity
-} from "react-native";
-import Apicall from "../networking/apicall";
-import LogoTitle from "../reuseablecomponents/headerlogo";
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
+import Apicall from '../networking/apicall';
+import LogoTitle from '../reuseablecomponents/headerlogo';
 
-import DateTimePicker from "react-native-modal-datetime-picker";
-import FloatingLabelInput from "../reuseablecomponents/Floatinput";
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 
+import {connect} from 'react-redux';
 
+import {sendUserDetails} from '../../../app/Actions/create_event_action';
 
+//emaildata=[{}]
 
-
-
-
-
-emaildata=[{}]
-
-
-export default class Createvent extends Component {
+class Createvent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: "",
-      token: "",
-      chosenDate: "",
-      StartTime: "",
-      EndTime: "",
-      selected: "",
-      selectedtype: "Employee Engagement",
-      selectedvenue: "NL:Main Building",
+      username: '',
+      token: '',
+      chosenDate: '',
+      StartTime: '',
+      EndTime: '',
+      selected: '',
+      selectedtype: 'Employee Engagement',
+      selectedvenue: 'NL:Main Building',
       isStartTimePickerVisible: false,
       isEndTimePickerVisible: false,
       istypepicker: true,
       isvenuepicker: true,
-      ename: "",
-      venue: "",
-      capacity: "",
-      otherinput:'',
-      etype: "",
-      desc: "",
+      ename: '',
+      venue: '',
+      capacity: '',
+      otherinput: '',
+      etype: '',
+      desc: '',
       capacityValidate: true,
-      value: "",
+      value: '',
       isDateTimePickerVisible: false,
-      image:'',
-      iscapacity:false,
+      image: '',
+      iscapacity: false,
+      listHolder: '',
+      search: '',
       // dataResponse:'',
     };
   }
 
   static navigationOptions = {
-    title: " Create Event",
+    title: ' Create Event',
     headerLeft: <LogoTitle />,
 
     headerStyle: {
-      backgroundColor: "white"
+      backgroundColor: 'white',
     },
-    headerTintColor: "white",
+    headerTintColor: 'white',
     headerTitleStyle: {
-      textAlign: "center",
-      color: "black",
-      fontFamily: "Roboto"
-    }
+      textAlign: 'center',
+      color: 'black',
+      fontFamily: 'Roboto',
+    },
   };
 
   validateit() {
@@ -105,110 +104,103 @@ export default class Createvent extends Component {
   }
 
   onValueChangetype(value) {
-    if(value == 'other')
-    {
+    if (value == 'other') {
       this.setState({
-        istypepicker: false
-      });  
-    }else{
-    this.setState({
-      selectedtype: value
-    });
-  }
+        istypepicker: false,
+      });
+    } else {
+      this.setState({
+        selectedtype: value,
+      });
+    }
   }
 
   onValueChangevenue(value) {
-    if(value == 'other')
-    {
+    if (value == 'other') {
       this.setState({
-        isvenuepicker: false
-      });  
-    }else{
-    this.setState({
-      selectedvenue: value
-    });
-  }
+        isvenuepicker: false,
+      });
+    } else {
+      this.setState({
+        selectedvenue: value,
+      });
+    }
   }
 
   onValueChangecapacity(value) {
-    if(value == 'other')
-    {
+    if (value == 'other') {
       this.setState({
-        iscapacity: true
-      });  
-    }else{
-    this.setState({
-      iscapacity: value
-    });
-  }
+        iscapacity: true,
+      });
+    } else {
+      this.setState({
+        iscapacity: value,
+      });
+    }
   }
 
   showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
+    this.setState({isDateTimePickerVisible: true});
   };
 
   hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
+    this.setState({isDateTimePickerVisible: false});
   };
 
   handleDatePicked = date => {
-    this.setState({ chosenDate: date.toISOString().substr(0, 10) });
+    this.setState({chosenDate: date.toISOString().substr(0, 10)});
     this.hideDateTimePicker();
   };
 
   showStartTimePicker = () => {
-    this.setState({ isStartTimePickerVisible: true });
+    this.setState({isStartTimePickerVisible: true});
   };
 
   hideStartTimePicker = () => {
-    this.setState({ isStartTimePickerVisible: false });
+    this.setState({isStartTimePickerVisible: false});
   };
 
   handleStartTimePicked = time => {
-    this.setState({ StartTime: time.toTimeString().substr(0, 8) });
+    this.setState({StartTime: time.toTimeString().substr(0, 8)});
     this.hideStartTimePicker();
   };
 
   showEndTimePicker = () => {
-    this.setState({ isEndTimePickerVisible: true });
+    this.setState({isEndTimePickerVisible: true});
   };
 
   hideEndTimePicker = () => {
-    this.setState({ isEndTimePickerVisible: false });
+    this.setState({isEndTimePickerVisible: false});
   };
 
   handleEndTimePicked = time => {
-    this.setState({ EndTime: time.toTimeString().substr(0, 8) });
+    this.setState({EndTime: time.toTimeString().substr(0, 8)});
     this.hideEndTimePicker();
   };
 
   async componentDidMount() {
     try {
-      const value = await AsyncStorage.getItem("token");
-      const value1 = await AsyncStorage.getItem("username");
-      if (value && value1 !== null) {
-        await this.setState({ token: value });
-        await this.setState({ username: value1 });
-        //   console.log(value)
-      }
+      value = await AsyncStorage.getItem('userdata');
+      count = JSON.parse(value);
     } catch (e) {
-      // error reading value
+      console.warn('async error');
+      console.warn(e);
     }
+
+    this.props.sendUserDetails(count);
   }
 
-
   list(text) {
-    const newData = this.state.listHolder.filter(function (item) {
-        const itemData = item.substring(0, item.indexOf("@")).toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
+    const newData = this.props.userdetails.filter(function(item) {
+      const itemData = item.email.substring(0, item.email.indexOf('@')).toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
     });
-    this.setState({ search: newData, email: text, });
+    this.setState({listHolder: newData,search:text});
     if (text == '') {
-        this.setState({ search: '' })
+        this.setState({ listHolder: '' })
     }
-}
-
+  }
 
   _onSubmit = () => {
     if (
@@ -220,38 +212,37 @@ export default class Createvent extends Component {
       this.state.desc &&
       this.state.selectedtype &&
       this.state.chosenDate &&
-      this.state.selectedvenue !== ""
+      this.state.selectedvenue !== ''
     ) {
-    //   body = {
-    //     ename: this.state.ename,
-    //     venue: this.state.selectedvenue,
-    //     description: this.state.desc,
-    //     capacity: this.state.capacity,
-    //     organiser: this.state.username,
-    //     typeofEvent: this.state.selectedtype,
-    //     startTime: this.state.chosenDate + "T" + this.state.StartTime + "Z",
-    //     endTime: this.state.chosenDate + "T" + this.state.EndTime + "Z"
-    //   };
-    //   endpoint = "newnotes";
-    //   //  console.warn(body)
-    //   Apicall(endpoint, body, this.state.token).then(responseJson => {
-    //     this.setState({
-    //       ename: null,
-    //       selectedvenue: null,
-    //       capacity: null,
-    //       desc: null,
-    //       selectedtype: null,
-    //       chosenDate: null,
-    //       StartTime: null,
-    //       EndTime: null
-    //     });
-    //     alert(responseJson.message);
-    //   });
-    // } else {
-    //   alert("fields not field");
-     }
-     this.props.navigation.navigate('todo')
-
+      //   body = {
+      //     ename: this.state.ename,
+      //     venue: this.state.selectedvenue,
+      //     description: this.state.desc,
+      //     capacity: this.state.capacity,
+      //     organiser: this.state.username,
+      //     typeofEvent: this.state.selectedtype,
+      //     startTime: this.state.chosenDate + "T" + this.state.StartTime + "Z",
+      //     endTime: this.state.chosenDate + "T" + this.state.EndTime + "Z"
+      //   };
+      //   endpoint = "newnotes";
+      //   //  console.warn(body)
+      //   Apicall(endpoint, body, this.state.token).then(responseJson => {
+      //     this.setState({
+      //       ename: null,
+      //       selectedvenue: null,
+      //       capacity: null,
+      //       desc: null,
+      //       selectedtype: null,
+      //       chosenDate: null,
+      //       StartTime: null,
+      //       EndTime: null
+      //     });
+      //     alert(responseJson.message);
+      //   });
+      // } else {
+      //   alert("fields not field");
+    }
+    this.props.navigation.navigate('todo');
   };
 
   typepicker = () => {
@@ -259,10 +250,9 @@ export default class Createvent extends Component {
       <Picker
         note
         mode="dropdown"
-        style={{ width: 250 }}
+        style={{width: 250}}
         selectedValue={this.state.selectedtype}
-        onValueChange={this.onValueChangetype.bind(this)}
-      >
+        onValueChange={this.onValueChangetype.bind(this)}>
         <Picker.Item label="Employee Engagement" value="Employee Engagement" />
         <Picker.Item label="Technical Training " value="Technical Training" />
         <Picker.Item label="Meeting" value="Meeting" />
@@ -278,10 +268,9 @@ export default class Createvent extends Component {
       <Picker
         note
         mode="dropdown"
-        style={{ width: 250 }}
+        style={{width: 250}}
         selectedValue={this.state.selectedvenue}
-        onValueChange={this.onValueChangevenue.bind(this)}
-      >
+        onValueChange={this.onValueChangevenue.bind(this)}>
         <Picker.Item label="NL:Main Building" value="NL:Main Building" />
         <Picker.Item label="NL:Roush Building " value="NL:Roush Building" />
         <Picker.Item label="NL:SVC Building" value="NL:SVC Building" />
@@ -293,148 +282,140 @@ export default class Createvent extends Component {
           label="NL:Whitefield Building"
           value="NL:Whitefield Building"
         />
-      <Picker.Item label="other" value="other" />
-
+        <Picker.Item label="other" value="other" />
       </Picker>
     );
   };
-capacitypicker=()=>{
-  return (
-  <View style={{flex:1,flexDirection:"row"}}>
-    <Text style={{fontSize:18}}>capacity</Text>
-    <Picker
-      //label='capacity'
-      mode="dropdown"
-      style={{ width: 250 }}
-      selectedValue={this.state.capacity}
-      onValueChange={this.onValueChangecapacity.bind(this)}
-    >
-
-      <Picker.Item
-        label="open"
-        value="open"
-      />
-      <Picker.Item
-        label="other"
-        value="other"
-      />
-
-    </Picker>
-    </View>
-  );
-}
-  inputbox=(obj,obj2)=>{
-    if(obj2=='type'){
-    return(
-      <FloatingLabelInput
-      label = {obj}
-      value={this.state.selectedtype}
-      onChangeText={text =>{
-        this.setState({
-          selectedtype: text
-        });      }}
-       // this.setState({ capacity: text });
-
-    />
+  capacitypicker = () => {
+    return (
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <Text style={{fontSize: 18}}>capacity</Text>
+        <Picker
+          //label='capacity'
+          mode="dropdown"
+          style={{width: 250}}
+          selectedValue={this.state.capacity}
+          onValueChange={this.onValueChangecapacity.bind(this)}>
+          <Picker.Item label="open" value="open" />
+          <Picker.Item label="other" value="other" />
+        </Picker>
+      </View>
     );
-      }
-      if(obj2=='venue'){
-    return(
-      <FloatingLabelInput
-      label = {obj}
-      value={this.state.selectedvenue}
-      onChangeText={text =>{
-        this.setState({
-          selectedvenue: text
-        });      }}
-       // this.setState({ capacity: text });
-
-    />
-    );
-  }
-  if(obj2=='capacity'){
-    return(
-      <FloatingLabelInput
-      label = {obj}
-      value={this.state.capacity}
-      onChangeText={text =>{
-        this.setState({
-          capacity: text
-        });      }}
-       // this.setState({ capacity: text });
-
-    />
-    );
-  }
-}
-handleposter=()=>{
-  imagepicker.showImagePicker({
-    title: 'Upload Image',
-    noData:true,
-
-  }, response => {
-    if (response.didCancel) {
-      console.warn('Really ??')
-    } else if (response.error) {
-      console.warn(response.error)
-    } else {
-
-console.warn(response)
-      // let source = { uri: response.uri };
-      // this.setState({
-
-      // //   imageSource: source,
-      // //   issueimage: response.data,
-
-      // // });
-
+  };
+  inputbox = (obj, obj2) => {
+    if (obj2 == 'type') {
+      return (
+        <FloatingLabelInput
+          label={obj}
+          value={this.state.selectedtype}
+          onChangeText={text => {
+            this.setState({
+              selectedtype: text,
+            });
+          }}
+          // this.setState({ capacity: text });
+        />
+      );
     }
-  });
+    if (obj2 == 'venue') {
+      return (
+        <FloatingLabelInput
+          label={obj}
+          value={this.state.selectedvenue}
+          onChangeText={text => {
+            this.setState({
+              selectedvenue: text,
+            });
+          }}
+          // this.setState({ capacity: text });
+        />
+      );
+    }
+    if (obj2 == 'capacity') {
+      return (
+        <FloatingLabelInput
+          label={obj}
+          value={this.state.capacity}
+          onChangeText={text => {
+            this.setState({
+              capacity: text,
+            });
+          }}
+          // this.setState({ capacity: text });
+        />
+      );
+    }
+  };
+  handleposter = () => {
+    imagepicker.showImagePicker(
+      {
+        title: 'Upload Image',
+        noData: true,
+      },
+      response => {
+        if (response.didCancel) {
+          console.warn('Really ??');
+        } else if (response.error) {
+          console.warn(response.error);
+        } else {
+          console.warn(response);
+          // let source = { uri: response.uri };
+          // this.setState({
 
-}
+          // //   imageSource: source,
+          // //   issueimage: response.data,
 
+          // // });
+        }
+      },
+    );
+  };
 
-renderItem = ({item}) => {
+  addname=(email)=>{
+  
 
-
-  return (
-    <ScrollView style={styles.container}>
-      <View style={styles.bottomItem}>
-        <TouchableOpacity style={styles.bottomItemInner}>
-          <Text
-            numberOfLines={1}
-            style={{fontSize: 17, fontFamily: 'Roboto'}}>
-            {item.eName}
-          </Text>
-          <Text
-            style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
-            {item.startTime.substr(0, 10)}
-          </Text>
-          <Text
-            numberOfLines={1}
-            style={{fontSize: 17, fontFamily: 'Roboto'}}>
-            {item.venue}
-          </Text>
-          <Text
+  }
+  renderItem = ({item}) => {
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.bottomItem}>
+          <TouchableOpacity style={styles.bottomItemInner} onPress={()=>{this.addname(item.email)}}>
+            <Text
+              numberOfLines={1}
+              style={{fontSize: 17, fontFamily: 'Roboto'}}>
+              {item.name}
+            </Text>
+            {/* <Text
+              style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
+              {item.email}
+            </Text>
+            <Text
+              numberOfLines={1}
+              style={{fontSize: 17, fontFamily: 'Roboto'}}>
+              {item.dpName}
+            </Text> */}
+            {/* <Text
             numberOfLines={1}
             style={{color: 'white', fontSize: 14, fontFamily: 'Roboto'}}>
             {item.description}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
-  );
-};
+          </Text> */}
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  };
 
   render() {
+    console.warn(this.props.userdetails);
+
     return (
-      <View style={{ flex: 1, padding: 30, backgroundColor: "#f5fcff" }}>
+      <View style={{flex: 1, padding: 30, backgroundColor: '#f5fcff'}}>
         <ScrollView>
           <FloatingLabelInput
             label="Event Name"
             value={this.state.ename}
             onChangeText={text => {
-              this.setState({ ename: text });
+              this.setState({ename: text});
             }}
           />
           {/* <FloatingLabelInput
@@ -448,26 +429,32 @@ renderItem = ({item}) => {
             label="Event Description"
             value={this.state.desc}
             onChangeText={text => {
-              this.setState({ desc: text });
+              this.setState({desc: text});
             }}
           />
           <FloatingLabelInput
             label="Add organizers"
-            value={this.state.capacity}
+            value={this.state.search}
             onChangeText={text => {
-              this.setState({ capacity: text });
+              this.list(text);
             }}
           />
-     <FlatList data={emaildata} renderItem={this.renderItem} />
+          <FlatList
+            data={this.state.listHolder}
+            renderItem={this.renderItem}
+          />
 
+          {this.state.iscapacity
+            ? this.inputbox('enter the capacity', 'capacity')
+            : this.capacitypicker()}
 
+          {this.state.istypepicker
+            ? this.typepicker()
+            : this.inputbox('enter event type', 'type')}
 
-{this.state.iscapacity ? this.inputbox('enter the capacity','capacity'): this.capacitypicker()}
-
-{this.state.istypepicker ? this.typepicker() : this.inputbox('enter event type','type')}
-
-
-{this.state.isvenuepicker ? this.venuepicker() : this.inputbox('enter event venue','venue')}
+          {this.state.isvenuepicker
+            ? this.venuepicker()
+            : this.inputbox('enter event venue', 'venue')}
 
           <Button title="Show DatePicker" onPress={this.showDateTimePicker} />
           <DateTimePicker
@@ -499,28 +486,24 @@ renderItem = ({item}) => {
           />
           <Text> {this.state.EndTime}</Text>
 
-<Button title='choose poster' onPress={this.handleposter} />
- 
-
+          <Button title="choose poster" onPress={this.handleposter} />
 
           <TouchableOpacity
             style={{
-              marginTop:'5%',
-              alignSelf: "center",
-              width: "150%",
+              marginTop: '5%',
+              alignSelf: 'center',
+              width: '150%',
               borderRadius: 5,
-              backgroundColor: "#4287f5"
+              backgroundColor: '#4287f5',
             }}
-            onPress={() => this.validateit() || this._onSubmit()}
-          >
+            onPress={() => this.validateit() || this._onSubmit()}>
             <Text
               style={{
                 fontSize: 25,
-                fontFamily: "Roboto",
-                alignSelf: "center",
-                color: "white"
-              }}
-            >
+                fontFamily: 'Roboto',
+                alignSelf: 'center',
+                color: 'white',
+              }}>
               NEXT
             </Text>
           </TouchableOpacity>
@@ -533,9 +516,21 @@ const styles = StyleSheet.create({
   input: {
     height: 44,
     fontSize: 20,
-    color: "#000",
+    color: '#000',
     borderBottomWidth: 1,
-    borderBottomColor: "#555"
-  }
+    borderBottomColor: '#555',
+  },
 });
 
+const mapStateToProps = state => ({
+  userdetails: state.CreateEvent.userdetails,
+});
+
+const mapDispatchToProps = dispatch => ({
+  sendUserDetails: data => dispatch(sendUserDetails(data)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Createvent);

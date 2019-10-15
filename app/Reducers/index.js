@@ -3,14 +3,13 @@ import { combineReducers, createStore,applyMiddleware } from 'redux';
 import createSagaMiddleware from "redux-saga";
 import mySagaLogin from "../sagas/saga_login";
 import data from "./data";
-import mySagaUpcoming from '../sagas/saga_upcoming'
 import mySagaAssignedEvents from '../sagas/saga_assignedEvents'
-import mySagaAssignedEventsaccept from '../sagas/saga_acceptEvent'
 import subtodos from '../Reducers/subtodo'
 import TextChanger from './TextChanger'
-//import todos from './todos'
+import mySagaCreateEvent from '../sagas/create_event_saga' 
 import visibilityFilter from './visibilityFilter'
 import todos from './todo'
+import CreateEvent from '../Reducers/create_event_reducer'
 import AssignedEvents from './assignedEvents'
 const AppReducers = combineReducers({
    TextChanger,
@@ -18,7 +17,8 @@ const AppReducers = combineReducers({
     todos,
     visibilityFilter,
     AssignedEvents,
-    subtodos
+    subtodos,
+    CreateEvent
 });
 const sagaMiddleware = createSagaMiddleware();
 
@@ -34,6 +34,5 @@ export default store;
 // then run the saga
 
 sagaMiddleware.run(mySagaLogin)
-sagaMiddleware.run(mySagaUpcoming)
 sagaMiddleware.run(mySagaAssignedEvents)
-sagaMiddleware.run(mySagaAssignedEventsaccept)
+sagaMiddleware.run(mySagaCreateEvent)
