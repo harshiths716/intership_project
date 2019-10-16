@@ -25,7 +25,7 @@ import {connect} from 'react-redux';
 
 import {sendUserDetails} from '../../../app/Actions/create_event_action';
 
-//emaildata=[{}]
+iddata = [];
 
 class Createvent extends Component {
   constructor(props) {
@@ -57,6 +57,7 @@ class Createvent extends Component {
       iscapacity: false,
       listHolder: '',
       search: '',
+      idarray: [],
       // dataResponse:'',
     };
   }
@@ -192,13 +193,15 @@ class Createvent extends Component {
 
   list(text) {
     const newData = this.props.userdetails.filter(function(item) {
-      const itemData = item.email.substring(0, item.email.indexOf('@')).toUpperCase();
+      const itemData = item.email
+        .substring(0, item.email.indexOf('@'))
+        .toUpperCase();
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
-    this.setState({listHolder: newData,search:text});
+    this.setState({listHolder: newData, search: text});
     if (text == '') {
-        this.setState({ listHolder: '' })
+      this.setState({listHolder: ''});
     }
   }
 
@@ -371,15 +374,18 @@ class Createvent extends Component {
     );
   };
 
-  addname=(email)=>{
-  
-
-  }
+  addname = (id, email) => {
+    iddata.push({id: id, email: email});
+    this.setState({idarray: iddata});
+    console.warn('new',this.state.idarray);
+};
   renderItem = ({item}) => {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.bottomItem}>
-          <TouchableOpacity style={styles.bottomItemInner} onPress={()=>{this.addname(item.email)}}>
+          <TouchableOpacity
+            style={styles.bottomItemInner}
+            onPress={() => this.addname(item._id, item.email)}>
             <Text
               numberOfLines={1}
               style={{fontSize: 17, fontFamily: 'Roboto'}}>
@@ -405,8 +411,41 @@ class Createvent extends Component {
     );
   };
 
+  renderItem1 = ({item}) => {
+    return (
+      <ScrollView style={styles.container}>
+      <View style={styles.bottomItem}>
+        <TouchableOpacity
+          style={styles.bottomItemInner}
+        //  onPress={() => this.addname(item._id, item.email)}
+          >
+          <Text
+            numberOfLines={1}
+            style={{fontSize: 17, fontFamily: 'Roboto'}}>
+            {item.email}
+          </Text>
+          {/* <Text
+            style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
+            {item.email}
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={{fontSize: 17, fontFamily: 'Roboto'}}>
+            {item.dpName}
+          </Text> */}
+          {/* <Text
+          numberOfLines={1}
+          style={{color: 'white', fontSize: 14, fontFamily: 'Roboto'}}>
+          {item.description}
+        </Text> */}
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+    );
+  };
+
   render() {
-    console.warn(this.props.userdetails);
+    // console.warn(this.props.userdetails);
 
     return (
       <View style={{flex: 1, padding: 30, backgroundColor: '#f5fcff'}}>
@@ -432,6 +471,12 @@ class Createvent extends Component {
               this.setState({desc: text});
             }}
           />
+<View style={{flex:1}}>
+
+{this.state.idarray.map(item => (
+ <Text key={item._id} style={{color:'blue'}}>{item.email}</Text>
+))}
+          </View>
           <FloatingLabelInput
             label="Add organizers"
             value={this.state.search}
@@ -439,10 +484,7 @@ class Createvent extends Component {
               this.list(text);
             }}
           />
-          <FlatList
-            data={this.state.listHolder}
-            renderItem={this.renderItem}
-          />
+          <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
 
           {this.state.iscapacity
             ? this.inputbox('enter the capacity', 'capacity')

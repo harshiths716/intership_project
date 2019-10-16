@@ -10,7 +10,6 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
-//import FadeInView from "./animation";
 import {Switch, Image} from 'react-native';
 //import LogoTitle from "./headerlogo";
 import moment from 'moment';
@@ -20,7 +19,7 @@ import Dialog, {DialogContent} from 'react-native-popup-dialog';
 import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import acceptEvents from '../../../app/Actions/eventsAssigned'
+import {acceptEvents,rejectEvents} from '../../../app/Actions/eventsAssigned'
 var data;
 
 class EventsAssigned extends Component {
@@ -33,18 +32,18 @@ class EventsAssigned extends Component {
     };
   }
 
-  accept = async () => {
+//   accept = async () => {
 
-    try {
-      value = await AsyncStorage.getItem('userdata');
-      data = JSON.parse(value);
-    } catch (e) {
-      console.warn('async error');
-      console.warn(e);
-    }
+//     try {
+//       value = await AsyncStorage.getItem('userdata');
+//       data = JSON.parse(value);
+//     } catch (e) {
+//       console.warn('async error');
+//       console.warn(e);
+//     }
 
-this.props.acceptevent(data)
-  };
+// this.props.acceptevent(data)
+//   };
   async componentDidMount() {
     try {
       value = await AsyncStorage.getItem('userdata');
@@ -56,10 +55,35 @@ this.props.acceptevent(data)
 
     this.props.sendAssignedEvents(data);
   }
-  reject = obj => {
-    console.warn('inside');
 
-    this.setState({visible: true,eventID:obj});
+
+reject = () => {
+    console.warn('reject');
+
+ var   rejectdata={token:data.token,comment:this.state.comment,eventID:this.state.eventID}
+this.props.rejectEvent(rejectdata)
+this.setState({visible:false})
+
+
+
+
+
+this.props.sendAssignedEvents(data);
+
+
+  };
+
+
+  accept = obj => {
+    // console.warn('accept');
+
+ var   aceptdata={token:data.token,eventID:obj}
+//  console.warn(rejectdata);
+
+this.props.acceptEvents(aceptdata)
+
+this.props.sendAssignedEvents(data);
+
   };
 
   renderItem = ({item, index}) => {
@@ -90,12 +114,16 @@ this.props.acceptevent(data)
               {item.events.description}
             </Text>
             <View style={styles.containerr}>
-              <TouchableOpacity style={styles.button} onPress={()=>this.props.acceptEvents(item.eventID)}>
+              <TouchableOpacity style={styles.button} 
+              onPress={()=>this.accept(item.events._id)}
+              >
                 <Text> Accept </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button1}
-                onPress={() => this.reject(item.eventID)}>
+                onPress={() => this.setState({visible: true,eventID:item.events._id})
+              }
+                >
                 <Text> Reject</Text>
               </TouchableOpacity>
             </View>
@@ -106,22 +134,7 @@ this.props.acceptevent(data)
   };
 
   upevents = () => {
-    if (this.props.assignedEvents.length < 1) {
-      return (
-        <View style={{flex: 1}}>
-          <Text
-            style={{
-              fontFamily: 'Roboto',
-              fontSize: 30,
-              opacity: 0.1,
-              alignSelf: 'center',
-            }}>SEND_ASSIGNEDEVENTS
-            no events
-          </Text>
-        </View>
-      );
-    } else {
-      return (
+          return (
         <FlatList
           // numColumns={3}
           data={this.props.assignedEvents}
@@ -130,26 +143,34 @@ this.props.acceptevent(data)
           // numColumns={numColumns}
         />
       );
-    }
+    
   };
 
-  // dialog=()=>{
-  //   return(
-      
-
-  //   );
+  noevent=()=>{
+    // if (this.props.assignedEvents.length < 1) {
+      return (
+        <View style={{flex: 1}}>
+          <Text
+            style={{
+              fontFamily: 'Roboto',
+              fontSize: 30,
+              opacity: 0.1,
+              alignSelf: 'center',
+            }}>
+            no events
+          </Text>
+        </View>
+      );
+    }
   // }
 
   render() {
-    if(!this.props.apicall){
-  this.props.sendAssignedEvents(data);
-
-    }
+  
     //  console.warn(data.users[0].name)
     return (
       <View style={{flex:1}}>
       <ScrollView style={styles.scrollView}>
-        <View style={{backgroundColor: 'white'}}>{this.upevents()}</View>
+        <View style={{backgroundColor: 'white'}}>{this.props.assignedEvents!=null ?this.upevents():this.noevent()}</View>
         </ScrollView>
         
          {/* {this.state.visible?this.dialog():null} */}
@@ -180,7 +201,7 @@ this.props.acceptevent(data)
               width: '60%',
               height: '30%',
               backgroundColor: 'green',
-            }} onpress={()=>{this.accept()}}
+            }} onPress={()=>this.reject()}
             >
             <Text style={{
              fontSize:24 ,
@@ -207,20 +228,16 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   sendAssignedEvents: data => dispatch(send_assignedEvents(data)),
-  acceptEvents:data => dispatch(acceptEvents(data))
+  acceptEvents:data => dispatch(acceptEvents(data)),
+  rejectEvent:data => dispatch(rejectEvents(data)),
+  sendUserDetails: data => dispatch(sendUserDetails(data)),
+
 });
 
 function send_assignedEvents(data1) {
   console.warn('inside send func');
   return {type: SEND_ASSIGNEDEVENTS, payload: data1};
 }
-
-// function accept_event(data1) {
-// //  console.warn('inside send func');
-//   return {type: ACCEPT_EVENT, payload: data1};
-// }
-
-
 
 export default connect(
   mapStateToProps,

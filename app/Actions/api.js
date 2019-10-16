@@ -1,4 +1,4 @@
-var ip = 'http://8c22b6bc.ngrok.io';
+var ip = 'http://fb2f45a2.ngrok.io';
 
 export const fetchData = async () => {
   // console.warn('iam in fetchData');
@@ -86,39 +86,54 @@ export const assignedEvents_api = async body => {
   }
 };
 
-
-
-
 export const acceptEvents_API = async body => {
   try {
-    console.warn('Event accepted',body.token)
-return 'message'
-    // const response = await fetch(ip + '/events/eventAssignment', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //     Authorization: 'Bearer ' + body.token,
-    //   },
+    console.warn('Event accepted', body.eventID);
+    // return 'message'
+    const response = await fetch(ip + '/events/acceptEventAssignment', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + body.token,
+      },
+      body: JSON.stringify({eventId:body.eventID}),
+    });
 
-    //  body:JSON.stringify(body)
-    // });
+    const data = await response.json();
+    // console.warn('api-data', data);
+    return data;
+  } catch (e) {
+    console.warn(' jai error');
+  }
+};
 
-    // const data = await response.json();
-    // // console.warn('api-data', data);
-    // return data;
+export const rejectEvents_API = async body => {
+  try {
+    //     console.warn('Event accepted',body.token)
+    // return 'message'
+    const response = await fetch(ip + '/events/rejectEventAssignment', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + body.token,
+      },
+
+      body: JSON.stringify({eventId:body.eventID,message:body.comment}),
+    });
+
+    const data = await response.json();
+    // console.warn('api-data', data);
+    return data;
   } catch (e) {
     console.warn(e);
   }
 };
 
-
-
-
-
 export const sendUserDetails_api = async body => {
   try {
-    console.warn('inside userdetails',body.token)
+    console.warn('inside userdetails', body.token);
 
     const response = await fetch(ip + '/users/usersDetails', {
       method: 'GET',
@@ -139,9 +154,74 @@ export const sendUserDetails_api = async body => {
   }
 };
 
+export const myeventsOrganized_API = async body => {
+  try {
+    console.warn('inside myeventsOrganized_API');
 
+    const response = await fetch(ip + '/events/eventAssigned', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + body.token,
+      },
 
+      // body:JSON.stringify(body)
+    });
 
+    const data = await response.json();
+   // console.warn(' userdetails api-data', data);
+    return data;
+  } catch (e) {
+    console.warn('organized error');
+  }
+};
+
+export const myeventsparticipated_API = async body => {
+  try {
+    console.warn('Event accepted', body.token);
+    return 'message';
+    // const response = await fetch(ip + '/events/eventAssignment', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //     Authorization: 'Bearer ' + body.token,
+    //   },
+
+    //  body:JSON.stringify(body)
+    // });
+
+    // const data = await response.json();
+    // // console.warn('api-data', data);
+    // return data;
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const createEvent_Api = async body => {
+  try {
+    //     console.warn('Event accepted',body.token)
+    // return 'message'
+    const response = await fetch(ip + '/events/eventAssignment', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + body.token,
+      },
+
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+    // console.warn('api-data', data);
+    return data;
+  } catch (e) {
+    console.warn(e);
+  }
+};
 
 // export const apicall = async (userdata, endpoint, method, databody) => {
 //   console.warn('apicall');
@@ -164,5 +244,3 @@ export const sendUserDetails_api = async body => {
 //   }
 //   body;
 // };
-
-
