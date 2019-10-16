@@ -19,8 +19,8 @@ function* getassignedApiData(actions) {
 }
 
 
-import {acceptEvents_done,ACCEPT_EVENT}  from '../Actions/eventsAssigned'
-import {acceptEvents_API} from "../Actions/api";
+import {acceptEvents_done,ACCEPT_EVENT,REJECT_EVENT,rejectEvents_done}  from '../Actions/eventsAssigned'
+import {acceptEvents_API,rejectEvents_API} from "../Actions/api";
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getacceptApiData(actions) {
@@ -37,6 +37,20 @@ function* getacceptApiData(actions) {
   }
 }
 
+// worker Saga: will be fired on USER_FETCH_REQUESTED actions
+function* getrejectApiData(actions) {
+  // console.warn('inside getapidata',actions)
+  try {
+  //  console.warn('i am inside saga')
+
+    // do api call
+    const data = yield call(rejectEvents_API,actions.payload);
+    // console.warn("data in saga assigned"+JSON.stringify(data))
+    yield put(rejectEvents_done(data));
+  } catch (e) {
+    console.warn(e);
+  }
+}
 /*
   Alternatively you may use takeLatest.
 
@@ -50,5 +64,7 @@ export default function* mySagaAssignedEvents() {
     // console.warn('saga_assigned')
  yield takeEvery(SEND_ASSIGNEDEVENTS, getassignedApiData);
  yield takeEvery(ACCEPT_EVENT, getacceptApiData);
+ yield takeEvery(REJECT_EVENT, getrejectApiData);
+
 
 }

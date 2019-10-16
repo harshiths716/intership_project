@@ -6,13 +6,17 @@ import data from "./data";
 import mySagaAssignedEvents from '../sagas/saga_assignedEvents'
 import subtodos from '../Reducers/subtodo'
 import TextChanger from './TextChanger'
+import AssignedEvents from './assignedEvents'
+import Myevents from './myevents_reducer'
 import mySagaCreateEvent from '../sagas/create_event_saga' 
 import visibilityFilter from './visibilityFilter'
 import todos from './todo'
 import CreateEvent from '../Reducers/create_event_reducer'
-import AssignedEvents from './assignedEvents'
+import mySagaMyeventsEvents from '../sagas/myevent_saga'
 const AppReducers = combineReducers({
    TextChanger,
+   CreateEvent,
+   Myevents,
     data,
     todos,
     visibilityFilter,
@@ -36,3 +40,4 @@ export default store;
 sagaMiddleware.run(mySagaLogin)
 sagaMiddleware.run(mySagaAssignedEvents)
 sagaMiddleware.run(mySagaCreateEvent)
+sagaMiddleware.run(mySagaMyeventsEvents)

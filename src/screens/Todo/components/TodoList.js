@@ -6,7 +6,7 @@ const listdata = (props) => {
       {/* <TodoList todos={props.todos} toggleTodo={props.toggleTodo}  navigateprops={props.navigateprops}/> */}
 
       {props.todos.map(todo => (
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View   key={todo.id} style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity
             key={todo.id}
             style={{flexDirection: 'row', justifyContent: 'space-between'}}
