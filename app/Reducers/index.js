@@ -13,6 +13,7 @@ import visibilityFilter from './visibilityFilter'
 import todos from './todo'
 import CreateEvent from '../Reducers/create_event_reducer'
 import mySagaMyeventsEvents from '../sagas/myevent_saga'
+import Taskinfo from './taskinfo_reducer'
 const AppReducers = combineReducers({
    TextChanger,
    CreateEvent,
@@ -22,7 +23,8 @@ const AppReducers = combineReducers({
     visibilityFilter,
     AssignedEvents,
     subtodos,
-    CreateEvent
+    CreateEvent,
+    Taskinfo
 });
 const sagaMiddleware = createSagaMiddleware();
 

@@ -16,6 +16,48 @@ import {connect} from 'react-redux';
 import {subtoggleTodo, addsubTodo} from '../../../../app/Actions/Todo_actions';
 import {sendUserDetails} from '../../../../app/Actions/create_event_action';
 iddata = [];
+import {addtask} from '../../../../app/Actions/taskinfo_actions'
+
+// {
+	
+//   "eventId": "req.body.eventId",
+  
+//   "createdBy": "req.body.createdBy"
+    
+//                     "eTasks" : [{
+//                           "tName": req.body.eventTasks[k].tName,
+
+//                           "description": req.body.eventTasks[k].description,
+
+//                           "ownership": req.body.eventTasks[k].ownership,
+
+//                           "budget": req.body.eventTasks[k].budget
+//                           },
+//                           {
+//                           "tName": req.body.eventTasks[k].tName,
+
+//                           "description": req.body.eventTasks[k].description,
+
+//                           "ownership": req.body.eventTasks[k].ownership,
+
+//                           "budget": req.body.eventTasks[k].budget
+//                           },
+//                           {
+//                           "tName": req.body.eventTasks[k].tName,
+
+//                           "description": req.body.eventTasks[k].description,
+
+//                           "ownership": req.body.eventTasks[k].ownership,
+
+//                           "budget": req.body.eventTasks[k].budget
+//                           }
+//                           ]
+
+
+// }
+
+
+
 
 class Taskinfo extends React.Component {
   constructor(props) {
@@ -90,6 +132,11 @@ class Taskinfo extends React.Component {
       </View>
     );
   };
+
+
+
+
+
 
   list(text) {
     const newData = this.props.userdetails.filter(function(item) {
@@ -202,14 +249,28 @@ class Taskinfo extends React.Component {
     );
   };
 
+
+sendtask=()=>{
+
+var data ={tName:this.state.data.text,description:this.state.desc,ownership:this.state.idarray,Budget:this.state.budget}
+this.props.addtask(data)
+}
+
   render() {
-    // console.warn('.',this.state.data)
+    console.warn('lala',JSON.stringify(this.props.Taskinfo_reducer))
     return (
 
       <View style={{flex: 1, padding: '5%'}}>
                 <KeyboardAvoidingView behavior='padding'>
 
-<Text style={{fontSize: 24}}>Task Name:{this.state.data.text}</Text>
+                  <View style={{flexDirection:'row',justifyContent: 'space-between'}}>
+<Text style={{fontSize: 24}} numberOfLines={1}>Task Name:{this.state.data.text}</Text>
+
+</View>
+
+<TouchableOpacity style={{backgroundColor:'black',width:'20%',height:'10%'}} onPress={()=>this.sendtask()}>
+  <Text style={{color:'white',alignSelf:'center',fontSize:24}}>Done</Text>
+  </TouchableOpacity>
 
 
           {this.state.idarray.map(item => (
@@ -221,7 +282,7 @@ class Taskinfo extends React.Component {
         <FloatingLabelInput
           label="Add organizers"
           value={this.state.search}
-          onChangeText={text => {
+          onChangeText={txt => {
             this.list(text);
           }}
         />
@@ -281,7 +342,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   subtodos: state.subtodos,
   userdetails: state.CreateEvent.userdetails,
-
+  Taskinfo_reducer:state.Taskinfo_reducer
   // navigateprops:this.props.navigateprops
 });
 
@@ -289,7 +350,7 @@ const mapDispatchToProps = dispatch => ({
   subtoggleTodo: id => dispatch(subtoggleTodo(id)),
   addsubTodo: text => dispatch(addsubTodo(text)),
   sendUserDetails: data => dispatch(sendUserDetails(data)),
-
+  addtask:data=>dispatch(addtask(data))
 });
 console.log('inside VisibleTodos');
 
