@@ -1,14 +1,10 @@
+import {RECEIVE_LOGIN_API,SIGN_IN,} from '../Actions/Login_ActionTypes'
 
-import {TYPE_USERNAME,TYPE_PASSWORD,SIGN_IN}  from './ActionTypes'
-export const mapStateToProps = (state) => ({
-    username: state.TextChanger.username,
-    password: state.TextChanger.password
-});
+export const login_api_hit = val => ({ type: RECEIVE_LOGIN_API ,payload:val});
 
-export const mapDispatchToProps = (dispatch) => ({
-   
-   typeusername: (val) => dispatch({type: TYPE_USERNAME,payload:val}),
-   typepassword: (val) => dispatch({type:  TYPE_PASSWORD,payload:val}),
-   sign_in:()=>dispatch({type:SIGN_IN}),
 
-});
+
+export function sign(userdata) {
+    // console.warn('inside sign func');
+    return {type: SIGN_IN, payload: userdata};
+  }

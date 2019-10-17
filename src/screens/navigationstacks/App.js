@@ -1,26 +1,44 @@
-import { React } from "react-native";
-import {  createAppContainer } from "react-navigation";
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from "react-navigation-stack"
-import Login from "../../../app/Containers/Login";
-// import Splash from "./splashscreen";
+import Loginsc from "../login_screen/loginsc";
 import Stacknav from "./bottomnav.js";
-// import Check from "./attendence";
-// import Eventdetail from "./eventdetails";
-// import Eventalter from "./eventalter";
-// import DrawerNavigator from "./Stacknav";
-//import GoogleButton from '../screens/login_screen/GoogleButton'
-const Firststack = createStackNavigator(
-  {
-   // goo:{screen:Login},
-   login: { screen: Login },
-    stack: { screen: Stacknav },
-  //  alter: { screen: Eventalter }
-  },
-  {
-    initialRouteName: 'stack',
+import GoogleButton from '../login_screen/GoogleButton'
+import Notification from '../login_screen/notification'
+import {User,Organizer} from './SideDrawer'
+import React, {Component} from 'react';
+import Upcoming from '../view_events/Upcoming'
+import {Provider} from 'react-redux';
+import TodoApp from '../Todo/TodoApp'
+import store from '../../../app/Reducers/index';
+import EventPlan2 from '../view_events/eventplan2'
 
-    headerMode: "none"
-  }
+const Firststack = createAppContainer(
+  createSwitchNavigator(
+    {
+   // Upcoming,
+   TodoApp,
+      Loginsc,
+     User,
+    Organizer,
+
+    EventPlan2
+    //GoogleButton   
+   },
+    {
+      headerMode: 'none',
+      initialRouteName: 'Organizer'
+    }
+  )
 );
-export default createAppContainer(Firststack);
-  
+
+
+
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Firststack />
+      </Provider>
+    );
+  }
+}

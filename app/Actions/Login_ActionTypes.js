@@ -4,3 +4,4 @@ export const TYPE_PASSWORD='TYPE_PASSWORD'
 
 export const SIGN_IN='SIGN_IN'
 
+export const RECEIVE_LOGIN_API='RECEIVE_LOGIN_API'

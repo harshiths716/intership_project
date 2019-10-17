@@ -1,169 +1,103 @@
-import React from "react";
+import React from 'react';
 //import Apicall from "../../networking/apicall";
 
+// import {sign_in} from '../../../app/Actions/login-actions';
 
-
-
-//import SplashScreen from './splashscreen'
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   View,
   TextInput,
   Text,
   Image,
   StyleSheet,
-  Alert,ScrollView,
-  TouchableOpacity
-} from "react-native";
-import FloatingLabelInput from "../reuseablecomponents/Floatinput";
+  Alert,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 
-import { Dimensions } from "react-native";
+// import {Dimensions} from 'react-native';
 
+import {connect} from 'react-redux';
 
-// class SplashScreen extends React.Component {
-//   render() {
-//     const viewStyles = [
-//     //  styles.container,
-//       { backgroundColor: 'orange' }
-//     ];
-//     const textStyles = {
-//       color: 'white',
-//       fontSize: 40,
-//       fontWeight: 'bold'
-//     };
-
-//     return (
-//       <View style={viewStyles}>
-//         <Text style={textStyles}>
-//           Splash Screen
-//         </Text>
-//       </View>
-//     );
-//   }
-// }
-
-
-
-
-export default class Loginsc extends React.Component {
-  constructor() {
-    super();
+class Loginsc extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      name: "",
+      name: '',
       nameValidate: true,
-      password: "",
+      password: '',
       passwordValidate: true,
       dataResponse: null,
-      // screenWidth: "",
-      // screenHeight: "",
-      token: "",
-      username: "",
+
+      token: '',
+      username: '',
       isLoading: true,
     };
   }
 
-
-  // performTimeConsumingTask = async() => {
-  //   return new Promise((resolve) =>
-  //     setTimeout(() => { resolve('result') },2000 )
-  //   );
-  // }
-  
-
-
-
   validateit() {
-    const { name } = this.state;
-    const { password } = this.state;
+    const {name} = this.state;
+    const {password} = this.state;
 
     var pattern = /^\w+([.]?\w+)*@nineleaps.com$/;
     var pas = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     var ph = /^(\d{10})$/;
-    if (name == "") {
-      alert("Please enter your username");
+    if (name == '') {
+      alert('Please enter your username');
       return;
-    } else if (password == "") {
-      alert("Please enter your password");
+    } else if (password == '') {
+      alert('Please enter your password');
       return;
     } else if (!pattern.test(name)) {
-      alert("Invalid Email, Please try again");
+      alert('Invalid Email, Please try again');
       return;
     }
   }
 
-  storeData = async () => {
+  async componentDidUpdate() {
     try {
-      await AsyncStorage.setItem("username", this.state.dataResponse.UserID);
-      await AsyncStorage.setItem("token", this.state.dataResponse.token);
-    //  await console.warn(this.state.dataResponse.token);
-    } catch (e) {}
-  };
+      await AsyncStorage.setItem(
+        'userdata',
+        JSON.stringify(this.props.userdata1),
+      );
+    } catch (e) {
+      console.warn('async error');
+    }
 
-  // _onSubmit = async () => {
-  // //  console.warn("inside");
+    if (this.props.userdata1.success === true) {
+      if (this.props.userdata1.isOrganiser === true) {
+        this.props.navigation.navigate('Organizer');
+      }
+    }
+  }
 
-  //   const { navigate } = this.props.navigation;
-
-  //   body = {
-  //     email: this.state.name,
-  //     password: this.state.password
-  //   };
-  //   endpoint = "authenticate";
-
-  //   await Apicall(endpoint, body).then(responseJson => {
-  //    this.setState({ dataResponse: responseJson });
-  //     this.storeData();
-  //     if (responseJson.success == true) {
-  //       navigate("stack");
-  //     } else {
-  //       alert("wrong credentials");
-  //     }
-  //   });
-  // };
-
-  async componentDidMount() {
-    // const { navigate } = this.props.navigation;
-
-    this.setState({ screenWidth: Math.round(Dimensions.get("window").width) });
-    this.setState({
-      screenHeight: Math.round(Dimensions.get("window").height)
-    });
-
-    // try {
-    //   const value = await AsyncStorage.getItem("token");
-    //   const value1 = await AsyncStorage.getItem("username");
-    //   if (value && value1 !== null) {
-    //     navigate("stack");
-    //   }
-    // } catch (e) {}
-
-
-   // const data = await this.performTimeConsumingTask();
-
-    // if (data !== null) {
-    //   this.setState({ isLoading: false });
-    // }
-
+  handleSubmit(obj) {
+    // var endpoint='/users/authenticate'
+    // var method = ''
+    this.props.sign_in(obj);
   }
 
   render() {
-    // if (this.state.isLoading) {
-    //   return <SplashScreen />;
-    // }
-   // console.warn(this.props)
+    userdata = {email: this.props.username, password: this.props.password};
+
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Text>{this.props.username}{this.props.password}</Text>
-          <View style={{ flex: 1 }}>
+          <Text>
+            {this.props.username}
+            {this.props.password}
+            {JSON.stringify(this.props.userdata1)}
+          </Text>
+          <View style={{flex: 1}}>
             <Image
-              source={require("../resources/logo2.png")}
+              source={require('../resources/logo2.png')}
               style={{
-                width: "100%",
-                height: "9%",
-                alignSelf: "center",
-                marginTop: "8%",
-                marginBottom: "10%"
+                width: '100%',
+                height: '9%',
+                alignSelf: 'center',
+                marginTop: '8%',
+                marginBottom: '10%',
               }}
             />
 
@@ -176,17 +110,13 @@ export default class Loginsc extends React.Component {
             <FloatingLabelInput
               label="password"
               secureTextEntry={true}
-             value={this.props.password}
+              value={this.props.password}
               onChangeText={this.props.typepassword}
             />
 
-           <TouchableOpacity
+            <TouchableOpacity
               style={styles.button}
-              onPress={
-               // this.validateit() || this._onSubmit();
-               this.props.sign_in
-              }
-            >
+              onPress={() => this.handleSubmit(userdata)}>
               <Text style={styles.txt}>SIGN IN</Text>
             </TouchableOpacity>
           </View>
@@ -196,46 +126,63 @@ export default class Loginsc extends React.Component {
   }
 }
 
+import {
+  TYPE_USERNAME,
+  TYPE_PASSWORD,
+  SIGN_IN,
+  RECEIVE_LOGIN_API,
+} from '../../../app/Actions/Login_ActionTypes';
+
+import {sign} from '../../../app/Actions/login-actions';
+const mapStateToProps = state => ({
+  username: state.TextChanger.username,
+  password: state.TextChanger.password,
+  userdata1: state.TextChanger.userdata,
+});
+
+const mapDispatchToProps = dispatch => ({
+  typeusername: val => dispatch({type: TYPE_USERNAME, payload: val}),
+  typepassword: val => dispatch({type: TYPE_PASSWORD, payload: val}),
+  sign_in: userdata => dispatch(sign(userdata)),
+  navigate: () => this.props.navigation.navigate('User'),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Loginsc);
+
 const styles = StyleSheet.create({
   container: {
-   flex: 1,
-    padding: "8%",
-    backgroundColor: "#f5fcff"
+    flex: 1,
+    padding: '8%',
+    backgroundColor: '#f5fcff',
   },
   button: {
-    backgroundColor: "#278eb0",
-    alignSelf: "center",
+    backgroundColor: '#278eb0',
+    alignSelf: 'center',
     borderRadius: 7,
-   marginBottom: "100%",
-    width: "45%",
-    height: "10%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
+    marginBottom: '100%',
+    width: '45%',
+    height: '10%',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.8,
     shadowRadius: 1,
-    elevation: 7
+    elevation: 7,
   },
-  // inlineImg: {
-  //   position: "absolute",
-  //   zIndex: 99,
-  //   width: "10%",
-  //   height: "28%",
-  //   right: "2%",
-  //   bottom: "19%",
-  //   top: "19%"
-  // },
 
   txt: {
     paddingTop: 10,
     fontSize: 22,
-    color: "white",
+    color: 'white',
 
-    alignSelf: "center"
+    alignSelf: 'center',
   },
   error: {
-    backgroundColor: "#f00"
+    backgroundColor: '#f00',
   },
   img: {
-    borderRadius: 45
-  }
+    borderRadius: 45,
+  },
 });

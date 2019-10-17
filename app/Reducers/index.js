@@ -1,27 +1,45 @@
 import { combineReducers, createStore,applyMiddleware } from 'redux';
 //import apiMiddleware from "../middleware/api";
 import createSagaMiddleware from "redux-saga";
-import mySaga from "../sagas/saga";
+import mySagaLogin from "../sagas/saga_login";
 import data from "./data";
-
-
+import mySagaAssignedEvents from '../sagas/saga_assignedEvents'
+import subtodos from '../Reducers/subtodo'
 import TextChanger from './TextChanger'
-console.warn('iam in store')
+import AssignedEvents from './assignedEvents'
+import Myevents from './myevents_reducer'
+import mySagaCreateEvent from '../sagas/create_event_saga' 
+import visibilityFilter from './visibilityFilter'
+import todos from './todo'
+import CreateEvent from '../Reducers/create_event_reducer'
+import mySagaMyeventsEvents from '../sagas/myevent_saga'
+import Taskinfo from './taskinfo_reducer'
 const AppReducers = combineReducers({
    TextChanger,
-    data
+   CreateEvent,
+   Myevents,
+    data,
+    todos,
+    visibilityFilter,
+    AssignedEvents,
+    subtodos,
+    CreateEvent,
+    Taskinfo
 });
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = (state, action) => {
-	return AppReducers(state,action);
-}
+// const rootReducer = (state, action) => {
+// 	return AppReducers(state,action);
+// }
 
-let store = createStore(rootReducer,applyMiddleware(sagaMiddleware));
-console.warn('iam in mid')
+let store = createStore(AppReducers,applyMiddleware(sagaMiddleware));
+//console.warn('iam in mid')
 
 
 export default store;
 // then run the saga
 
-sagaMiddleware.run(mySaga);
+sagaMiddleware.run(mySagaLogin)
+sagaMiddleware.run(mySagaAssignedEvents)
+sagaMiddleware.run(mySagaCreateEvent)
+sagaMiddleware.run(mySagaMyeventsEvents)

@@ -6,10 +6,30 @@ import LogoTitle from "../reuseablecomponents/headerlogo";
 import moment from "moment";
 //import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-community/async-storage";
-import Apicall from "../networking/apicall";
+import {organized_events,participated_events} from '../../../app/Actions/myevents_actions'
+import {connect} from 'react-redux'
+
+// "_id" : ObjectId("5d9ddb3120a8dc6397db99ce"),
+// "eName" : "Hackathon 2019",
+// "venue" : "Pasta Street,Koramangala",
+// "description" : "coding event",
+// "isOpen" : true,
+// "msgs" : " ",
+// "startTime" : ISODate("2019-10-10T09:30:00.000Z"),
+// "endTime" : ISODate("2019-10-10T09:30:00.000Z"),
+// "isRejected" : false,
+// "createdBy" : ObjectId("5d8c832f58eaa168db15c44e"),
+// "isPublished" : false,
+// "isArchived" : false,
+// "isAccepted" : true,
+// "isPlanned" : false,
+// "createdAt" : ISODate("2019-10-09T13:05:54.008Z"),
+// "updatedAt" : ISODate("2019-10-09T13:05:54.008Z"),
+// http://72b6f6bf.ngrok.io
+
 
 const numColumns = 2;
-export default class Myevents extends React.Component {
+class Myevents extends React.Component {
   state = {
     switchValue: false,
     token: "",
@@ -17,36 +37,36 @@ export default class Myevents extends React.Component {
     dataResponse: ""
   };
 
-  static navigationOptions = {
+  // static navigationOptions = {
     
-     title: 'My events',
-     headerLeft: <LogoTitle />,
-     headerRight: (
-       <View style={{ flexDirection: "row" }}>
+  //    title: 'My events',
+  //    headerLeft: <LogoTitle />,
+  //    headerRight: (
+  //      <View style={{ flexDirection: "row" }}>
 
-       </View>
-     ),
-     headerStyle: {
-       backgroundColor: "white"
-     },
-     headerTintColor: "white",
-     headerTitleStyle: {
-       textAlign:'center',
-       color:'black',
-      // fontWeight: "bold",
-       fontFamily: "Roboto"
-     }
-   };
+  //      </View>
+  //    ),
+  //    headerStyle: {
+  //      backgroundColor: "white"
+  //    },
+  //    headerTintColor: "white",
+  //    headerTitleStyle: {
+  //      textAlign:'center',
+  //      color:'black',
+  //     // fontWeight: "bold",
+  //      fontFamily: "Roboto"
+  //    }
+  //  };
 
   toggleSwitch = value => {
     //onValueChange of the switch this function will be called
     this.setState({ switchValue: value });
     //state changes according to switch
     if (value == true) {
-      this.truecall();
-    } else {
-      this.falsecall();
-    }
+      this._enroll();
+        } else {
+          this._onSubmit();
+        }
     //which will result in re-render the text
   };
 
@@ -61,12 +81,7 @@ export default class Myevents extends React.Component {
     return y;
   };
 
-  truecall = () => {
-    this._enroll();
-  };
-  falsecall = () => {
-    this._onSubmit();
-  };
+
 
   //////////////edit this for enrolled events
 
@@ -111,22 +126,22 @@ export default class Myevents extends React.Component {
               navigate("eventalter", item);
             }}
           >
-            <Text
+            {/* <Text
               style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
             >
               {this.datetime(item.startTime)}
-            </Text>
+            </Text> */}
             <Text style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {this.year(item.endTime)}
+              {item.events.venue}
             </Text>
             <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.ename}
+              {item.events.eName}
             </Text>
             <Text
               numberOfLines={1}
               style={{ color: "white", fontSize: 14, fontFamily: "Roboto" }}
             >
-              {item.description}
+              {item.events.description}
             </Text>
           </TouchableOpacity>
         </View>
@@ -134,71 +149,14 @@ export default class Myevents extends React.Component {
     }
   };
 
-  _onSubmit = () => {
+  _onSubmit = (obj) => {
 
-
-
-
-    body={
-      userID: this.state.username
-    }
-    endpoint="organisedEvents"
-
-    
-     Apicall(endpoint,body,this.state.token).then(responseJson => {
-      this.setState({ dataResponse: responseJson });
-    })
-
-    // //console.warn('sad',this.state.token)
-    // return fetch("http://192.168.1.151:8000/", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + this.state.token
-    //   },
-    //   body: JSON.stringify()
-    // })
-    //   .then(response => response.json())
-    //   .then(responseText => {
-    //     this.setState({ dataResponse: responseText });
-    //     // console.log('response',responseText )
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
+this.props.organized_events(obj)
   };
 
   _enroll = () => {
-
-    body={
-      participantID: this.state.username
-    }
-    endpoint="eventenrolled"
-
+this.props.participated_events()
     
-     Apicall(endpoint,body,this.state.token).then(responseJson => {
-      this.setState({ dataResponse: responseJson });
-    })
-    //console.warn('sad',this.state.token)
-    // return fetch("http://192.168.1.151:8000/", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + this.state.token
-    //   },
-    //   body: JSON.stringify()
-    // })
-    //   .then(response => response.json())
-    //   .then(responseText => {
-    //     this.setState({ dataResponse: responseText });
-
-    //     console.log("response12 enroll", responseText);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
   };
   noevents = () => {
     if (this.state.dataResponse.result) {
@@ -220,7 +178,7 @@ export default class Myevents extends React.Component {
       return (
         <FlatList
           // numColumns={3}
-          data={this.state.dataResponse}
+          data={this.props.organizedapi}
          // style={styles.container}
           renderItem={this.renderItem}
           numColumns={numColumns}
@@ -230,22 +188,22 @@ export default class Myevents extends React.Component {
   };
 
   async componentDidMount() {
-    try {
-      const value = await AsyncStorage.getItem("token");
-      const value1 = await AsyncStorage.getItem("username");
-      if (value && value1 !== null) {
-        await this.setState({ token: value });
-        await this.setState({ username: value1 });
-        //   console.log(value)
+try{
+    value = await AsyncStorage.getItem('userdata');
+    count = JSON.parse(value);
+      } catch (e) {
+        console.warn('async error')
+        console.warn(e)
       }
-    } catch (e) {
-      // error reading value
-    }
-    this._onSubmit();
+
+
+     data_data = {token: count.token}
+
+    this._onSubmit(data_data);
   }
 
   render() {
-    //  console.warn(data.users[0].name)
+     console.warn(this.props.organizedapi)
     return (
       <View style={{ backgroundColor: "white" }}>
         <View
@@ -275,6 +233,24 @@ export default class Myevents extends React.Component {
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+  organizedapi: state.Myevents.organizedapi,
+});
+
+const mapDispatchToProps = dispatch => ({
+  participated_events: data => dispatch(participated_events(data)),
+  organized_events:data=>dispatch(organized_events(data))
+});
+
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Myevents);
+
 
 const styles = StyleSheet.create({
   container: {
