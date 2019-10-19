@@ -20,8 +20,9 @@ const Firststack = createAppContainer(
       Loginsc,
      User,
     Organizer,
-
-    EventPlan2
+Notification,
+    EventPlan2,
+   // Editsubtask
     //GoogleButton   
    },
     {

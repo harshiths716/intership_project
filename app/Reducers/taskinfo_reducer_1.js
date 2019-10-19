@@ -4,7 +4,6 @@ import {
   ADD_DEADLINE,
   ADD_LISTHOLDER,
   ADD_BUDGET,
-  DELETE_ARRAY
 } from '../Actions/taskinfo_actions';
 
 const Taskinfo_reducer = (
@@ -13,18 +12,20 @@ const Taskinfo_reducer = (
 ) => {
   switch (action.type) {
     case ADD_ORGANIZER:
-      console.warn('organnizer', action.payload);
+      console.warn('my', action.payload);
       return  [
-        ...state, action.payload
+        ...state, {
+          ownership: action.payload,
+            text: action.text,
+            completed: false
+        }
     ]
-    case DELETE_ARRAY:
-      console.warn('DELETE_ARRAY', action.payload)
-      // var vam=[];
-      return state.map(item =>
-        (item.id === action.payload && item.flag !==false )
-            ? {...item,flag:!item.flag} :
-            item)
-
+    case ADD_DESC:
+      console.warn('my', action.payload);
+      return {
+        ...state,
+        description: action.payload,
+      };
     case ADD_DEADLINE:
       console.warn('my', action.payload);
       return {

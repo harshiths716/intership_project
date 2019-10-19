@@ -15,7 +15,7 @@ import TodoList from '../components/TodoList';
 
     navi=(item)=>{
 
-        //  console.warn(item)
+          console.warn('item',item)
           this.props.navigateprops.navigate('taskinfo',item)
       }
 

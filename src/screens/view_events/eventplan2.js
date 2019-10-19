@@ -1,3 +1,4 @@
+
 import React, { Component, Fragment } from 'react';
 import {
     StyleSheet,
@@ -18,32 +19,34 @@ var data =
 
     [
         {
+            task_id: 1,
             task: "Jump",
             subtask: [
                 {
+                    subtask_id: 1,
                     subtask1: "jump22",
                 },
                 {
+                    subtask_id: 2,
                     subtask1: "jump",
                 }
             ]
         },
         {
+            task_id: 2,
             task: "Run",
 
             subtask: [{
+                subtask_id: 1,
                 subtask1: "run "
             },
-            { subtask1: "run22 ", }
+            {
+                subtask_id: 2,
+                subtask1: "run22 "
+            }
             ],
         }
     ]
-// var data1 =
-// [{
-
-// subtask:"yoooo",
-// subtask1:"yaaay"
-// }]
 
 export default class EventPlan2 extends Component {
     constructor(props) {
@@ -52,7 +55,7 @@ export default class EventPlan2 extends Component {
             comment: '',
             visible: false,
             eventID: '',
-            flag:true
+            flag: true
         };
     }
 
@@ -84,48 +87,32 @@ export default class EventPlan2 extends Component {
             <ScrollView>
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity >
-                    <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <Text
-                            numberOfLines={1}
-                            style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', }}>
-                            {item.task}
-                        </Text>
-                        
+                        <View style={{ flex: 1, flexDirection: 'row' }} >
+                            <Text
+                                numberOfLines={1}
+                                style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', }}>
+                                {item.task}
+                            </Text>
+
                             <View>
-                                <TouchableOpacity>
-                                    <Image
-                                        style={{ width: 35, height: 35 }}
-                                        source={require('../resources/add.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{left:20}}>
-                                <TouchableOpacity>
-                                    <Image
-                                        style={{ width: 35, height: 35 }}
-                                        source={require('../resources/edit.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{left:40}}>
-                                <TouchableOpacity>
-                                    <Image
-                                        style={{ width: 35, height: 35 }}
-                                        source={require('../resources/remove.png')}
-                                    />
+                                <TouchableOpacity
+                                    onPress={() => this.props.navigation.navigate('Editsubtask',
+                                        {
+                                            task_id:item.task_id,
+                                            task: item.task,
+                                            subtask:item.subtask,
+                                            eventname:'Marathon'
+                                        })
+                                    }
+                                >
+                                <Text>EDIT</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        
+
                         <FlatList
                             data={item.subtask}
                             renderItem={this.renderitem2}
-                        // <View style={{flex:1}}>
-                        // <Text style={styles.TextViewStyle}>
-                        // {console.warn(JSON.stringify(item2.subtask1))}
-                        // </Text>
-                        // </View>
-                        // }
                         />
                     </TouchableOpacity>
 
@@ -141,42 +128,16 @@ export default class EventPlan2 extends Component {
         );
 
     };
-
     render() {
-
-
         return (
             <ScrollView style={styles.scrollView}>
                 <View style={{ backgroundColor: 'white' }}>
                     <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', textAlign: 'center' }}>
+                        <Text style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', textAlign: 'center' }}>
                             Marathon
                         </Text>
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            <View>
-                                <TouchableOpacity>
-                                    <Image
-                                        style={{ width: 35, height: 35 }}
-                                        source={require('../resources/add.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{left:20}}>
-                                <TouchableOpacity>
-                                    <Image
-                                        style={{ width: 35, height: 35 }}
-                                        source={require('../resources/edit.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{left:40}}>
-                                <TouchableOpacity>
-                                    <Image
-                                        style={{ width: 35, height: 35 }}
-                                        source={require('../resources/remove.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
+
                         </View>
                     </View>
                     <Text style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', textAlign: 'center' }}>Subtasks</Text>
@@ -184,7 +145,7 @@ export default class EventPlan2 extends Component {
                     {
                         this.upevents()
                     }
-                    
+
                 </View>
 
             </ScrollView>
@@ -249,3 +210,7 @@ const styles = StyleSheet.create({
     }
 });
 
+
+	
+	
+	
