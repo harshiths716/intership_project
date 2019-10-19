@@ -4,11 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Button,
-  KeyboardAvoidingView,
-  TextInput,
-  FlatList,
-  ScrollView,
+  Button,KeyboardAvoidingView,
+  TextInput,FlatList,ScrollView
 } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import FloatingLabelInput from '../../reuseablecomponents/Floatinput';
@@ -19,20 +16,14 @@ import {connect} from 'react-redux';
 import {subtoggleTodo, addsubTodo} from '../../../../app/Actions/Todo_actions';
 import {sendUserDetails} from '../../../../app/Actions/create_event_action';
 iddata = [];
-import {
-  addbudget,
-  adddeadline,
-  adddesc,
-  addorganizer,
-  deletearray,
-} from '../../../../app/Actions/taskinfo_actions';
+import {addbudget,adddeadline,adddesc,addorganizer} from '../../../../app/Actions/taskinfo_actions'
 
 // {
-
+	
 //   "eventId": "req.body.eventId",
-
+  
 //   "createdBy": "req.body.createdBy"
-
+    
 //                     "eTasks" : [{
 //                           "tName": req.body.eventTasks[k].tName,
 
@@ -62,7 +53,11 @@ import {
 //                           }
 //                           ]
 
+
 // }
+
+
+
 
 class Taskinfo extends React.Component {
   constructor(props) {
@@ -75,10 +70,9 @@ class Taskinfo extends React.Component {
       listHolder: '',
       search: '',
       idarray: this.props.ownership,
-      StartTime: '',
-      desc: '',
-      budget: '',
-      deleting: 1,
+      StartTime:'',
+      desc:'',
+      budget:'',
     };
   }
 
@@ -92,7 +86,7 @@ class Taskinfo extends React.Component {
 
   handleStartTimePicked = time => {
     this.setState({StartTime: time.toTimeString().substr(0, 8)});
-    //this.props.adddeadline( time.toTimeString().substr(0, 8))
+this.props.adddeadline( time.toTimeString().substr(0, 8))
     this.hideStartTimePicker();
   };
 
@@ -106,31 +100,8 @@ class Taskinfo extends React.Component {
     }
 
     this.props.sendUserDetails(count);
-    console.warn('data>>>>>>>>>>>>', this.props.data);
-    console.warn('outside map******************');
-    this.props.data.map(item => {
-      console.warn('map***************');
-      if (this.state.data.id == item.id && item.flag !==false) {
-        // console.warn('inside shit>>>',item)
-
-        if (item === null) {
-          console.warn('null');
-        } else {
-          this.setState({
-            desc: item.description,
-            budget: item.Budget,
-            StartTime: item.deadline,
-          });
-
-          // item.id
-        
-            //    this.setState({deleting:0})
-            this.props.deletearray(item.id);
-         
-        }
-      }
-    });
   }
+
 
   subtask = () => {
     return (
@@ -161,6 +132,11 @@ class Taskinfo extends React.Component {
       </View>
     );
   };
+
+
+
+
+
 
   list(text) {
     const newData = this.props.userdetails.filter(function(item) {
@@ -212,11 +188,6 @@ class Taskinfo extends React.Component {
       </ScrollView>
     );
   };
-
-  componentWillUnmount() {
-    this.sendtask();
-    console.warn('unmounting');
-  }
 
   renderItem1 = ({item}) => {
     return (
@@ -278,89 +249,77 @@ class Taskinfo extends React.Component {
     );
   };
 
-  sendtask = () => {
-    var data = {
-      id: this.state.data.id,
-      completed: this.state.data.completed,
-      ownership: this.state.idarray,
-      description: this.state.desc,
-      tName: this.state.data.text,
-      Budget: this.state.budget,
-      deadline: this.state.StartTime,
-      flag:true
-    };
-    console.warn('inside unmounting....');
-    this.props.addorganizer(data);
-  };
+
+sendtask=()=>{
+
+var data ={ownership:this.state.idarray,}
+this.props.addorganizer(data)
+}
 
   render() {
-    console.warn('lala', JSON.stringify(this.props.data));
+   // console.warn('lala',JSON.stringify(this.props.ownership))
     return (
+
       <View style={{flex: 1, padding: '5%'}}>
-        <KeyboardAvoidingView behavior="padding">
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 24}} numberOfLines={1}>
-              Task Name:{this.state.data.text}
+                <KeyboardAvoidingView behavior='padding'>
+
+                  <View style={{flexDirection:'row',justifyContent: 'space-between'}}>
+<Text style={{fontSize: 24}} numberOfLines={1}>Task Name:{this.state.data.text}</Text>
+
+</View>
+
+<TouchableOpacity style={{backgroundColor:'black',width:'20%',height:'10%'}} onPress={()=>this.sendtask()}>
+  <Text style={{color:'white',alignSelf:'center',fontSize:24}}>Done</Text>
+  </TouchableOpacity>
+
+
+          { this.state.idarray.map(item => (
+            <Text key={item._id} style={{color: 'blue'}}>
+              {item.email}
             </Text>
-          </View>
+          ))}
+       
+        <FloatingLabelInput
+          label="Add organizers"
+          value={this.state.search}
+          onChangeText={text => {
+            this.list(text);
+          }}
+        />
+        {/* <View style={{flex:1}}> */}
+        <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
+        {/* </View> */}
 
-          <TouchableOpacity
-            style={{backgroundColor: 'black', width: '20%', height: '10%'}}
-            onPress={() => this.sendtask()}>
-            <Text style={{color: 'white', alignSelf: 'center', fontSize: 24}}>
-              Done
-            </Text>
-          </TouchableOpacity>
+        <DateTimePicker
+          mode="time"
+          // is24Hour={true}
+          isVisible={this.state.isStartTimePickerVisible}
+          onConfirm={this.handleStartTimePicked}
+          onCancel={this.hideStartTimePicker}
+        />
+        <Text> {this.state.StartTime}</Text>
+        <Button title=" Select Deadline" onPress={this.showStartTimePicker} />
 
-          {this.state.idarray != null &&
-            this.state.idarray.map(item => (
-              <Text key={item._id} style={{color: 'blue'}}>
-                {item.email}
-              </Text>
-            ))}
+        <FloatingLabelInput
+          label={'Add Description'}
+          value={this.props.description}
+          onChangeText={this.props.adddesc}
+        />
 
-          <FloatingLabelInput
-            label="Add organizers"
-            value={this.state.search}
-            onChangeText={text => {
-              this.list(text);
-            }}
-          />
-          {/* <View style={{flex:1}}> */}
-          <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
-          {/* </View> */}
+        <FloatingLabelInput
+          label={'Add Budget'}
+          value={this.props.Budget}
+          onChangeText={this.props.addbudget}
+        />
+        {/* // {this.addsubtask()}
+// {this.subtask()} */}
+</KeyboardAvoidingView>
 
-          <DateTimePicker
-            mode="time"
-            // is24Hour={true}
-            isVisible={this.state.isStartTimePickerVisible}
-            onConfirm={this.handleStartTimePicked}
-            onCancel={this.hideStartTimePicker}
-          />
-          <Text> {this.state.StartTime}</Text>
-          <Button title=" Select Deadline" onPress={this.showStartTimePicker} />
-
-          <FloatingLabelInput
-            label={'Add Description'}
-            value={this.state.desc}
-            onChangeText={text => this.setState({desc: text})}
-          />
-
-          <FloatingLabelInput
-            label={'Add Budget'}
-            value={this.state.budget}
-            onChangeText={text => this.setState({budget: text})}
-          />
-          {
-            //   console.warn('lala',this.state.data)
-            /* // {this.addsubtask()}
-// {this.subtask()} */
-          }
-        </KeyboardAvoidingView>
       </View>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   input: {
@@ -374,14 +333,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   subtodos: state.subtodos,
+  userdetails: state.CreateEvent.userdetails,
+  description:state.Taskinfo_reducer.description,
+  tName:state.Taskinfo_reducer.tName,
+  ownership:state.Taskinfo_reducer.ownership,
+  Budget:state.Taskinfo_reducer.Budget,
+  deadline:state.Taskinfo_reducer.deadline,
 
-  //   userdetails: state.CreateEvent.userdetails,
-  //   description:state.Taskinfo_reducer.description,
-  //   tName:state.Taskinfo_reducer.tName,
-  //   ownership:state.Taskinfo_reducer.ownership,
-  //   Budget:state.Taskinfo_reducer.Budget,
-  //   deadline:state.Taskinfo_reducer.deadline,
-  data: state.Taskinfo_reducer,
   // navigateprops:this.props.navigateprops
 });
 
@@ -389,10 +347,11 @@ const mapDispatchToProps = dispatch => ({
   subtoggleTodo: id => dispatch(subtoggleTodo(id)),
   addsubTodo: text => dispatch(addsubTodo(text)),
   sendUserDetails: data => dispatch(sendUserDetails(data)),
-  addorganizer: data => dispatch(addorganizer(data)),
-  adddesc: data => dispatch(adddesc(data)),
-  adddeadline: data => dispatch(adddeadline(data)),
-  deletearray: data => dispatch(deletearray(data)),
+  addorganizer :data=>dispatch(addorganizer(data)),
+  adddesc:data=>dispatch(adddesc(data)),
+  adddeadline:data=>dispatch(adddeadline(data)),
+  addbudget:data=>dispatch(addbudget(data)),
+
 });
 console.log('inside VisibleTodos');
 
@@ -400,36 +359,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Taskinfo);
-
-// import React, { Component } from 'react';
-// import { AppRegistry, Text, TextInput, View, TouchableOpacity } from 'react-native';
-
-// export default class Taskinfo extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {text: '',text2:'',data:this.props.navigation.state.params};
-//     }
-
-//     render() {
-//       console.warn('hdhhd',this.state.data)
-//         return (
-//             <View style={{padding: 10}}>
-//                 <TextInput
-//                     style={{height: 40,backgroundColor: 'azure', fontSize: 20}}
-//                     placeholder="Type here to translate!"
-//                     value={this.state.data.text}
-//                     onChangeText={(text) => this.setState({text:text})}
-//                 />
-//                 <TextInput
-//                     style={{height: 40,backgroundColor: 'azure', fontSize: 20}}
-//                     placeholder="Type here to translate!"
-//                     value={this.state.text2}
-//                     onChangeText={(text) => this.setState({text2:text})}
-//                 />
-//                <TouchableOpacity  style={{height: 40,backgroundColor: 'azure', fontSize: 20}} onPress={()=>{}}>
-//                  <Text>save</Text>
-//                </TouchableOpacity>
-//             </View>
-//         );
-//     }
-// }

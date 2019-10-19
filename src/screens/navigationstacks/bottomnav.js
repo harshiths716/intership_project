@@ -22,9 +22,12 @@ import TodoApp from '../Todo/TodoApp';
 import Taskinfo from '../Todo/Task/Taskinfo'
 // import VisibleTodos from '../Todo/containers/VisibleTodos';
 import TodoList from '../Todo/components/TodoList';
-
+import EventPlan2 from '../view_events/eventplan2'
+import Editsubtask from '../view_events/editsubtask'
 export const Eventmy = createStackNavigator(
   {
+    EventPlan2:{screen:EventPlan2},
+    Editsubtask:{screen:Editsubtask},
     myevents: {screen: Myevents},
     eventalter: {screen: Eventalter},
     //  wait:{screen:Waiting},
