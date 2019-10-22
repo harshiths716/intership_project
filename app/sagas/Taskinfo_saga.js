@@ -1,9 +1,9 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
-import {CREATE_EVENT_API,SEND_USER_DETAILS,receiveUserDetails,create_event_done}  from '../Actions/create_event_action'
+import {ADD_SUBTASK,SEND_USER_DETAILS,receiveUserDetails,create_event_done}  from '../Actions/taskinfo_actions'
 import {sendUserDetails_api,createEvent_Api} from "../Actions/api";
 
-function* createEventApiData(actions) {
+function* AddTaskApiData(actions) {
   console.warn('inside sendUserDetailsApiDat',actions)
   try {
    console.warn('i am inside saga')
@@ -35,6 +35,6 @@ console.warn('i am inside saga')
 
 export default function* mySagaCreateEvent() {
     console.warn('saga_sendUserDetailsApiDat')
- yield takeEvery(CREATE_EVENT_API,createEventApiData);
+ yield takeEvery(CREATE_EVENT_API,TaskinfoApiData);
  yield takeEvery(SEND_USER_DETAILS,sendUserDetailsApiData);
 }

@@ -23,15 +23,17 @@ import Taskinfo from '../Todo/Task/Taskinfo'
 // import VisibleTodos from '../Todo/containers/VisibleTodos';
 import TodoList from '../Todo/components/TodoList';
 import EventPlan2 from '../view_events/eventplan2'
+import Edittask from '../view_events/edittask'
 import Editsubtask from '../view_events/editsubtask'
 export const Eventmy = createStackNavigator(
   {
-    EventPlan2:{screen:EventPlan2},
-    Editsubtask:{screen:Editsubtask},
+    // EventPlan2:{screen:EventPlan2},
+    // Edittask:{screen:Edittask},
+    // Editsubtask:{screen:Editsubtask},
     myevents: {screen: Myevents},
-    eventalter: {screen: Eventalter},
+    // eventalter: {screen: Eventalter},
     //  wait:{screen:Waiting},
-    attend: {screen: Attendence},
+    // attend: {screen: Attendence},
   },
   {
     // initialRouteName: 'noti',

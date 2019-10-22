@@ -20,7 +20,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 //     </View>
 //   );
 // };
-export default class Editsubtask extends Component {
+export default class Edittask extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,13 +53,13 @@ export default class Editsubtask extends Component {
 
 
   render() {
-   // console.warn(this.state.data.subtask);
+  // console.warn(this.state.data.subtask);
     return (
       <View style={{flex: 1, padding: '5%'}}>
         <KeyboardAvoidingView behavior="padding">
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontSize: 24}} numberOfLines={1}>
-              {/* Task Name:{this.state.data.text} */}
+              Task Name:{this.state.data.text}
             </Text>
           </View>
 
@@ -105,7 +105,11 @@ export default class Editsubtask extends Component {
             onChangeText={text => this.setState({desc: text})}
           />
 
-        
+          <FloatingLabelInput
+            label={'Add Budget'}
+            value={this.state.budget}
+            onChangeText={text => this.setState({budget: text})}
+          />
           {
             //   console.warn('lala',this.state.data)
             /* // {this.addsubtask()}

@@ -77,13 +77,13 @@ export default class Notification extends Component {
         .setTitle(notification.title)
         .setBody(notification.body)
         .android.setChannelId('fcm_FirebaseNotifiction_default_channel') // e.g. the id you chose above
-        .android.setSmallIcon('@drawable/ic_launcher') // create this icon in Android Studio
-        .android.setColor('#000000') // you can set a color here
+        // .android.setSmallIcon('@drawable/ic_launcher') // create this icon in Android Studio
+        // .android.setColor('#000000') // you can set a color here
         .android.setPriority(firebase.notifications.Android.Priority.High);
 
         firebase.notifications()
           .displayNotification(localNotification)
-          .catch(err => console.error(err));
+          .catch(err => console.error("err"));
     });
 
     const channel = new firebase.notifications.Android.Channel('fcm_FirebaseNotifiction_default_channel', 'Demo app name', firebase.notifications.Android.Importance.High)
@@ -91,7 +91,7 @@ export default class Notification extends Component {
       .setSound('sampleaudio.wav');
     firebase.notifications().android.createChannel(channel);
 
-    /*
+    /*nb
     * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {

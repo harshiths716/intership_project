@@ -67,9 +67,31 @@ class Loginsc extends React.Component {
 
     if (this.props.userdata1.success === true) {
       if (this.props.userdata1.isOrganiser === true) {
+                if(this.props.userdata1.isAdmin === false)
+
         this.props.navigation.navigate('Organizer');
       }
     }
+
+
+
+    if (this.props.userdata1.success === true) {
+      if (this.props.userdata1.isOrganiser === false) {
+        if(this.props.userdata1.isAdmin === false )
+        this.props.navigation.navigate('User');
+      }
+    }
+
+
+ if (this.props.userdata1.success === true) {
+      if (this.props.userdata1.isOrganiser === true) {
+        if(this.props.userdata1.isAdmin === true){
+        console.warn('admin')
+        this.props.navigation.navigate('Admin');}
+      }
+    }
+
+
   }
 
   handleSubmit(obj) {

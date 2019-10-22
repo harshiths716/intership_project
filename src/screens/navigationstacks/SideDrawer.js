@@ -71,7 +71,7 @@ const Past_Events = createStackNavigator({
 const UserDrawer = createDrawerNavigator({
   Home: {screen: bottomUser_StackNavigator},
   'Events Assigned':{screen:Events_Assigned},
-  'Past Events':{screen:Past_Events}
+ // 'Past Events':{screen:Past_Events}
 
 });
 
@@ -108,8 +108,12 @@ Home:{screen:bottomOrganizer_StackNavigator},
 
 export const Organizer = createAppContainer(OrganizerDrawer);
 
-// const Admin = createDrawerNavigator(
-//     {
+const AdminDrawer = createDrawerNavigator(
+    {
+Home:{screen:bottomOrganizer_StackNavigator},
+'Events Request':{screen:Events_Assigned},
+//'Past Events':{screen:Past_Events}
+    }
+);
 
-//     }
-// );
+export const Admin = createAppContainer(AdminDrawer);

@@ -9,7 +9,7 @@ import {
     View,
     FlatList,
     Dimensions,
-    TextInput,
+    TextInput
 } from 'react-native';
 //import FadeInView from "./animation";
 import { Switch, Image } from 'react-native';
@@ -62,15 +62,17 @@ export default class EventPlan2 extends Component {
     renderitem2 = ({ item }) => {
         return (
             <ScrollView>
-                <View style={{ flex: 1 }}>
-                    <TouchableOpacity >
+                <View style={{ flex: 1 ,flexDirection:'row'}}>
+                    <TouchableOpacity style={{padding:"2%"}} onPress={() => this.props.navigation.navigate('Editsubtask',
+                                        )
+                                    } >
                         <Text
-                            numberOfLines={1}
+                          //  numberOfLines={1}
                             style={{
                                 fontSize: 20, fontFamily: 'Roboto', textAlign: 'center', borderWidth: 1,
                                 borderRadius: 6,
                                 borderColor: '#E91E63',
-                                width: '80%',
+                                width: '100%',
                                 padding: 5,
                                 backgroundColor: '#FFEB3B',
                                 fontWeight: 'bold'
@@ -78,6 +80,17 @@ export default class EventPlan2 extends Component {
                             {item.subtask1}
                         </Text>
                     </TouchableOpacity>
+                    {/* <View> */}
+                                <TouchableOpacity
+                                    
+                                >
+                                {/* <Text>EDIT</Text> */}
+                                {/* <Image
+                    style={{width: 25, height: 25}}
+                    source={require('../resources/edit.png')}
+                  /> */}
+                                </TouchableOpacity>
+                            {/* </View> */}
                 </View>
             </ScrollView>
         );
@@ -88,25 +101,22 @@ export default class EventPlan2 extends Component {
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity >
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            <Text
-                                numberOfLines={1}
-                                style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', }}>
-                                {item.task}
-                            </Text>
-
-                            <View>
-                                <TouchableOpacity
-                                    onPress={() => this.props.navigation.navigate('Editsubtask',
+                            <TouchableOpacity  onPress={() => this.props.navigation.navigate('Edittask',
                                         {
                                             task_id:item.task_id,
                                             task: item.task,
                                             subtask:item.subtask,
                                             eventname:'Marathon'
                                         })
-                                    }
-                                >
-                                <Text>EDIT</Text>
-                                </TouchableOpacity>
+                                    }>
+                            <Text
+                                numberOfLines={1}
+                                style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', }}>
+                                {item.task}
+                            </Text>
+                            </TouchableOpacity>
+                            <View>
+                          
                             </View>
                         </View>
 
