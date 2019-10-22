@@ -17,16 +17,19 @@ import {
 } from 'react-native';
 import Apicall from '../networking/apicall';
 import LogoTitle from '../reuseablecomponents/headerlogo';
-
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from 'react-native-modal-datetime-picker';
 import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 
 import {connect} from 'react-redux';
 
-import {sendUserDetails} from '../../../app/Actions/create_event_action';
+import {
+  sendUserDetails,
+  create_event,
+} from '../../../app/Actions/create_event_action';
 
 iddata = [];
-
+idarray = [];
 class Createvent extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +37,7 @@ class Createvent extends Component {
     this.state = {
       username: '',
       token: '',
+      userdata: '',
       chosenDate: '',
       StartTime: '',
       EndTime: '',
@@ -46,7 +50,7 @@ class Createvent extends Component {
       isvenuepicker: true,
       ename: '',
       venue: '',
-      capacity: '',
+      capacity: 0,
       otherinput: '',
       etype: '',
       desc: '',
@@ -57,8 +61,14 @@ class Createvent extends Component {
       iscapacity: false,
       listHolder: '',
       search: '',
-      idarray: [],
+      idarray:[],
       // dataResponse:'',
+      //id:[]
+      show: false,
+      mode: 'date',
+      date: new Date(),
+      start: new Date(),
+      end: new Date(),
     };
   }
 
@@ -76,33 +86,6 @@ class Createvent extends Component {
       fontFamily: 'Roboto',
     },
   };
-
-  validateit() {
-    // if (this.state.ename == "") {
-    //   alert("Please enter the  event name");
-    // }
-    // if (this.state.selectedvenue == "") {
-    //   alert("Please enter the venue");
-    // }
-    // if (this.state.desc == "") {
-    //   alert("Please enter the desc");
-    // }
-    // if (this.state.capacity == "") {
-    //   alert("Please enter the capacity");
-    // }
-    // if (this.state.selectedtype == "") {
-    //   alert("Please enter type of event");
-    // }
-    // if (this.state.StartTime == "") {
-    //   alert("Please enter your password");
-    // }
-    // if (this.state.chosenDate == "") {
-    //   alert("Please enter your password");
-    // }
-    // if (this.state.EndTime == "") {
-    //   alert("Please enter your password");
-    // }
-  }
 
   onValueChangetype(value) {
     if (value == 'other') {
@@ -140,49 +123,49 @@ class Createvent extends Component {
     }
   }
 
-  showDateTimePicker = () => {
-    this.setState({isDateTimePickerVisible: true});
+  setDate = (event, date, v) => {
+    console.log(event);
+    if (event.type == 'set') {
+      if (this.state.mode === 'time') {
+        let dat = new Date(
+          this.state[v].toISOString().substr(0, 11) +
+            date.toISOString().substr(11),
+        );
+        console.log(dat);
+        this.setState(
+          {
+            [v]: dat,
+            mode: 'date',
+            show: !this.state.show,
+          },
+          () => console.log(v + ' ' + this.state[v]),
+        );
+      } else {
+        console.log('Selected the date' + date + '');
+        this.setState({
+          [v]: date,
+          mode: 'time',
+        });
+      }
+    } else {
+      this.setState({
+        show: false,
+      });
+    }
   };
-
-  hideDateTimePicker = () => {
-    this.setState({isDateTimePickerVisible: false});
-  };
-
-  handleDatePicked = date => {
-    this.setState({chosenDate: date.toISOString().substr(0, 10)});
-    this.hideDateTimePicker();
-  };
-
-  showStartTimePicker = () => {
-    this.setState({isStartTimePickerVisible: true});
-  };
-
-  hideStartTimePicker = () => {
-    this.setState({isStartTimePickerVisible: false});
-  };
-
-  handleStartTimePicked = time => {
-    this.setState({StartTime: time.toTimeString().substr(0, 8)});
-    this.hideStartTimePicker();
-  };
-
-  showEndTimePicker = () => {
-    this.setState({isEndTimePickerVisible: true});
-  };
-
-  hideEndTimePicker = () => {
-    this.setState({isEndTimePickerVisible: false});
-  };
-
-  handleEndTimePicked = time => {
-    this.setState({EndTime: time.toTimeString().substr(0, 8)});
-    this.hideEndTimePicker();
+  _show = variable => {
+    this.setState({
+      show: !this.state.show,
+      type: variable,
+    });
   };
 
   async componentDidMount() {
     try {
       value = await AsyncStorage.getItem('userdata');
       count = JSON.parse(value);
+      console.warn(count);
+      this.setState({userdata: count});
     } catch (e) {
       console.warn('async error');
       console.warn(e);
@@ -217,35 +200,9 @@ class Createvent extends Component {
       this.state.chosenDate &&
       this.state.selectedvenue !== ''
     ) {
-      //   body = {
-      //     ename: this.state.ename,
-      //     venue: this.state.selectedvenue,
-      //     description: this.state.desc,
-      //     capacity: this.state.capacity,
-      //     organiser: this.state.username,
-      //     typeofEvent: this.state.selectedtype,
-      //     startTime: this.state.chosenDate + "T" + this.state.StartTime + "Z",
-      //     endTime: this.state.chosenDate + "T" + this.state.EndTime + "Z"
-      //   };
-      //   endpoint = "newnotes";
-      //   //  console.warn(body)
-      //   Apicall(endpoint, body, this.state.token).then(responseJson => {
-      //     this.setState({
-      //       ename: null,
-      //       selectedvenue: null,
-      //       capacity: null,
-      //       desc: null,
-      //       selectedtype: null,
-      //       chosenDate: null,
-      //       StartTime: null,
-      //       EndTime: null
-      //     });
-      //     alert(responseJson.message);
-      //   });
-      // } else {
-      //   alert("fields not field");
+     
     }
-    this.props.navigation.navigate('todo');
+
   };
 
   typepicker = () => {
@@ -353,7 +310,7 @@ class Createvent extends Component {
     imagepicker.showImagePicker(
       {
         title: 'Upload Image',
-        noData: true,
+        // noData: true,
       },
       response => {
         if (response.didCancel) {
@@ -361,14 +318,7 @@ class Createvent extends Component {
         } else if (response.error) {
           console.warn(response.error);
         } else {
-          console.warn(response);
-          // let source = { uri: response.uri };
-          // this.setState({
-
-          // //   imageSource: source,
-          // //   issueimage: response.data,
-
-          // // });
+          this.setState({});
         }
       },
     );
@@ -376,9 +326,10 @@ class Createvent extends Component {
 
   addname = (id, email) => {
     iddata.push({id: id, email: email});
+    idarray.push(id);
     this.setState({idarray: iddata});
-    console.warn('new',this.state.idarray);
-};
+    console.warn('new', this.state.idarray);
+  };
   renderItem = ({item}) => {
     return (
       <ScrollView style={styles.container}>
@@ -391,20 +342,6 @@ class Createvent extends Component {
               style={{fontSize: 17, fontFamily: 'Roboto'}}>
               {item.name}
             </Text>
-            {/* <Text
-              style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
-              {item.email}
-            </Text>
-            <Text
-              numberOfLines={1}
-              style={{fontSize: 17, fontFamily: 'Roboto'}}>
-              {item.dpName}
-            </Text> */}
-            {/* <Text
-            numberOfLines={1}
-            style={{color: 'white', fontSize: 14, fontFamily: 'Roboto'}}>
-            {item.description}
-          </Text> */}
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -414,39 +351,45 @@ class Createvent extends Component {
   renderItem1 = ({item}) => {
     return (
       <ScrollView style={styles.container}>
-      <View style={styles.bottomItem}>
-        <TouchableOpacity
-          style={styles.bottomItemInner}
-        //  onPress={() => this.addname(item._id, item.email)}
+        <View style={styles.bottomItem}>
+          <TouchableOpacity
+            style={styles.bottomItemInner}
+            //  onPress={() => this.addname(item._id, item.email)}
           >
-          <Text
-            numberOfLines={1}
-            style={{fontSize: 17, fontFamily: 'Roboto'}}>
-            {item.email}
-          </Text>
-          {/* <Text
-            style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
-            {item.email}
-          </Text>
-          <Text
-            numberOfLines={1}
-            style={{fontSize: 17, fontFamily: 'Roboto'}}>
-            {item.dpName}
-          </Text> */}
-          {/* <Text
-          numberOfLines={1}
-          style={{color: 'white', fontSize: 14, fontFamily: 'Roboto'}}>
-          {item.description}
-        </Text> */}
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <Text
+              numberOfLines={1}
+              style={{fontSize: 17, fontFamily: 'Roboto'}}>
+              {item.email}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     );
+  };
+
+  apihit = () => {
+idarray.push(this.state.userdata.UserID)
+    body = {
+      eName: this.state.ename,
+      venue: this.state.selectedvenue,
+      description: this.state.desc,
+      isOpen: !this.state.iscapacity,
+      capacity: this.state.capacity,
+      startTime: this.state.start,
+      endTime: this.state.end,
+      createdBy: this.state.userdata.UserID,
+      organisers: idarray,
+      token: this.state.userdata.token
+
+    };
+    this.props.create_event(body);
+    this.props.navigation.navigate('todo');
+
   };
 
   render() {
     // console.warn(this.props.userdetails);
-
+    const {show, mode, date} = this.state;
     return (
       <View style={{flex: 1, padding: 30, backgroundColor: '#f5fcff'}}>
         <ScrollView>
@@ -457,13 +400,7 @@ class Createvent extends Component {
               this.setState({ename: text});
             }}
           />
-          {/* <FloatingLabelInput
-            label="Event Venue"
-            value={this.state.venue}
-            onChangeText={text => {
-              this.setState({ venue: text });
-            }}
-          /> */}
+
           <FloatingLabelInput
             label="Event Description"
             value={this.state.desc}
@@ -471,11 +408,13 @@ class Createvent extends Component {
               this.setState({desc: text});
             }}
           />
-<View style={{flex:1}}>
-
-{this.state.idarray.map(item => (
- <Text key={item._id} style={{color:'blue'}}>{item.email}</Text>
-))}
+          <View style={{flex: 1}}>
+            {this.state.idarray != null &&
+              this.state.idarray.map(item => (
+                <Text key={item._id} style={{color: 'blue'}}>
+                  {item.email}
+                </Text>
+              ))}
           </View>
           <FloatingLabelInput
             label="Add organizers"
@@ -490,43 +429,30 @@ class Createvent extends Component {
             ? this.inputbox('enter the capacity', 'capacity')
             : this.capacitypicker()}
 
-          {this.state.istypepicker
-            ? this.typepicker()
-            : this.inputbox('enter event type', 'type')}
 
           {this.state.isvenuepicker
             ? this.venuepicker()
             : this.inputbox('enter event venue', 'venue')}
 
-          <Button title="Show DatePicker" onPress={this.showDateTimePicker} />
-          <DateTimePicker
-            mode="date"
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this.handleDatePicked}
-            onCancel={this.hideDateTimePicker}
+          {show && (
+            <DateTimePicker
+              value={date}
+              mode={mode}
+              is24Hour={false}
+              display="default"
+              minimumDate={date}
+              onChange={(e, d) => this.setDate(e, d, this.state.type)}
+            />
+          )}
+          <Button
+            title="Please select start time"
+            onPress={() => this._show('start')}
           />
-          <Text> {this.state.chosenDate}</Text>
 
-          <Button title="Start Time" onPress={this.showStartTimePicker} />
-
-          <DateTimePicker
-            mode="time"
-            // is24Hour={true}
-            isVisible={this.state.isStartTimePickerVisible}
-            onConfirm={this.handleStartTimePicked}
-            onCancel={this.hideStartTimePicker}
+          <Button
+            title="Please select end time"
+            onPress={() => this._show('end')}
           />
-          <Text> {this.state.StartTime}</Text>
-          <Button title="End Time" onPress={this.showEndTimePicker} />
-
-          <DateTimePicker
-            mode="time"
-            // is24Hour={true}
-            isVisible={this.state.isEndTimePickerVisible}
-            onConfirm={this.handleEndTimePicked}
-            onCancel={this.hideEndTimePicker}
-          />
-          <Text> {this.state.EndTime}</Text>
 
           <Button title="choose poster" onPress={this.handleposter} />
 
@@ -538,7 +464,7 @@ class Createvent extends Component {
               borderRadius: 5,
               backgroundColor: '#4287f5',
             }}
-            onPress={() => this.validateit() || this._onSubmit()}>
+            onPress={() =>this.apihit()}>
             <Text
               style={{
                 fontSize: 25,
@@ -570,6 +496,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   sendUserDetails: data => dispatch(sendUserDetails(data)),
+  create_event: data => dispatch(create_event(data)),
 });
 
 export default connect(

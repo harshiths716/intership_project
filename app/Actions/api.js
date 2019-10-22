@@ -1,4 +1,4 @@
-var ip = 'http://803fd43e.ngrok.io';
+var ip = 'http://5cb5d604.ngrok.io';
 
 export const fetchData = async () => {
   // console.warn('iam in fetchData');
@@ -200,19 +200,33 @@ export const myeventsparticipated_API = async body => {
   }
 };
 
-export const createEvent_Api = async body => {
+export const createEvent_Api = async bod => {
+
+  //console.warn('token',token)
+  // body.organisers.push(body.createdBy)
+  // console.warn('body',body.organisers)
+  console.warn('bod------------------->', bod);
+
   try {
-    //     console.warn('Event accepted',body.token)
-    // return 'message'
-    const response = await fetch(ip + '/events/eventAssignment', {
+    const response = await fetch(ip + '/events/addEvents', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + body.token,
+        Authorization: 'Bearer ' + bod.token,
       },
 
-      body: JSON.stringify(body),
+      body:JSON.stringify({
+        createdBy: bod.createdBy,
+        eName:bod.eName,
+        venue: bod.venue,
+        description: bod.description,
+        isOpen: bod.isOpen,
+        capacity: bod.capacity,
+        startTime: bod.startTime,
+        endTime: bod.endTime,
+        organisers: bod.organisers,
+      }),
     });
 
     const data = await response.json();
