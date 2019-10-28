@@ -22,13 +22,8 @@ export default class Eventinfo extends Component {
         { label: 'assign to organizer', value: 0 },
         { label: 'assign to user', value: 1 }
       ]
-
     };
-
-
   }
-
-
   static navigationOptions = {
 
     title: 'Event details',

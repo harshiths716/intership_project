@@ -1,6 +1,6 @@
 import React from 'react';
 //import Apicall from "../../networking/apicall";
-
+import OfflineNotice from '../reuseablecomponents/error'
 // import {sign_in} from '../../../app/Actions/login-actions';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -19,6 +19,34 @@ import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 // import {Dimensions} from 'react-native';
 
 import {connect} from 'react-redux';
+
+
+
+class SplashScreen extends React.Component {
+  render() {
+    const viewStyles = [
+    //  styles.container,
+      { backgroundColor: 'orange' }
+    ];
+    const textStyles = {
+      color: 'white',
+      fontSize: 40,
+      fontWeight: 'bold'
+    };
+
+    return (
+      <View style={viewStyles}>
+        <Text style={textStyles}>
+          Splash Screen
+        </Text>
+      </View>
+    );
+  }
+}
+
+
+
+
 
 class Loginsc extends React.Component {
   constructor(props) {
@@ -65,6 +93,10 @@ class Loginsc extends React.Component {
       console.warn('async error');
     }
 
+if(this.props.userdata1.success === false){
+  alert('wrong credetials')
+}
+
     if (this.props.userdata1.success === true) {
       if (this.props.userdata1.isOrganiser === true) {
                 if(this.props.userdata1.isAdmin === false)
@@ -97,7 +129,17 @@ class Loginsc extends React.Component {
   handleSubmit(obj) {
     // var endpoint='/users/authenticate'
     // var method = ''
-    this.props.sign_in(obj);
+
+if(this.props.username && this.props.password){
+  this.props.sign_in(obj);
+
+}
+
+else{
+  alert('fiels not field')
+}
+
+
   }
 
   render() {
@@ -105,12 +147,10 @@ class Loginsc extends React.Component {
 
     return (
       <View style={styles.container}>
+                <OfflineNotice/>
+
         <ScrollView>
-          <Text>
-            {this.props.username}
-            {this.props.password}
-            {JSON.stringify(this.props.userdata1)}
-          </Text>
+
           <View style={{flex: 1}}>
             <Image
               source={require('../resources/logo2.png')}
