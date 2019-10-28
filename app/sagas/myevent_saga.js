@@ -1,6 +1,6 @@
 import { call, put, takeEvery} from "redux-saga/effects";
 
-import {PARTICIPATED_EVENT,ORGANIZED_EVENT,organized_events_done}  from '../Actions/myevents_actions'
+import {PARTICIPATED_EVENT,ORGANIZED_EVENT,organized_events_done,participated_events_done}  from '../Actions/myevents_actions'
 import {myeventsparticipated_API,myeventsOrganized_API} from "../Actions/api";
 
 function* getorganizedApiData(actions) {

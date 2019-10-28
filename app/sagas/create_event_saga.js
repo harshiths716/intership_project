@@ -1,16 +1,16 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
-import {CREATE_EVENT_API,SEND_USER_DETAILS,receiveUserDetails,create_event_done}  from '../Actions/create_event_action'
-import {sendUserDetails_api,createEvent_Api} from "../Actions/api";
+import {CREATE_EVENT_API,SEND_USER_DETAILS,receiveUserDetails}  from '../Actions/create_event_action'
+import {sendUserDetails_api} from "../Actions/api";
 
 function* createEventApiData(actions) {
   console.warn('inside sendUserDetailsApiDat',actions)
   try {
    console.warn('i am inside saga')
 
-    const data = yield call(createEvent_Api,actions.payload);
- //   console.warn("data in saga sendUserDetails_api"+JSON.stringify(data))
-    yield put(create_event_done(data));
+    const data = yield call(sendUserDetails_api,actions.payload);
+    console.warn("data in saga sendUserDetails_api"+JSON.stringify(data))
+    yield put(receiveUserDetails(data));
   } catch (e) {
     console.warn(e);
   }

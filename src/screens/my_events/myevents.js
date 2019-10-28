@@ -9,26 +9,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 import {organized_events,participated_events} from '../../../app/Actions/myevents_actions'
 import {connect} from 'react-redux'
 
-// "_id" : ObjectId("5d9ddb3120a8dc6397db99ce"),
-// "eName" : "Hackathon 2019",
-// "venue" : "Pasta Street,Koramangala",
-// "description" : "coding event",
-// "isOpen" : true,
-// "msgs" : " ",
-// "startTime" : ISODate("2019-10-10T09:30:00.000Z"),
-// "endTime" : ISODate("2019-10-10T09:30:00.000Z"),
-// "isRejected" : false,
-// "createdBy" : ObjectId("5d8c832f58eaa168db15c44e"),
-// "isPublished" : false,
-// "isArchived" : false,
-// "isAccepted" : true,
-// "isPlanned" : false,
-// "createdAt" : ISODate("2019-10-09T13:05:54.008Z"),
-// "updatedAt" : ISODate("2019-10-09T13:05:54.008Z"),
-// http://72b6f6bf.ngrok.io
-
-
 const numColumns = 2;
+var data_data
 class Myevents extends React.Component {
   state = {
     switchValue: false,
@@ -37,35 +19,15 @@ class Myevents extends React.Component {
     dataResponse: ""
   };
 
-  // static navigationOptions = {
-    
-  //    title: 'My events',
-  //    headerLeft: <LogoTitle />,
-  //    headerRight: (
-  //      <View style={{ flexDirection: "row" }}>
-
-  //      </View>
-  //    ),
-  //    headerStyle: {
-  //      backgroundColor: "white"
-  //    },
-  //    headerTintColor: "white",
-  //    headerTitleStyle: {
-  //      textAlign:'center',
-  //      color:'black',
-  //     // fontWeight: "bold",
-  //      fontFamily: "Roboto"
-  //    }
-  //  };
 
   toggleSwitch = value => {
     //onValueChange of the switch this function will be called
     this.setState({ switchValue: value });
     //state changes according to switch
-    if (value == true) {
-      this._enroll();
+    if (value === true) {
+      this._enroll(data_data)
         } else {
-          this._onSubmit();
+          this._onSubmit(data_data)
         }
     //which will result in re-render the text
   };
@@ -150,12 +112,14 @@ class Myevents extends React.Component {
   };
 
   _onSubmit = (obj) => {
-
+console.warn('inside on submit')
 this.props.organized_events(obj)
   };
 
-  _enroll = () => {
-this.props.participated_events()
+  _enroll = (obj) => {
+    console.warn('inside enroll')
+
+this.props.participated_events(obj)
     
   };
   noevents = () => {
@@ -203,7 +167,7 @@ try{
   }
 
   render() {
-     console.warn(this.props.organizedapi)
+    // console.warn(this.props.organizedapi)
     return (
       <View style={{ backgroundColor: "white" }}>
         <View
