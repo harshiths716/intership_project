@@ -20,7 +20,7 @@ const listdata = (props) => {
             </Text>
           </TouchableOpacity>
 
-          <Button title="DONE" onPress={() => props.toggleTodo(todo.id)} />
+          {/* <Button title="DONE" onPress={() => props.toggleTodo(todo.id)} /> */}
         </View>
       ))}
     </View>

@@ -63,7 +63,7 @@ export default class EventPlan2 extends Component {
         return (
             <ScrollView>
                 <View style={{ flex: 1 ,flexDirection:'row'}}>
-                    <TouchableOpacity style={{padding:"2%"}} onPress={() => this.props.navigation.navigate('Editsubtask',
+                    <TouchableOpacity style={{padding:"2%"}} onPress={() => this.props.navigation.navigate('editsubtask',
                                         )
                                     } >
                         <Text
@@ -101,7 +101,7 @@ export default class EventPlan2 extends Component {
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity >
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-                            <TouchableOpacity  onPress={() => this.props.navigation.navigate('Edittask',
+                            <TouchableOpacity  onPress={() => this.props.navigation.navigate('edittask',
                                         {
                                             task_id:item.task_id,
                                             task: item.task,
@@ -115,10 +115,17 @@ export default class EventPlan2 extends Component {
                                 {item.task}
                             </Text>
                             </TouchableOpacity>
+                            <TouchableOpacity>
+                        <Image
+                    style={{width: 25, height: 25}}
+                    source={require('../resources/add.png')}
+                  /> 
+                  </TouchableOpacity>
+
                             <View>
                           
                             </View>
-                        </View>
+                        </View>                                   
 
                         <FlatList
                             data={item.subtask}
@@ -144,13 +151,19 @@ export default class EventPlan2 extends Component {
                 <View style={{ backgroundColor: 'white' }}>
                     <View style={{ flex: 1 }}>
                         <Text style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', textAlign: 'center' }}>
-                            Marathon
+                         event name:   Marathon
                         </Text>
                         <View style={{ flex: 1, flexDirection: 'row' }} >
-
+                            <TouchableOpacity>
+                        <Image
+                    style={{width: 40, height: 40}}
+                    source={require('../resources/add.png')}
+                  /> 
+                  <Text>Add Task</Text>
+                  </TouchableOpacity>
                         </View>
                     </View>
-                    <Text style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', textAlign: 'center' }}>Subtasks</Text>
+                    {/* <Text style={{ fontSize: 32, fontFamily: 'Roboto', fontWeight: 'bold', textAlign: 'center' }}>Subtasks</Text> */}
                     {this.props.upcoming != null && this.upevents()}
                     {
                         this.upevents()
