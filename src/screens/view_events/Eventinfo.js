@@ -22,13 +22,8 @@ export default class Eventinfo extends Component {
         { label: 'assign to organizer', value: 0 },
         { label: 'assign to user', value: 1 }
       ]
-
     };
-
-
   }
-
-
   static navigationOptions = {
 
     title: 'Event details',
@@ -54,6 +49,12 @@ export default class Eventinfo extends Component {
     if (this.state.item) {
       return (
         <View>
+            <TouchableOpacity 
+          onPress={() => this.props.navigation.navigate('Myeventinfo')}
+          title="Set"
+         
+          
+          >
           <Text
             style={{ fontSize: 40, fontFamily: "Roboto", paddingLeft: "5%", fontWeight: "bold" }}
           >
@@ -86,6 +87,7 @@ export default class Eventinfo extends Component {
 
             startime:    {this.state.item.startTime}
           </Text>
+          </TouchableOpacity>
         </View>
       );
     }

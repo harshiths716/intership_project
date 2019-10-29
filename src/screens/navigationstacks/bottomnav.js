@@ -22,13 +22,21 @@ import TodoApp from '../Todo/TodoApp';
 import Taskinfo from '../Todo/Task/Taskinfo'
 // import VisibleTodos from '../Todo/containers/VisibleTodos';
 import TodoList from '../Todo/components/TodoList';
-
+import EventPlan2 from '../view_events/eventplan2'
+import Edittask from '../view_events/edittask'
+import Editsubtask from '../view_events/editsubtask';
+import Upcomingeventinfo from '../view_events/Upcomingeventinfo';
+import Myeventinfo from '../view_events/Myeventinfo'
 export const Eventmy = createStackNavigator(
   {
+    // EventPlan2:{screen:EventPlan2},
+    // Edittask:{screen:Edittask},
+    // Editsubtask:{screen:Editsubtask},
     myevents: {screen: Myevents},
-    eventalter: {screen: Eventalter},
+    Upcomingeventinfo :{screen:Myeventinfo}
+    // eventalter: {screen: Eventalter},
     //  wait:{screen:Waiting},
-    attend: {screen: Attendence},
+    // attend: {screen: Attendence},
   },
   {
     // initialRouteName: 'noti',
@@ -37,12 +45,33 @@ export const Eventmy = createStackNavigator(
   },
 );
 
+
+export const Upcomming_stack = createStackNavigator(
+  {
+    Upcoming: {screen: Upcoming},
+    Upcomingeventinfo :{screen:Upcomingeventinfo}
+  },
+  {
+    headerMode: 'none',
+  },
+);
+
+// export const myevent_stack = createStackNavigator(
+//   {
+//     Eventmy: {screen: Eventmy},
+//     
+//   },
+//   {
+//     headerMode: 'none',
+//   },
+// );
+
+
+
 export const bottomUser = createBottomTabNavigator(
   {
-    View: {screen: Upcoming},
-    //Create: { screen: Eventcreate },
+    View: {screen:Upcomming_stack },
     'My events': {screen: Eventmy},
-    // Delete: { screen: Eventdele },
   },
   {
     defaultNavigationOptions: ({navigation}) => ({

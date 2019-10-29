@@ -1,20 +1,41 @@
-export const ADD_TASK='ADD_TASK'
-// export const RECEIVE_ASSIGNEDEVENTS='RECEIVE_ASSIGNEDEVENTS'
-// export const ACCEPT_EVENT = 'ACCEPT_EVENT'
-// export const REJECT_EVENT = 'REJECT_EVENT'
+export const ADD_ORGANIZER='ADD_ORGANIZER'
+export const DELETE_ARRAY='DELETE_ARRAY'
+export const ADD_SUBTASK='ADD_SUBTASK'
 
-// export const ACCEPT_EVENT_DONE='ACCEPT_EVENT_DONE'
+export const ADD_SUBTASK_DONE='ADD_SUBTASK_DONE'
+// export const ADD_LISTHOLDER='ADD_LISTHOLDER'
 
-// export const REJECT_EVENT_DONE='REJECT_EVENT_DONE'
-// export const assignedEvents_api_hit = val => ({ type: RECEIVE_ASSIGNEDEVENTS ,payload:val});
-
-// export const acceptEvents = val => ({ type: ACCEPT_EVENT ,payload:val});
-
-
-export function addtask(val) {
+export function addorganizer(val) {
     console.warn('inside ADD_TASK');
-    return { type: ADD_TASK ,payload:val};
+    return { type: ADD_ORGANIZER ,payload:val};
   }
+
+
+
+export function deletearray(val) {
+    console.warn('inside delete array');
+    return { type: DELETE_ARRAY ,payload:val};
+  }
+
+export function addsubtask(val) {
+    console.warn('inside ADD_TASK');
+    return { type: ADD_DEADLINE ,payload:val};
+  }
+
+export function addsubtask_done(val) {
+    console.warn('inside ADD_TASK');
+    return { type: ADD_DEADLINE ,payload:val};
+  }
+
+
+//   export function addbudget(val) {
+//     console.warn('inside ADD_TASK');
+//     return { type: ADD_BUDGET ,payload:val};
+//   }
+//   export function addlistHolder(val) {
+//     console.warn('inside ADD_TASK');
+//     return { type: ADD_LISTHOLDER ,payload:val};
+//   }
 //   export function acceptEvents_done(val) {
 //     console.warn('inside acceptEvents');
 //     return { type: ACCEPT_EVENT_DONE ,payload:val};

@@ -72,7 +72,12 @@ class Upcoming extends React.Component {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.bottomItem}>
-          <TouchableOpacity style={styles.bottomItemInner}>
+          <TouchableOpacity style={styles.bottomItemInner}
+          onPress={() => this.props.navigation.navigate('Upcomingeventinfo')}
+          title="Set"
+         
+          
+          >
             <Text
               numberOfLines={1}
               style={{fontSize: 17, fontFamily: 'Roboto'}}>
@@ -116,7 +121,7 @@ class Upcoming extends React.Component {
       );
     } else {
       return (
-        <FlatList data={this.props.upcoming} renderItem={this.renderItem} />
+        <FlatList data={this.props.upcoming.data} renderItem={this.renderItem} />
       );
     }
   };
@@ -171,7 +176,7 @@ class Upcoming extends React.Component {
 
           <CountDown
             style={styles.count}
-            until={2222222}
+            until={this.props.upcoming.timediff}
             onFinish={() => alert('finished')}
             onPress={() => alert('hello')}
             size={30}

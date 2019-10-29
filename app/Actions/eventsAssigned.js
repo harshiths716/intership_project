@@ -12,20 +12,20 @@ export const assignedEvents_api_hit = val => ({ type: RECEIVE_ASSIGNEDEVENTS ,pa
 
 
 export function acceptEvents(val) {
-    console.warn('inside acceptEvents');
+   // console.warn('inside acceptEvents');
     return { type: ACCEPT_EVENT ,payload:val};
   }
   export function acceptEvents_done(val) {
-    console.warn('inside acceptEvents');
+    //console.warn('inside acceptEvents');
     return { type: ACCEPT_EVENT_DONE ,payload:val};
   }
 
   export function rejectEvents(val) {
-    console.warn('inside rejectEvents');
+   // console.warn('inside rejectEvents');
     return { type: REJECT_EVENT ,payload:val};
   }
 
   export function rejectEvents_done(val) {
-    console.warn('inside rejectEvents done');
+    //console.warn('inside rejectEvents done');
     return { type: REJECT_EVENT_DONE ,payload:val};
   }
