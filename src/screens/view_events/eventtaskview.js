@@ -8,47 +8,25 @@ import {
   Dimensions,
 } from 'react-native';
 import AsyncStorage from "@react-native-community/async-storage";
-
-//import FadeInView from "./animation";
 import {Switch, Image} from 'react-native';
 import LogoTitle from '../reuseablecomponents/headerlogo';
 import moment from 'moment';
 import {ScrollView} from 'react-native-gesture-handler';
 import CountDown from 'react-native-countdown-component';
-//import AsyncStorage from '@react-native-community/async-storage';
-import StarRating from 'react-native-star-rating';
-import Apicall from '../networking/apicall2';
+import {send_accepted_task_events} from '../../../app/Actions/Task_actions'
 import {connect} from 'react-redux';
 
 
 var count =0
 var value = 0
-class Upcoming extends React.Component {
+class Eventtaskview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: '',
-      username: '',
-      date: '',
-      dataResponse: [],
-      date3: '',
-      date: '',
-      date5: '',
-      date8: '',
-      daa: '',
-      data: [],
-      C: '',
-      D: '',
-      A: '',
+     
 
     };
 
-
-
-
-
-    //this.renderItem = this.renderItem.bind(this);
-    // this.upevents = this.upevents.bind(this);
   }
   static navigationOptions = {
     title: 'upcoming events',
@@ -61,7 +39,7 @@ class Upcoming extends React.Component {
     headerTitleStyle: {
       textAlign: 'center',
       color: 'black',
-      // fontWeight: "bold",
+      // fontWeight: "bold"
       fontFamily: 'Roboto',
     },
   };
@@ -72,7 +50,7 @@ class Upcoming extends React.Component {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.bottomItem}>
-          <TouchableOpacity style={styles.bottomItemInner}>
+          <TouchableOpacity style={styles.bottomItemInner} onPress={()=>this.props.navigation.navigate('eventplan',item)}>
             <Text
               numberOfLines={1}
               style={{fontSize: 17, fontFamily: 'Roboto'}}>
@@ -100,7 +78,7 @@ class Upcoming extends React.Component {
 
 
   upevents = () => {
-    if (this.props.upcoming.length<1) {
+    if (this.props.acceptedevents.length<1) {
       return (
         <View style={{flex: 1}}>
           <Text
@@ -116,39 +94,24 @@ class Upcoming extends React.Component {
       );
     } else {
       return (
-        <FlatList data={this.props.upcoming} renderItem={this.renderItem} />
+        <FlatList data={this.props.acceptedevents} renderItem={this.renderItem} />
       );
     }
   };
 
-  onStarRatingPress(rating) {
-    this.setState({
-      starCount: rating,
-    });
-  }
-
 
  async componentDidMount() {
-
-   var dddd = new Date();
-   let date = dddd.toISOString();
-
-
-   try {
+  try {
     value = await AsyncStorage.getItem('userdata');
     count = JSON.parse(value);
       } catch (e) {
         console.warn('async error')
         console.warn(e)
       }
-     data_data = {date:date,token: count.token};
-    this.props.sendUpcoming(data_data);
-
-
+     data_data = {token: count.token};
+    this.props.send_accepted_task_events(data_data);
   }
 
-  componentDidUpdate() {
-  }
 
   render() {
 
@@ -157,20 +120,11 @@ class Upcoming extends React.Component {
       <ScrollView style={styles.scrollView}>
         <View style={{backgroundColor: 'white'}}>
           <View style={{flex:1}}>
-            <Image
-              style={styles.stretch}
-              source={require('../resources/img.jpg')}
-            />
+           
           </View>
-          {this.props.upcoming!=null && this.upevents()}
+          {this.props.acceptedevents!=null && this.upevents()}
 
-          <CountDown
-            style={styles.count}
-            until={2222222}
-            onFinish={() => alert('finished')}
-            onPress={() => alert('hello')}
-            size={30}
-          />
+        
         </View>
        
       </ScrollView>
@@ -180,24 +134,19 @@ class Upcoming extends React.Component {
 
 import {SEND_UPCOMING, RECEIVE_UPCOMING} from '../../../app/Actions/upcoming';
 const mapStateToProps = state => ({
-  upcoming: state.TextChanger.upcoming,
+  acceptedevents: state.Task.acceptedevents,
 });
 
 const mapDispatchToProps = dispatch => ({
-  sendUpcoming: data => dispatch(send_Upcoming(data)),
+  send_accepted_task_events: data => dispatch(send_accepted_task_events(data)),
 
 });
 
-
-function send_Upcoming(data) {
-  console.warn('inside send func');
-  return {type: SEND_UPCOMING, payload: data};
-}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Upcoming);
+)(Eventtaskview);
 
 const styles = StyleSheet.create({
   button: {

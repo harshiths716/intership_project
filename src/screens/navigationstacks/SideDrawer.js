@@ -7,6 +7,10 @@ import {bottomUser,bottomorganizer} from './bottomnav';
 import EventsAssigned from '../view_events/EventsAssigned'
 import PastEvents from '../view_events/PastEvents'
 import TodoApp from '../Todo/TodoApp'
+import Eventtaskview from '../view_events/eventtaskview'
+import Edittask from '../view_events/edittask'
+import Editsubtask from '../view_events/editsubtask'
+import EventPlan2 from '../view_events/eventplan2'
 class NavigationDrawerStructure extends Component {
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
@@ -54,9 +58,44 @@ const Events_Assigned = createStackNavigator({
     },
 });
 
-const Past_Events = createStackNavigator({
-    Third: {
-        screen: PastEvents,
+
+
+const task_subtask = createStackNavigator({
+    eventView: {
+        screen: Eventtaskview,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Home Screen',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#FF7F5B',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+    eventplan: {
+        screen: EventPlan2,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Home Screen',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#FF7F5B',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+    edittask: {
+        screen: Edittask,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Home Screen',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#FF7F5B',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+    editsubtask: {
+        screen: Editsubtask,
         navigationOptions: ({ navigation }) => ({
             title: 'Home Screen',
             headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -71,7 +110,7 @@ const Past_Events = createStackNavigator({
 const UserDrawer = createDrawerNavigator({
   Home: {screen: bottomUser_StackNavigator},
   'Events Assigned':{screen:Events_Assigned},
- // 'Past Events':{screen:Past_Events}
+  'task':{screen:task_subtask}
 
 });
 
@@ -102,7 +141,8 @@ const OrganizerDrawer = createDrawerNavigator(
     {
 Home:{screen:bottomOrganizer_StackNavigator},
 'Events Assigned':{screen:Events_Assigned},
-'Past Events':{screen:Past_Events}
+'task':{screen:task_subtask}
+
     }
 );
 
@@ -112,8 +152,10 @@ const AdminDrawer = createDrawerNavigator(
     {
 Home:{screen:bottomOrganizer_StackNavigator},
 'Events Request':{screen:Events_Assigned},
-//'Past Events':{screen:Past_Events}
-    }
+'task':{screen:task_subtask}
+
+
+}
 );
 
 export const Admin = createAppContainer(AdminDrawer);

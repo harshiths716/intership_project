@@ -1,4 +1,4 @@
-var ip = 'http://localhost:9000';
+var ip = 'http://b0a0b8c6.ngrok.io';
 
 export const fetchData = async () => {
   try {
@@ -32,15 +32,9 @@ export const Login_api = async body => {
 };
 
 export const Upcoming_api = async body => {
-  //  const test ="https://12797f78.ngrok.io/upcoming/"+body.date
-
-  // console.warn('inside Upcoming_api');
   date = body.date;
   token = body.token;
-
   try {
-    //console.warn('api-token',body.token)
-
     const response = await fetch(ip + '/events/upcoming/' + date, {
       method: 'GET',
       headers: {
@@ -48,24 +42,15 @@ export const Upcoming_api = async body => {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
       },
-
-      // body:JSON.stringify(body)
     });
-
     const data = await response.json();
-    // console.warn('api-data', data);
     return data;
   } catch (e) {
     console.warn(e);
   }
 };
-
-//  assignedEvents_api
-
 export const assignedEvents_api = async body => {
   try {
-    //console.warn('api-token',body.token)
-
     const response = await fetch(ip + '/events/eventAssignment', {
       method: 'GET',
       headers: {
@@ -73,12 +58,8 @@ export const assignedEvents_api = async body => {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + body.token,
       },
-
-      // body:JSON.stringify(body)
     });
-
     const data = await response.json();
-    // console.warn('api-data', data);
     return data;
   } catch (e) {
     console.warn(e);
@@ -201,9 +182,6 @@ export const myeventsparticipated_API = async body => {
 
 export const createEvent_Api = async bod => {
 
-  //console.warn('token',token)
-  // body.organisers.push(body.createdBy)
-  // console.warn('body',body.organisers)
   console.warn('bod------------------->', bod);
 
   try {
@@ -236,24 +214,22 @@ export const createEvent_Api = async bod => {
   }
 };
 
-// export const apicall = async (userdata, endpoint, method, databody) => {
-//   console.warn('apicall');
-//   try {
-//     const response = await fetch(ip + endpoint, {
-//       method: method,
-//       headers: {
-//         Accept: 'application/json',
-//         'Content-Type': 'application/json',
-//         Authorization: 'Bearer ' + userdata.token,
-//       },
-//       body: JSON.stringify(databody),
-//     });
+export const accepted_task_events_Api = async bod => {
+//console.warn('inside accept')
+  try {
+    const response = await fetch(ip + '/eventTasks/viewEventAssign', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + bod.token,
+      },
+    });
 
-//     const resdata = await response.json();
-//     console.warn('api-data', resdata);
-//     return resdata;
-//   } catch (e) {
-//     console.warn('api error');
-//   }
-//   body;
-// };
+    const data = await response.json();
+    console.warn('data',data)
+    return data;
+  } catch (e) {
+    console.warn('organized error');
+  }
+};

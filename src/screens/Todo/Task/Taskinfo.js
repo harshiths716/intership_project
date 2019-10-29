@@ -166,32 +166,32 @@ class Taskinfo extends React.Component {
     );
   };
 
-  addsubtask = () => {
-    return (
-      <View style={{flexDirection: 'row', marginHorizontal: 20}}>
-        <TextInput
-          onChangeText={text => this.setState({text})}
-          value={this.state.text}
-          placeholder="Eg. Create New task"
-          style={{
-            borderWidth: 1,
-            borderColor: '#f2f2e1',
-            backgroundColor: '#eaeaea',
-            height: 50,
-            flex: 1,
-            padding: 5,
-          }}
-        />
-        <TouchableOpacity
-          style={{justifyContent: 'center'}}
-          onPress={() =>
-            this.props.addsubTodo(this.state.text) && this.setState({text: ''})
-          }>
-          <Text style={{fontSize: 35}}>+</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  // addsubtask = () => {
+  //   return (
+  //     <View style={{flexDirection: 'row', marginHorizontal: 20}}>
+  //       <TextInput
+  //         onChangeText={text => this.setState({text})}
+  //         value={this.state.text}
+  //         placeholder="Eg. Create New task"
+  //         style={{
+  //           borderWidth: 1,
+  //           borderColor: '#f2f2e1',
+  //           backgroundColor: '#eaeaea',
+  //           height: 50,
+  //           flex: 1,
+  //           padding: 5,
+  //         }}
+  //       />
+  //       <TouchableOpacity
+  //         style={{justifyContent: 'center'}}
+  //         onPress={() =>
+  //           this.props.addsubTodo(this.state.text) && this.setState({text: ''})
+  //         }>
+  //         <Text style={{fontSize: 35}}>+</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // };
 
   setDate = (event, date, v) => {
     console.warn(event);
