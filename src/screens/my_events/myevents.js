@@ -56,7 +56,7 @@ class Myevents extends React.Component {
           <TouchableOpacity
             style={styles.bottomItemInner}
             onPress={() => {
-              navigate("eventalter", item);
+              navigate("Upcomingeventinfo", item);
             }}
           >
             <Text
@@ -85,7 +85,7 @@ class Myevents extends React.Component {
           <TouchableOpacity
             style={styles.bottomItemInner}
             onPress={() => {
-              navigate("eventalter", item);
+              navigate("Upcomingeventinfo", item);
             }}
           >
             {/* <Text

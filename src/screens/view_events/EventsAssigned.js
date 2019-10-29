@@ -96,7 +96,7 @@ this.props.sendAssignedEvents(data);
           <TouchableOpacity
             style={styles.bottomItemInner}
             onPress={() => {
-              navigate('eventdet', item);
+              navigate('Assignedeventinfo', item);
             }}>
             <Text
               style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>

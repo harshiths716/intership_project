@@ -7,6 +7,7 @@ import {bottomUser,bottomorganizer} from './bottomnav';
 import EventsAssigned from '../view_events/EventsAssigned'
 import PastEvents from '../view_events/PastEvents'
 import TodoApp from '../Todo/TodoApp'
+import Assignedeventinfo from '../view_events/Assignedeventinfo'
 class NavigationDrawerStructure extends Component {
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
@@ -52,6 +53,20 @@ const Events_Assigned = createStackNavigator({
             headerTintColor: '#fff',
         }),
     },
+
+
+    Assignedeventinfo: {
+        screen: Assignedeventinfo,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Home Screen',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#FF7F5B',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+
 });
 
 const Past_Events = createStackNavigator({
