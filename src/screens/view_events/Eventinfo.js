@@ -45,21 +45,18 @@ export default class Eventinfo extends Component {
     }
   };
 
-  twotypes = () => {
+  twotypes = (item) => {
     if (this.state.item) {
       return (
         <View>
             <TouchableOpacity 
-          onPress={() => this.props.navigation.navigate('Myeventinfo')}
-          title="Set"
-         
-          
+          onPress={() => this.props.navigation.navigate('Myeventinfo',item)}
           >
           <Text
             style={{ fontSize: 40, fontFamily: "Roboto", paddingLeft: "5%", fontWeight: "bold" }}
           >
             {" "}
-            {this.state.item.ename}
+            {this.state.item.eName}
           </Text>
           <Text
             style={styles.item}
@@ -96,7 +93,27 @@ export default class Eventinfo extends Component {
 
 
 
-
+  upevents = () => {
+    if (this.props.upcoming.length<1) {
+      return (
+        <View style={{flex: 1}}>
+          <Text
+            style={{
+              fontFamily: 'Roboto',
+              fontSize: 30,
+              opacity: 0.1,
+              alignSelf: 'center',
+            }}>
+            no events
+          </Text>
+        </View>
+      );
+    } else {
+      return (
+        <FlatList data={this.props.upcoming.data} renderItem={this.twotypes} />
+      );
+    }
+  };
 
 
 

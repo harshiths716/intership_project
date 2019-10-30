@@ -70,14 +70,11 @@ class Upcoming extends React.Component {
 
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container}
+      >
         <View style={styles.bottomItem}>
           <TouchableOpacity style={styles.bottomItemInner}
-          onPress={() => this.props.navigation.navigate('Upcomingeventinfo')}
-          title="Set"
-         
-          
-          >
+          onPress={() => this.props.navigation.navigate('Upcomingeventinfo',item)}>
             <Text
               numberOfLines={1}
               style={{fontSize: 17, fontFamily: 'Roboto'}}>

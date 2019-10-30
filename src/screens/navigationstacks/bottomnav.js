@@ -116,7 +116,7 @@ export const CreateStack = createStackNavigator(
 
 export const bottomorganizer = createBottomTabNavigator(
   {
-    View: {screen: Upcoming},
+    View: {screen: Upcomming_stack},
     Create: {screen: CreateStack},
     'My events': {screen: Eventmy},
     // Delete: { screen: Eventdele },

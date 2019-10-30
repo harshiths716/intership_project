@@ -41,7 +41,7 @@ var data=[
 constructor(props) {
     super(props);
     this.state = {
-     
+      data:this.props.navigation.state.params
     };
 
 
@@ -66,7 +66,7 @@ constructor(props) {
       fontFamily: 'Roboto',
     },
   };
-  renderItem = ({item}) => {
+  renderItem = (item) => {
 
 
     return (
@@ -102,7 +102,7 @@ constructor(props) {
            
             {item.description}
             </Text>
-            <Text
+            {/* <Text
             
             style={{fontSize: 22, fontFamily: 'Roboto',fontWeight:'bold',textAlign:'center'}}>
            startTime   
@@ -112,8 +112,8 @@ constructor(props) {
               style={styles.textdesign}>
            
             {item.startTime.substr(0,10)}
-            </Text>
-            <Text
+            </Text> */}
+            {/* <Text
             
             style={{fontSize: 22, fontFamily: 'Roboto',fontWeight:'bold',textAlign:'center'}}>
            endTime   
@@ -123,7 +123,7 @@ constructor(props) {
               style={styles.textdesign}>
             
             {item.endTime.substr(0,10)}
-            </Text>
+            </Text> */}
             <Text
             
             style={{fontSize: 22, fontFamily: 'Roboto',fontWeight:'bold',textAlign:'center'}}>
@@ -141,18 +141,10 @@ constructor(props) {
       </ScrollView>
     );
   };
-  upevents = () => {
-        
-      return (
-        <FlatList
-          data={data}
-          renderItem={this.renderItem}
-        />
-      );
-    };
+  
   render() {
 
-
+    console.log('data',this.state.data)
     return (
       <ScrollView style={styles.scrollView}>
         <View style={{backgroundColor: 'white'}}>
@@ -162,7 +154,7 @@ constructor(props) {
               source={require('../resources/music-event-flyer-template-design-b3623b78ff92c7f3c17e76815c52cc43.jpg')}
             />
           </View>
-          {this.upevents()}
+          {this.renderItem(this.state.data)}
        
         </View>
         <TouchableOpacity>

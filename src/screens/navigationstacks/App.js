@@ -12,8 +12,8 @@ import TodoApp from '../Todo/TodoApp'
 import store from '../../../app/Reducers/index';
 import EventPlan2 from '../view_events/eventplan2';
 import Myeventinfo from '../view_events/Myeventinfo';
-import Upcomingeventinfo from '../view_events/Upcomingeventinfo'
-
+import Upcomingeventinfo from '../view_events/Upcomingeventinfo';
+import Designation from '../view_events/Designation'
 const Firststack = createAppContainer(
   createSwitchNavigator(
     {
@@ -24,7 +24,8 @@ const Firststack = createAppContainer(
     Organizer,
 Notification,
 Admin,
-    EventPlan2
+    EventPlan2,
+    Designation
    // Upcomingeventinfo
    // Editsubtask
     //GoogleButton   

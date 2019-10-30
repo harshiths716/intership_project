@@ -20,28 +20,28 @@ import CountDown from 'react-native-countdown-component';
 import StarRating from 'react-native-star-rating';
 import Apicall from '../networking/apicall2';
 import {connect} from 'react-redux';
-var data=[
-    {
-        _id: "5d9ddb3120a8dc6397db99ce",
-        eName: "Hackathon 2019",
-        venue: "Pasta Street,Koramangala",
-        description: "coding event",
-        isOpen: true,
-        msgs: " ",
-        startTime: "2019-12-10T09:30:00.000Z",
-        endTime: "2019-12-13T09:30:00.000Z",
-        isPlanned: false,
-        __v: 0,
-        capacity: 100,
-        Hi: true
-    }
+// var data=[
+//     {
+//         _id: "5d9ddb3120a8dc6397db99ce",
+//         eName: "Hackathon 2019",
+//         venue: "Pasta Street,Koramangala",
+//         description: "coding event",
+//         isOpen: true,
+//         msgs: " ",
+//         startTime: "2019-12-10T09:30:00.000Z",
+//         endTime: "2019-12-13T09:30:00.000Z",
+//         isPlanned: false,
+//         __v: 0,
+//         capacity: 100,
+//         Hi: true
+//     }
     
-]
+// ]
  export default class Upcomingeventinfo extends React.Component {
 constructor(props) {
     super(props);
     this.state = {
-     
+     data:this.props.navigation.state.params
     };
 
 
@@ -66,13 +66,14 @@ constructor(props) {
       fontFamily: 'Roboto',
     },
   };
-  renderItem = ({item}) => {
+  renderItem = (item) => {
 
 
     return (
-      <ScrollView style={styles.container} >
+      <ScrollView style={styles.container} 
+      >
         <View style={styles.bottomItem}>
-          <TouchableOpacity >
+          <TouchableOpacity>
              
             <Text
             
@@ -141,17 +142,28 @@ constructor(props) {
       </ScrollView>
     );
   };
-  upevents = () => {
+  // upevents = () => {
         
-      return (
-        <FlatList
-          data={data}
-          renderItem={this.renderItem}
-        />
-      );
-    };
+  //     return (
+  //       <FlatList
+  //         data={data}
+  //         renderItem={this.renderItem}
+  //       />
+  //     );
+  //   };
+  // upevents = () => {
+    
+  //     return (
+  //       <FlatList data={this.state.data} 
+  //       renderItem={this.renderItem} />
+  //     );
+    
+  // };
+  
+  
   render() {
 
+    console.log('data',this.state.data)
 
     return (
       <ScrollView style={styles.scrollView}>
@@ -162,7 +174,7 @@ constructor(props) {
               source={require('../resources/music-event-flyer-template-design-b3623b78ff92c7f3c17e76815c52cc43.jpg')}
             />
           </View>
-          {this.upevents()}
+          {this.renderItem(this.state.data)}
        
         </View>
         <TouchableOpacity>
