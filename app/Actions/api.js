@@ -1,4 +1,4 @@
-var ip = 'http://b0a0b8c6.ngrok.io';
+var ip = 'http://fe55278f.ngrok.io';
 
 export const fetchData = async () => {
   try {
@@ -159,24 +159,24 @@ export const myeventsOrganized_API = async body => {
 
 export const myeventsparticipated_API = async body => {
   try {
-    console.warn('Event accepted', body.token);
-    return 'message';
-    // const response = await fetch(ip + '/events/eventAssignment', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //     Authorization: 'Bearer ' + body.token,
-    //   },
+   console.warn('participated events', body.token);
+   // return 'message';
+    const response = await fetch(ip + '/eventParticipant/myEvent', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + body.token,
+      },
 
-    //  body:JSON.stringify(body)
-    // });
+   //  body:JSON.stringify(body)
+    });
 
-    // const data = await response.json();
-    // // console.warn('api-data', data);
-    // return data;
+    const data = await response.json();
+    console.warn('api-data', data);
+    return data;
   } catch (e) {
-    console.warn(e);
+    console.warn('error enrolled');
   }
 };
 
@@ -227,9 +227,93 @@ export const accepted_task_events_Api = async bod => {
     });
 
     const data = await response.json();
-    console.warn('data',data)
+    console.warn('/eventTasks/viewEventAssign',data)
     return data;
   } catch (e) {
     console.warn('organized error');
+  }
+};
+
+
+export const add_task_api_hit = async body => {
+  // console.warn('inside login_api');
+  try {
+    const response = await fetch(ip + '/eventTasks/createTask', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+         Authorization: "Bearer " + body.token
+      },
+      body: JSON.stringify({
+        eventId:body.eventId,
+        tName:body.tName,
+        description:body.description,
+        ownership:body.ownership,
+        budget:body.Budget,
+        deadline:body.deadline,
+        createdBy:body.createdBy
+      }),
+    });
+
+    const data = await response.json();
+    // console.warn('api-data', data);
+    return data;
+  } catch (e) {
+    console.warn('add task error');
+  }
+};
+
+
+export const get_task_api_hit = async body => {
+  try {
+    console.warn('inside get_task_api_hit', body.token);
+
+    const response = await fetch(ip + '/eventTasks/viewEventPlan/'+body._id, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + body.token,
+      },
+
+      // body:JSON.stringify(body)
+    });
+
+    const data = await response.json();
+    console.warn(' userdetails api-data', data);
+    return data;
+  } catch (e) {
+    console.warn('erron in api hit');
+  }
+};
+
+
+export const add_subtask_api_hit = async body => {
+  // console.warn('inside login_api');
+  try {
+    const response = await fetch(ip + '/eventSubTasks/createSubTask', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+         Authorization: "Bearer " + body.token
+      },
+      body: JSON.stringify({
+        eventId:body.eventId,
+        tId:body.id,
+        subTname:body.tName,
+        description:body.description,
+        ownership:body.ownership,
+        deadline:body.deadline,
+        createdBy:body.createdBy
+      }),
+    });
+
+    const data = await response.json();
+    // console.warn('api-data', data);
+    return data;
+  } catch (e) {
+    console.warn('add task error');
   }
 };

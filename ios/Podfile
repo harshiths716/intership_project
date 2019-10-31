@@ -31,6 +31,8 @@ target 'EventsMobile' do
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
+  pod 'react-native-checkbox', :path => '../node_modules/@react-native-community/checkbox'
+
   target 'EventsMobileTests' do
     inherit! :search_paths
     # Pods for testing

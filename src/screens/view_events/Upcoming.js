@@ -137,6 +137,8 @@ class Upcoming extends React.Component {
    try {
     value = await AsyncStorage.getItem('userdata');
     count = JSON.parse(value);
+    console.warn('my details',count)
+
       } catch (e) {
         console.warn('async error')
         console.warn(e)

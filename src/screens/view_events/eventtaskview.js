@@ -17,7 +17,7 @@ import {send_accepted_task_events} from '../../../app/Actions/Task_actions'
 import {connect} from 'react-redux';
 
 
-var count =0
+var count =''
 var value = 0
 class Eventtaskview extends React.Component {
   constructor(props) {
@@ -48,8 +48,8 @@ class Eventtaskview extends React.Component {
 
 
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.bottomItem}>
+    //  <ScrollView style={styles.container}>
+        <View style={{flex:1}}>
           <TouchableOpacity style={styles.bottomItemInner} onPress={()=>this.props.navigation.navigate('eventplan',item)}>
             <Text
               numberOfLines={1}
@@ -72,7 +72,7 @@ class Eventtaskview extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+   //   </ScrollView>
     );
   };
 
@@ -94,7 +94,10 @@ class Eventtaskview extends React.Component {
       );
     } else {
       return (
-        <FlatList data={this.props.acceptedevents} renderItem={this.renderItem} />
+        <FlatList data={this.props.acceptedevents} renderItem={this.renderItem}
+        
+
+        />
       );
     }
   };
@@ -114,7 +117,7 @@ class Eventtaskview extends React.Component {
 
 
   render() {
-
+console.warn('accepted events',this.props.acceptedevents)
 
     return (
       <ScrollView style={styles.scrollView}>
@@ -188,7 +191,8 @@ const styles = StyleSheet.create({
   },
   bottomItemInner: {
     backgroundColor: '#4796ae',
-    padding: 5,
+    margin:10,
+    padding:10,
     borderRadius: 7,
   },
   ScrollView: {

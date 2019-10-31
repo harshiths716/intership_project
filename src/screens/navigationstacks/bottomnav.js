@@ -78,7 +78,7 @@ export const CreateStack = createStackNavigator(
   {
 
     headerMode: 'none',
-    initialRouteName: 'todo'
+ //initialRouteName: 'todo'
 
   },
 );

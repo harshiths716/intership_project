@@ -1,0 +1,157 @@
+"email": "shravan.kb@nineleaps.com",
+"password": "shravan123"
+"email" : "shibi.srivastava@nineleaps.com"
+password : shibi123
+"email" : "harshith.s@nineleaps.com"
+password harshith123
+"email" : "abhinav.varghese@nineleaps.com"
+password: abhinav123
+"email" : "vasu.maan@nineleaps.com"
+password vasu123
+"email" : "anisha.arora@nineleaps.com"
+password: anisha123
+"email" : "dival.sehgal@nineleaps.com"
+password : dival123
+"email" : "anant.tiwari@nineleaps.com"
+password: anant123
+"email" : "shree.laxmi@nineleaps.com"
+password: shree123
+"email": "shravan.kb@nineleaps.com",
+"password": "shravan123"
+
+
+ 'accepted events', [ { _id: '5da58abe3417b9618f478ba4',
+                              eName: 'Hackathon 2k19',
+                              venue: 'Roush Building',
+                              description: 'Hackathon events are being held. . .',
+                              isOpen: true,
+                              msgs: ' ',
+                              capacity: 0,
+                              startTime: '2019-11-11T04:00:00.000Z',
+                              endTime: '2019-11-11T04:00:00.000Z',
+                              isRejected: false,
+                              createdBy: '5d8b0a75eca6e93fbddae325',
+                              isPlanned: false,
+                              isPublished: false,
+                              isArchived: false,
+                              isAccepted: true,
+                              createdAt: '2019-10-15T09:00:46.018Z',
+                              updatedAt: '2019-10-15T09:00:46.018Z',
+                             __v: 0 },
+                             ]
+
+
+ { _id: '5da752b32befba286a5aedb8',-----taskid
+
+                              eventId:
+                              { _id: '5da58abe3417b9618f478ba4',
+                              eName: 'Hackathon 2k19',
+                              venue: 'Roush Building',
+                              description: 'Hackathon events are being held. . .' 
+                             },
+                              tName: 'Catering',
+                              description: 'Look after catering services with upmost care',
+                              ownership: '5d8b7f59ff455232d8307258',
+                              budget: 12000,
+                              deadline: '2019-11-09T04:00:00.000Z',
+                              createdBy: { name: 'Asmitha S' },
+                              isCompleted: false 
+ },
+
+
+'item', { id: 0, text: 's', completed: false }
+
+
+
+eventId: ObjectId(req.body.eventId),
+
+tName: req.body.tName,
+
+description: req.body.description,
+
+ownership: ObjectId(req.body.ownership)
+
+budget: req.body.budget
+
+deadline:new Date(req.body.deadline),
+
+createdBy: ObjectId(req.body.createdBy),
+
+
+
+
+{
+eventId: ObjectId(req.body.eventId),
+
+tId: ObjectId(req.body.tId),
+
+ownership: ObjectId(req.body.ownership),
+
+subTname: req.body.subTname,
+
+description: req.body.description,
+
+isAccepted:false,
+
+msg:" ",
+
+deadline: new Date(req.body.deadline),
+
+isRejected: false,
+
+isArchived: false,
+
+isCompleted:false
+
+Subtask Creation Data}
+
+
+
+subtask=[
+{
+"_id": "5db9e0807f60600907c8168f",
+"eventId": {
+"_id": "5da58abe3417b9618f478ba4",
+"eName": "Hackathon 2k19",
+"venue": "Roush Building",
+"description": "Hackathon events are being held. . ."
+},
+"tId": {
+"tName": "hack task"
+},
+"ownership": "5d971a67b795385a69f3c089",
+"subTname": "SUB TASK METADATA",
+"description": "Please Take care of Dinner",
+"deadline": "2019-11-12T04:00:00.000Z",
+"isCompleted": false
+},
+{
+"_id": "5db9e08d7f60600907c81690",
+"eventId": {
+"_id": "5da58abe3417b9618f478ba4",
+"eName": "Hackathon 2k19",
+"venue": "Roush Building",
+"description": "Hackathon events are being held. . ."
+},
+"tId": {
+"tName": "hack task"
+},
+"ownership": "5d971a67b795385a69f3c089",
+"subTname": "SUB TASK METADATA Test 1",
+"description": "Please Take care of Dinner",
+"deadline": "2019-11-12T04:00:00.000Z",
+"isCompleted": false
+}
+]
+
+
+{ _id: '5d8b59acbf97441c68873e17',
+                             │ name: 'Sree Lakshmi',
+                             │ email: 'sree.lakshmi@nineleaps.com',
+                             │ userDesg: '5d89efa0361f2e3b1e824b38',
+                             │ desgs:
+                             │ { deptName: 'Human Resource',
+                             │ dpName: 'HR',
+                             │ dName: 'HR',
+                             │ isOrganiser: true,
+                             │ isAdmin: false } },
