@@ -63,14 +63,14 @@ class EventsAssigned extends Component {
     this.props.sendAssignedEvents(data);
   };
 
-  renderItem = ({item, index}) => {
-    console.warn(item);
+  renderItem = ({item}) => {
+    //console.warn(item);
     const {navigate} = this.props.navigation;
 
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.bottomItem}>
-          <TouchableOpacity
+    //  <ScrollView style={styles.container}>
+        <View style={{flex:1}}>
+          <TouchableOpacity //key={item.events._id}
             style={styles.bottomItemInner}
             onPress={() => {
               navigate('eventdet', item);
@@ -106,7 +106,7 @@ class EventsAssigned extends Component {
             </View>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+     // </ScrollView>
     );
   };
 
@@ -114,7 +114,8 @@ class EventsAssigned extends Component {
     return (
       <FlatList
         data={this.props.assignedEvents}
-        renderItem={this.renderItem}
+        renderItem={(item)=>this.renderItem(item)}
+        keyExtractor={item => item._id}
       />
     );
   };
@@ -138,7 +139,7 @@ class EventsAssigned extends Component {
   // }
 
   render() {
-    //  console.warn(data.users[0].name)
+      console.warn('assigned data',this.props.assignedEvents)
     return (
       <View style={{flex: 1}}>
         <ScrollView style={styles.scrollView}>
@@ -271,7 +272,8 @@ const styles = StyleSheet.create({
   },
   bottomItemInner: {
     backgroundColor: '#4796ae',
-    padding: 5,
+    margin:10,
+    padding:10,
     borderRadius: 7,
   },
   ScrollView: {

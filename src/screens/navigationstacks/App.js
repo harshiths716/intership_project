@@ -11,7 +11,7 @@ import {Provider} from 'react-redux';
 import TodoApp from '../Todo/TodoApp'
 import store from '../../../app/Reducers/index';
 import EventPlan2 from '../view_events/eventplan2'
-
+import Designation from '../view_events/invites'
 const Firststack = createAppContainer(
   createSwitchNavigator(
     {
@@ -22,9 +22,8 @@ const Firststack = createAppContainer(
     Organizer,
 Notification,
 Admin,
-    EventPlan2,
-   // Editsubtask
-    //GoogleButton   
+Designation,
+    EventPlan2,  
    },
     {
       headerMode: 'none',

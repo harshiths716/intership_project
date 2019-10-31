@@ -11,6 +11,9 @@ import Eventtaskview from '../view_events/eventtaskview'
 import Edittask from '../view_events/edittask'
 import Editsubtask from '../view_events/editsubtask'
 import EventPlan2 from '../view_events/eventplan2'
+import Taskinfo from '../Todo/Task/Taskinfo'
+import Designation from '../view_events/invites'
+
 class NavigationDrawerStructure extends Component {
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
@@ -105,7 +108,31 @@ const task_subtask = createStackNavigator({
             headerTintColor: '#fff',
         }),
     },
-});
+   taskinfo:{screen:Taskinfo,
+    navigationOptions: ({ navigation }) => ({
+        title: 'Home Screen',
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+        headerStyle: {
+            backgroundColor: '#FF7F5B',
+        },
+        headerTintColor: '#fff',
+    }),
+},
+
+   invite:{screen:Designation,
+    navigationOptions: ({ navigation }) => ({
+        title: 'Home Screen',
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+        headerStyle: {
+            backgroundColor: '#FF7F5B',
+        },
+        headerTintColor: '#fff',
+    }),}
+},
+{
+  //  initialRouteName:'eventplan'
+}
+    );
 
 const UserDrawer = createDrawerNavigator({
   Home: {screen: bottomUser_StackNavigator},
