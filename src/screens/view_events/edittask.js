@@ -12,14 +12,53 @@ import {ScrollView} from 'react-native-gesture-handler';
 import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
-// Item = ({title}) => {
-//   return (
-//     <View>
-//       <Text>hai hello</Text>
-//       <Text>{title}</Text>
-//     </View>
-//   );
-// };
+
+
+// data={
+	
+//   "eventId": "5da58abe3417b9618f478ba4",
+  
+//   "createdBy": "5d8b0a75eca6e93fbddae325",
+    
+//                     "eventTasks" : [{
+//                           "tName": "Catering",
+
+//                           "description": "Look after catering services with upmost care",
+
+//                           "ownership": "5d8b7f59ff455232d8307258",
+
+//                           "budget": 12000,
+                          
+//                           "deadline":"2019-11-09T04:00:00.000Z"
+//                           },
+//                           {
+//                           "tName": "Decoration",
+
+//                           "description": "In charge for Decoration of dias and Rooms",
+
+//                           "ownership": "5d8b7f84ff455232d830725a",
+
+//                           "budget": 9000,
+                          
+//                           "deadline":"2019-11-10T04:00:00.000Z"
+//                           },
+//                           {
+//                           "tName": "Invitations and Posters",
+
+//                           "description": "Create Posters and Invitations",
+
+//                           "ownership": "5d8b7fa3ff455232d830725b",
+
+//                           "budget": 2000,
+                          
+//                           "deadline":"2019-11-09T04:00:00.000Z"
+//                           }
+//                           ]
+
+
+// }
+
+
 export default class Edittask extends Component {
   constructor(props) {
     super(props);

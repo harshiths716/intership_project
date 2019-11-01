@@ -10,7 +10,7 @@ import {organized_events,participated_events} from '../../../app/Actions/myevent
 import {connect} from 'react-redux'
 
 const numColumns = 2;
-var data_data
+var data_data=''
 class Myevents extends React.Component {
   state = {
     switchValue: false,
@@ -116,10 +116,9 @@ this.props.organized_events(obj)
     console.warn('inside enroll')
 
 this.props.participated_events(obj)
-    
   };
   noevents = () => {
-    if (this.state.dataResponse.result) {
+    if (this.props.organizedapi.result) {
       return (
         <View style={{ flex: 1 }}>
           <Text
@@ -163,7 +162,6 @@ try{
   }
 
   render() {
-  
     return (
       <View style={{ backgroundColor: "white" }}>
         <View

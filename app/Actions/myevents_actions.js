@@ -26,5 +26,5 @@ export function organized_events(val) {
 
   export function participated_events_done(val) {
     console.warn('inside acceptEvents');
-    return { type: PARTICIPATED_EVENT_DONE ,payload:val};
+    return { type:PARTICIPATED_EVENT_DONE,payload:val};
   }
