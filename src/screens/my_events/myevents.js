@@ -47,52 +47,13 @@ class Myevents extends React.Component {
 
   //////////////edit this for enrolled events
 
-  renderItem = ({ item, index }) => {
-    console.warn(item);
-    const { navigate } = this.props.navigation;
-    if (item.eventID) {
+  renderItem = ({item}) => {
+   
       return (
-        <View style={styles.bottomItem}>
+        <View style={{flex:1}}>
           <TouchableOpacity
             style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("eventalter", item);
-            }}
-          >
-            <Text
-              style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
-            >
-              {this.datetime(item.events.startTime)}
-            </Text>
-            <Text  numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.events.ename}
-            </Text>
-            <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.events.venue}
-            </Text>
-            <Text
-              numberOfLines={1}
-              style={{ color: "white", fontSize: 14, fontFamily: "Roboto" }}
-            >
-              {item.events.description}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.bottomItem}>
-          <TouchableOpacity
-            style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("eventalter", item);
-            }}
-          >
-            {/* <Text
-              style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
-            >
-              {this.datetime(item.startTime)}
-            </Text> */}
+            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}>
             <Text style={{ fontSize: 17, fontFamily: "Roboto" }}>
               {item.events.venue}
             </Text>
@@ -108,8 +69,8 @@ class Myevents extends React.Component {
           </TouchableOpacity>
         </View>
       );
-    }
-  };
+    
+  }
 
   _onSubmit = (obj) => {
 console.warn('inside on submit')
@@ -138,13 +99,17 @@ this.props.participated_events(obj)
         </View>
       );
     } else {
+     // console.log(this.props.organizedapi)
       return (
+        
         <FlatList
           // numColumns={3}
           data={this.props.organizedapi}
          // style={styles.container}
-          renderItem={this.renderItem}
-          numColumns={numColumns}
+         renderItem={(item)=>this.renderItem(item)}
+         //numColumns={numColumns}
+         keyExtractor={item => item._id}
+
         />
       );
     }
@@ -166,7 +131,6 @@ try{
   }
 
   render() {
- //    console.warn(this.props.organizedapi)
     return (
       <View style={{ backgroundColor: "white" }}>
         <View
@@ -290,11 +254,9 @@ const styles = StyleSheet.create({
     //  margin: 10,
   },
   bottomItemInner: {
-    // flex: 1,
-    backgroundColor: "#4796ae",
-    //  width:'50%',
-  //  height: "200%",
-    padding: 5,
-    borderRadius: 10,
+    backgroundColor: '#4796ae',
+    margin:10,
+    padding:10,
+    borderRadius: 7,
   }
 });

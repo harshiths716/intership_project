@@ -1,4 +1,4 @@
-var ip = 'http://fe55278f.ngrok.io';
+var ip = 'http://cad658e7.ngrok.io';
 
 export const fetchData = async () => {
   try {
