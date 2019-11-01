@@ -12,6 +12,8 @@ import TodoApp from '../Todo/TodoApp'
 import store from '../../../app/Reducers/index';
 import EventPlan2 from '../view_events/eventplan2'
 import Designation from '../view_events/invites'
+import Myeventinfo from '../view_events/Myeventinfo';
+import Upcomingeventinfo from '../view_events/Upcomingeventinfo';
 const Firststack = createAppContainer(
   createSwitchNavigator(
     {
@@ -22,8 +24,6 @@ const Firststack = createAppContainer(
     Organizer,
 Notification,
 Admin,
-Designation,
-    EventPlan2,  
    },
     {
       headerMode: 'none',

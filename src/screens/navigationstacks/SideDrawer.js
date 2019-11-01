@@ -7,6 +7,7 @@ import {bottomUser,bottomorganizer} from './bottomnav';
 import EventsAssigned from '../view_events/EventsAssigned'
 import PastEvents from '../view_events/PastEvents'
 import TodoApp from '../Todo/TodoApp'
+
 import Eventtaskview from '../view_events/eventtaskview'
 import Edittask from '../view_events/edittask'
 import Editsubtask from '../view_events/editsubtask'
@@ -14,6 +15,8 @@ import EventPlan2 from '../view_events/eventplan2'
 import Taskinfo from '../Todo/Task/Taskinfo'
 import Designation from '../view_events/invites'
 
+
+import Assignedeventinfo from '../view_events/Assignedeventinfo'
 class NavigationDrawerStructure extends Component {
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
@@ -59,6 +62,20 @@ const Events_Assigned = createStackNavigator({
             headerTintColor: '#fff',
         }),
     },
+
+
+    Assignedeventinfo: {
+        screen: Assignedeventinfo,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Home Screen',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#FF7F5B',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+
 });
 
 

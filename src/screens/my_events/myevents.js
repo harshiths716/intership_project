@@ -47,7 +47,7 @@ class Myevents extends React.Component {
 
   //////////////edit this for enrolled events
 
-  renderItem = ({ item, index }) => {
+  renderItem = (item) => {
     console.warn(item);
     const { navigate } = this.props.navigation;
     if (item.eventID) {
@@ -55,9 +55,7 @@ class Myevents extends React.Component {
         <View style={styles.bottomItem}>
           <TouchableOpacity
             style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("eventalter", item);
-            }}
+            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}
           >
             <Text
               style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
@@ -84,9 +82,7 @@ class Myevents extends React.Component {
         <View style={styles.bottomItem}>
           <TouchableOpacity
             style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("eventalter", item);
-            }}
+            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}
           >
             {/* <Text
               style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
@@ -166,7 +162,6 @@ try{
   }
 
   render() {
- //    console.warn(this.props.organizedapi)
     return (
       <View style={{ backgroundColor: "white" }}>
         <View
