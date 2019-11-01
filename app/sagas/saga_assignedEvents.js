@@ -41,9 +41,7 @@ function* getacceptApiData(actions) {
 function* getrejectApiData(actions) {
   // console.warn('inside getapidata',actions)
   try {
-  //  console.warn('i am inside saga')
 
-    // do api call
     const data = yield call(rejectEvents_API,actions.payload);
     // console.warn("data in saga assigned"+JSON.stringify(data))
     yield put(rejectEvents_done(data));

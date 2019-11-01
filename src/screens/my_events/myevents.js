@@ -10,7 +10,7 @@ import {organized_events,participated_events} from '../../../app/Actions/myevent
 import {connect} from 'react-redux'
 
 const numColumns = 2;
-var data_data
+var data_data=''
 class Myevents extends React.Component {
   state = {
     switchValue: false,
@@ -47,7 +47,7 @@ class Myevents extends React.Component {
 
   //////////////edit this for enrolled events
 
-  renderItem = ({ item, index }) => {
+  renderItem = (item) => {
     console.warn(item);
     const { navigate } = this.props.navigation;
     if (item.eventID) {
@@ -55,9 +55,7 @@ class Myevents extends React.Component {
         <View style={styles.bottomItem}>
           <TouchableOpacity
             style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("Upcomingeventinfo", item);
-            }}
+            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}
           >
             <Text
               style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
@@ -84,9 +82,7 @@ class Myevents extends React.Component {
         <View style={styles.bottomItem}>
           <TouchableOpacity
             style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("Upcomingeventinfo", item);
-            }}
+            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}
           >
             {/* <Text
               style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
@@ -120,10 +116,9 @@ this.props.organized_events(obj)
     console.warn('inside enroll')
 
 this.props.participated_events(obj)
-    
   };
   noevents = () => {
-    if (this.state.dataResponse.result) {
+    if (this.props.organizedapi.result) {
       return (
         <View style={{ flex: 1 }}>
           <Text
@@ -167,7 +162,6 @@ try{
   }
 
   render() {
-    // console.warn(this.props.organizedapi)
     return (
       <View style={{ backgroundColor: "white" }}>
         <View

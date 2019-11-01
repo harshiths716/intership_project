@@ -1,41 +1,58 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
+  View,
+  Text,
   StyleSheet,
   TouchableOpacity,
-  Text,
-  View,
+  Button,
+  KeyboardAvoidingView,
+  TextInput,
   FlatList,
-  TextInput,Button,KeyboardAvoidingView
+  ScrollView,
 } from 'react-native';
-import {Image} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import FloatingLabelInput from '../reuseablecomponents/Floatinput';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+// import AddTodo from '../containers/AddTodo'
+// import TodoList from '../components/TodoList';
+// import VisibleTodos from '../containers/VisibleTodos';
+import {connect} from 'react-redux';
+import {subtoggleTodo, addsubTodo} from '../../../app/Actions/Todo_actions';
+import {sendUserDetails} from '../../../app/Actions/create_event_action';
+import {
+  addbudget,
+  // adddeadline,
+  //adddesc,
+  addorganizer,
+  deletearray,
+} from '../../../app/Actions/taskinfo_actions';
 
-// Item = ({title}) => {
-//   return (
-//     <View>
-//       <Text>hai hello</Text>
-//       <Text>{title}</Text>
-//     </View>
-//   );
-// };
-export default class Editsubtask extends Component {
+var iddata = '';
+var count=''
+var data=''
+ export class Editsubtask extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      comment: '',
-      visible: false,
-      eventID: '',
-      flag: true,
-      // task_id: JSON.stringify(this.props.navigation.getParam('task_id', 'NO-ID')),
-      // task: JSON.stringify(this.props.navigation.getParam('task', 0)),
-      // subtask: JSON.stringify(this.props.navigation.getParam('subtask', 0)),
-      // eventname: JSON.stringify(this.props.navigation.getParam('eventname', 0)),
       data: this.props.navigation.state.params,
+      isStartTimePickerVisible: false,
+      text: '',
+      listHolder: '',
+      search: '',
+      idarray1:'',
+      StartTime: '',
+      desc: '',
+      budget: '',
+      deleting: 1,
+      show: false,
+      mode: 'date',
+      date: new Date(),
+      start: new Date(),
+      end: new Date(),
+      taskname:''
     };
   }
-
 
   showStartTimePicker = () => {
     this.setState({isStartTimePickerVisible: true});
@@ -51,35 +68,233 @@ export default class Editsubtask extends Component {
     this.hideStartTimePicker();
   };
 
+  async componentDidMount() {
+    try {
+      value = await AsyncStorage.getItem('userdata');
+      count = JSON.parse(value);
+    } catch (e) {
+      console.warn('async error');
+      console.warn(e);
+    }
+    
+    this.props.sendUserDetails(count);
+   console.warn('inside componetdid mount');
+    //console.warn('outside map******************');
+    this.props.data.map(item => {
+    //  console.warn('map***************');
+      if (this.state.data.id == item.id && item.flag !== false) {
+        // console.warn('inside shit>>>',item)
 
+        if (item === null) {
+        //  console.warn('null');
+        } else {
+       //   console.warn('hiiiiiiiiiiiiiiiiii', item.ownership);
+          this.setState({
+            desc: item.description,
+            budget: item.Budget,
+            StartTime: item.deadline,
+            idarray1: item.ownership,
+          });
+
+          // item.id
+
+          //    this.setState({deleting:0})
+          this.props.deletearray(item.id);
+        }
+      }
+    });
+    this.setState({taskname:this.state.data.text})
+
+  }
+
+  list(text) {
+    const newData = this.props.userdetails.filter(function(item) {
+      const itemData = item.email
+        .substring(0, item.email.indexOf('@'))
+        .toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    this.setState({listHolder: newData, search: text});
+    if (text == '') {
+      this.setState({listHolder: ''});
+    }
+  }
+
+  addname = (id, email) => {
+    // if(iddata.len>1){
+    //   alert('only one ownership')
+    // }else{
+    iddata = id;
+    this.setState({idarray1: email});
+  //  console.warn('new', this.state.idarray1);
+  };
+  renderItem = ({item}) => {
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.bottomItem}>
+          <TouchableOpacity
+            style={styles.bottomItemInner}
+            onPress={() => this.addname(item._id, item.email)}>
+            <Text
+              numberOfLines={1}
+              style={{fontSize: 17, fontFamily: 'Roboto'}}>
+              {item.name}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  };
+
+  componentWillUnmount() {
+    this.sendtask();
+    console.warn('unmounting');
+  }
+
+  renderItem1 = ({item}) => {
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.bottomItem}>
+          <TouchableOpacity
+            style={styles.bottomItemInner}
+            //  onPress={() => this.addname(item._id, item.email)}
+          >
+            <Text
+              numberOfLines={1}
+              style={{fontSize: 17, fontFamily: 'Roboto'}}>
+              {item.email}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  };
+
+  addsubtask = () => {
+    return (
+      <View style={{flexDirection: 'row', marginHorizontal: 20}}>
+        <TextInput
+          onChangeText={text => this.setState({text})}
+          value={this.state.text}
+          placeholder="Eg. Create New task"
+          style={{
+            borderWidth: 1,
+            borderColor: '#f2f2e1',
+            backgroundColor: '#eaeaea',
+            height: 50,
+            flex: 1,
+            padding: 5,
+          }}
+        />
+        <TouchableOpacity
+          style={{justifyContent: 'center'}}
+          onPress={() =>
+            this.props.addsubTodo(this.state.text) && this.setState({text: ''})
+          }>
+          <Text style={{fontSize: 35}}>+</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  setDate = (event, date, v) => {
+   // console.warn(event);
+    if (event.type == 'set') {
+      if (this.state.mode === 'time') {
+    //    console.warn('state',this.state[v])
+        let dat = new Date(
+          this.state[v].toISOString().substr(0, 11) +
+            date.toISOString().substr(11),
+        );
+    //    console.warn('nnnnnnnnnnnnn',dat);
+        this.setState(
+          {
+            [v]: dat,
+            mode: 'date',
+            show: !this.state.show,
+          },
+          () => console.warn(v + ' ' + this.state[v]),
+        );
+      } else {
+        console.warn('Selected the date' + date + '');
+        this.setState({
+          [v]: date,
+          mode: 'time',
+        });
+      }
+    } else {
+      this.setState({
+        show: false,
+      });
+    }
+  };
+
+  _show = variable => {
+    this.setState({
+      show: !this.state.show,
+      type: variable,
+    });
+  };
+
+  sendtask = () => {
+     data = {
+       token:count.token,
+      id: this.state.data.id,
+      eventId:this.state.data.eventId ?this.state.data.eventId :this.props.createEventid.eventId,
+      completed: this.state.data.completed,
+      ownership: iddata,
+      description: this.state.desc,
+      tName: this.state.data.eventId ?this.state.taskname:this.state.data.text,
+      Budget: this.state.budget,
+      deadline: this.state.end,
+      createdBy:count.UserID,
+      flag: true,
+    };
+  //  console.warn('inside unmounting....');
+    this.props.addorganizer(data);
+  };
+
+
+apihit=()=>{
+  this.sendtask()
+  this.props.add_subtask_api(data)
+}
   render() {
-   // console.warn(this.state.data.subtask);
+    const {show, mode, date} = this.state;
+// if(this.props.createEventid!=undefined){
+//     console.warn('state data',this.state.data,'props data',this.props.createEventid.eventId);
+//     }
+    console.warn('subtask data',this.props.subtasksent)
+console.warn('inside subtask')
     return (
       <View style={{flex: 1, padding: '5%'}}>
+         
         <KeyboardAvoidingView behavior="padding">
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 24}} numberOfLines={1}>
-              {/* Task Name:{this.state.data.text} */}
-            </Text>
-          </View>
-
           <TouchableOpacity
             style={{backgroundColor: 'black', width: '20%', height: '10%'}}
-            onPress={() => this.sendtask()}>
+            onPress={() => this.apihit()}>
             <Text style={{color: 'white', alignSelf: 'center', fontSize: 24}}>
               Done
             </Text>
           </TouchableOpacity>
 
-          {this.state.idarray != null &&
-            this.state.idarray.map(item => (
-              <Text key={item._id} style={{color: 'blue'}}>
-                {item.email}
-              </Text>
-            ))}
+            <FloatingLabelInput
+              label="Subtask Name"
+             // value={this.state.taskname}
+              defaultValue={this.state.data.text}
+              onChangeText={text => {
+               this.setState({taskname:text})
+              }}
+            />
+         
+
+         
+
+          <Text style={{color: 'blue'}}>{this.state.idarray1}</Text>
 
           <FloatingLabelInput
-            label="Add organizers"
+            label="Add ownership"
             value={this.state.search}
             onChangeText={text => {
               this.list(text);
@@ -89,15 +304,25 @@ export default class Editsubtask extends Component {
           <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
           {/* </View> */}
 
-          <DateTimePicker
-            mode="time"
-            // is24Hour={true}
-            isVisible={this.state.isStartTimePickerVisible}
-            onConfirm={this.handleStartTimePicked}
-            onCancel={this.hideStartTimePicker}
+          {show && (
+            <DateTimePicker
+              value={date}
+              mode={mode}
+              is24Hour={false}
+              display="default"
+              minimumDate={date}
+              onChange={(e, d) => this.setDate(e, d, this.state.type)}
+            />
+          )}
+          {/* <Button
+            title="Please select start time"
+            onPress={() => this._show('start')}
+          /> */}
+
+          <Button
+            title="Please select end time"
+            onPress={() => this._show('end')}
           />
-          <Text> {this.state.StartTime}</Text>
-          <Button title=" Select Deadline" onPress={this.showStartTimePicker} />
 
           <FloatingLabelInput
             label={'Add Description'}
@@ -105,7 +330,6 @@ export default class Editsubtask extends Component {
             onChangeText={text => this.setState({desc: text})}
           />
 
-        
           {
             //   console.warn('lala',this.state.data)
             /* // {this.addsubtask()}
@@ -116,61 +340,48 @@ export default class Editsubtask extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-  },
-  button1: {
-    alignItems: 'center',
-    backgroundColor: 'red',
-  },
-  scrollView: {
-    // backgroundColor: 'pink',
-    marginHorizontal: 20,
-  },
-  count: {flex: 3},
-  stretch: {
-    width: 430,
-    height: 300,
-    resizeMode: 'center',
-  },
-
-  stretch: {
-    width: 430,
-    height: 200,
-    resizeMode: 'stretch',
-  },
-
-  container: {
-    flex: 1,
-    // marginVertical: 20
-  },
-
-  count: {
-    flexDirection: 'column-reverse',
-  },
-  bottomItem: {
-    width: '100%',
-    padding: '2%',
-  },
-  bottomItemInner: {
-    backgroundColor: '#4796ae',
-    padding: 5,
-    borderRadius: 7,
-  },
-  ScrollView: {
-    backgroundColor: 'red',
-    marginHorizontal: 30,
-  },
-
-  texttask: {
-    fontSize: 32,
-    fontFamily: 'Roboto',
-    fontWeight: 'bold',
-  },
-  imagee: {
-    flex: 1,
-    flexDirection: 'row',
+  input: {
+    height: 44,
+    fontSize: 20,
+    color: '#000',
+    borderBottomWidth: 1,
+    borderBottomColor: '#555',
   },
 });
+
+
+import {add_subtask_api} from '../../../app/Actions/Task_actions'
+const mapStateToProps = state => ({
+  subtodos: state.subtodos,
+subtasksent:state.Task.subtasksent,
+  userdetails: state.CreateEvent.userdetails,
+  createEventid:state.CreateEvent.createEventid,
+
+  //   description:state.Taskinfo_reducer.description,
+  //   tName:state.Taskinfo_reducer.tName,
+  //   ownership:state.Taskinfo_reducer.ownership,
+  //   Budget:state.Taskinfo_reducer.Budget,
+  //   deadline:state.Taskinfo_reducer.deadline,
+  data: state.Taskinfo_reducer,
+  createEventid: state.CreateEvent.createEventid,
+  // navigateprops:this.props.navigateprops
+});
+
+const mapDispatchToProps = dispatch => ({
+  subtoggleTodo: id => dispatch(subtoggleTodo(id)),
+  addsubTodo: text => dispatch(addsubTodo(text)),
+  sendUserDetails: data => dispatch(sendUserDetails(data)),
+  addorganizer: data => dispatch(addorganizer(data)),
+  // adddesc: data => dispatch(adddesc(data)),
+  add_subtask_api:data=>dispatch(add_subtask_api(data)),
+  // adddeadline: data => dispatch(adddeadline(data)),
+  deletearray: data => dispatch(deletearray(data)),
+});
+console.log('inside VisibleTodos');
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Editsubtask);

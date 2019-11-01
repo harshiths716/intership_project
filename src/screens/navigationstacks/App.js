@@ -10,10 +10,10 @@ import Upcoming from '../view_events/Upcoming'
 import {Provider} from 'react-redux';
 import TodoApp from '../Todo/TodoApp'
 import store from '../../../app/Reducers/index';
-import EventPlan2 from '../view_events/eventplan2';
+import EventPlan2 from '../view_events/eventplan2'
+import Designation from '../view_events/invites'
 import Myeventinfo from '../view_events/Myeventinfo';
-import Upcomingeventinfo from '../view_events/Upcomingeventinfo'
-
+import Upcomingeventinfo from '../view_events/Upcomingeventinfo';
 const Firststack = createAppContainer(
   createSwitchNavigator(
     {
@@ -24,10 +24,6 @@ const Firststack = createAppContainer(
     Organizer,
 Notification,
 Admin,
-    EventPlan2
-   // Upcomingeventinfo
-   // Editsubtask
-    //GoogleButton   
    },
     {
       headerMode: 'none',

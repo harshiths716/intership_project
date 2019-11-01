@@ -136,7 +136,7 @@ if(this.props.username && this.props.password){
 }
 
 else{
-  alert('fiels not field')
+  alert('fiels not filled')
 }
 
 

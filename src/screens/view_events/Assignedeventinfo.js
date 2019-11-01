@@ -141,15 +141,7 @@ constructor(props) {
       </ScrollView>
     );
   };
-  upevents = () => {
-        
-      return (
-        <FlatList
-          data={data}
-          renderItem={this.renderItem}
-        />
-      );
-    };
+ 
   render() {
 
 
@@ -162,7 +154,7 @@ constructor(props) {
               source={require('../resources/music-event-flyer-template-design-b3623b78ff92c7f3c17e76815c52cc43.jpg')}
             />
           </View>
-          {this.upevents()}
+          {this.renderItem()}
        
         </View>
         <TouchableOpacity>

@@ -27,9 +27,10 @@ import {
   sendUserDetails,
   create_event,
 } from '../../../app/Actions/create_event_action';
+import { State } from 'react-native-gesture-handler';
 
-iddata = [];
-idarray = [];
+var iddata = [];
+var idarray = [];
 class Createvent extends Component {
   constructor(props) {
     super(props);
@@ -388,7 +389,7 @@ idarray.push(this.state.userdata.UserID)
   };
 
   render() {
-    // console.warn(this.props.userdetails);
+    console.warn('iisisiis',this.props.createEventid);
     const {show, mode, date} = this.state;
     return (
       <View style={{flex: 1, padding: 30, backgroundColor: '#f5fcff'}}>
@@ -492,6 +493,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   userdetails: state.CreateEvent.userdetails,
+  createEventid:state.CreateEvent.createEventid
 });
 
 const mapDispatchToProps = dispatch => ({
