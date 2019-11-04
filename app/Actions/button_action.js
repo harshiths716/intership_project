@@ -26,21 +26,47 @@ export const CANCEL = 'CANCEL';
 export const CANCEL_DONE = 'CANCEL_DONE';
 
 export function cancel(item) {
-  return {type: PUBLISH, payload: item};
+  return {type: CANCEL, payload: item};
 }
 
 export function cancel_done(item) {
-  return {type: PUBLISH_DONE, payload: item};
+  return {type: CANCEL_DONE, payload: item};
 }
 
 
-export const CANCEL = 'CANCEL';
-export const CANCEL_DONE = 'CANCEL_DONE';
+export const INVITE = 'INVITE';
+export const INVITE_DONE = 'INVITE_DONE';
 
-export function cancel(item) {
-  return {type: PUBLISH, payload: item};
+export function invite(item) {
+  return {type: INVITE, payload: item};
 }
 
-export function cancel_done(item) {
-  return {type: PUBLISH_DONE, payload: item};
+export function invite_done(item) {
+  return {type: INVITE_DONE, payload: item};
+}
+
+
+
+export const JOIN = 'JOIN';
+export const JOIN_DONE = 'JOIN_DONE';
+
+export function join(item) {
+  return {type: JOIN, payload: item};
+}
+
+export function join_done(item) {
+  return {type: JOIN_DONE, payload: item};
+}
+
+
+
+export const WITHDRAW = 'WITHDRAW';
+export const WITHDRAW_DONE = 'WITHDRAW_DONE';
+
+export function withdraw(item) {
+  return {type: WITHDRAW, payload: item};
+}
+
+export function withdraw_done(item) {
+  return {type: WITHDRAW_DONE, payload: item};
 }
