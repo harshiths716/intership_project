@@ -31,6 +31,7 @@ import { State } from 'react-native-gesture-handler';
 
 var iddata = [];
 var idarray = [];
+var count =''
 class Createvent extends Component {
   constructor(props) {
     super(props);
@@ -68,8 +69,8 @@ class Createvent extends Component {
       show: false,
       mode: 'date',
       date: new Date(),
-      start: new Date(),
-      end: new Date(),
+      start:new Date('2020-06-12T14:42:42'),
+      end: new Date('2020-06-12T14:42:42'),
     };
   }
 
@@ -132,7 +133,7 @@ class Createvent extends Component {
           this.state[v].toISOString().substr(0, 11) +
             date.toISOString().substr(11),
         );
-        console.log(dat);
+        console.log('dat',dat);
         this.setState(
           {
             [v]: dat,
@@ -177,13 +178,11 @@ class Createvent extends Component {
 
   list(text) {
     const newData = this.props.userdetails.filter(function(item) {
-      const itemData = item.email
-        .substring(0, item.email.indexOf('@'))
-        .toUpperCase();
+      const itemData = item.email.substring(0, item.email.indexOf('@')).toUpperCase();
       const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
+      return itemData.indexOf(textData) > -1 && item.desgs.isOrganiser ===true;
     });
-    this.setState({listHolder: newData, search: text});
+    this.setState({listHolder:newData,search:text});
     if (text == '') {
       this.setState({listHolder: ''});
     }
@@ -369,7 +368,7 @@ class Createvent extends Component {
   };
 
   apihit = () => {
-idarray.push(this.state.userdata.UserID)
+idarray.unshift(this.state.userdata.UserID)
     body = {
       eName: this.state.ename,
       venue: this.state.selectedvenue,
@@ -389,7 +388,7 @@ idarray.push(this.state.userdata.UserID)
   };
 
   render() {
-    console.warn('iisisiis',this.props.createEventid);
+    console.warn('iisisiis',this.props.userdetails);
     const {show, mode, date} = this.state;
     return (
       <View style={{flex: 1, padding: 30, backgroundColor: '#f5fcff'}}>
@@ -445,17 +444,19 @@ idarray.push(this.state.userdata.UserID)
               onChange={(e, d) => this.setDate(e, d, this.state.type)}
             />
           )}
+         {/* <Text>{this.state.start!=typeof([]) ? this.state.start:null }</Text>  */}
           <Button
             title="Please select start time"
             onPress={() => this._show('start')}
           />
+         {/* <Text>{this.state.end }</Text>  */}
 
           <Button
             title="Please select end time"
             onPress={() => this._show('end')}
           />
 
-          <Button title="choose poster" onPress={this.handleposter} />
+          {/* <Button title="choose poster" onPress={this.handleposter} /> */}
 
           <TouchableOpacity
             style={{

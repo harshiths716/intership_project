@@ -17,57 +17,7 @@ import {Switch, Image} from 'react-native';
 //import LogoTitle from "./headerlogo";
 import {connect} from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler';
-var data = [
-  {
-    task_id: 1,
-    task: 'Jump',
-    subtask: [
-      {
-        subtask_id: 1,
-        subtask1: 'jump22',
-      },
-      {
-        subtask_id: 2,
-        subtask1: 'jump',
-      },
-    ],
-  },
-  {
-    task_id: 2,
-    task: 'Run',
-
-    subtask: [
-      {
-        subtask_id: 1,
-        subtask1: 'run ',
-      },
-      {
-        subtask_id: 2,
-        subtask1: 'run22 ',
-      },
-    ],
-  },
-];
-
-data = {
-  event: 'hhh',
-  eventmetadata: 'asdasd',
-
-  task: [
-    {
-      taskId: 'asda',
-      taskname: 'asdsad  metadata',
-      subtask: [
-        {
-          asd: 'adhra meta data',
-        },
-      ],
-    },
-  ],
-};
-
 var count = '';
-
 class EventPlan2 extends Component {
   constructor(props) {
     super(props);
@@ -92,8 +42,7 @@ class EventPlan2 extends Component {
 
     this.props.get_task_api(data_data);
   }
-
-  renderitem2 = ({item}) => {
+ renderitem2 = ({item}) => {
     return (
       <ScrollView>
         <View style={{flex: 1, flexDirection: 'row'}}>

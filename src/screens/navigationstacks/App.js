@@ -27,7 +27,7 @@ Admin,
    },
     {
       headerMode: 'none',
-      initialRouteName: 'Organizer'
+      initialRouteName: 'Loginsc'
     }
   )
 );

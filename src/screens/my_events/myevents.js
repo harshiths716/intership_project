@@ -47,48 +47,13 @@ class Myevents extends React.Component {
 
   //////////////edit this for enrolled events
 
-  renderItem = (item) => {
-    console.warn(item);
-    const { navigate } = this.props.navigation;
-    if (item.eventID) {
+  renderItem = ({item}) => {
+   
       return (
-        <View style={styles.bottomItem}>
+        <View style={{flex:1}}>
           <TouchableOpacity
             style={styles.bottomItemInner}
-            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}
-          >
-            <Text
-              style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
-            >
-              {this.datetime(item.events.startTime)}
-            </Text>
-            <Text  numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.events.ename}
-            </Text>
-            <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.events.venue}
-            </Text>
-            <Text
-              numberOfLines={1}
-              style={{ color: "white", fontSize: 14, fontFamily: "Roboto" }}
-            >
-              {item.events.description}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.bottomItem}>
-          <TouchableOpacity
-            style={styles.bottomItemInner}
-            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}
-          >
-            {/* <Text
-              style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
-            >
-              {this.datetime(item.startTime)}
-            </Text> */}
+            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}>
             <Text style={{ fontSize: 17, fontFamily: "Roboto" }}>
               {item.events.venue}
             </Text>
@@ -104,8 +69,8 @@ class Myevents extends React.Component {
           </TouchableOpacity>
         </View>
       );
-    }
-  };
+    
+  }
 
   _onSubmit = (obj) => {
 console.warn('inside on submit')
@@ -134,13 +99,17 @@ this.props.participated_events(obj)
         </View>
       );
     } else {
+     // console.log(this.props.organizedapi)
       return (
+        
         <FlatList
           // numColumns={3}
           data={this.props.organizedapi}
          // style={styles.container}
-          renderItem={this.renderItem}
-          numColumns={numColumns}
+         renderItem={(item)=>this.renderItem(item)}
+         //numColumns={numColumns}
+         keyExtractor={item => item._id}
+
         />
       );
     }
@@ -215,81 +184,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 20
   },
-  //   item: {
-  //     backgroundColor: '#4D243D',
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //     flex: 1,
-  //     margin: 1,
-  //     height: Dimensions.get('window').width / numColumns, // approximate a square
-  //   },
-  //   itemInvisible: {
-  //     backgroundColor: 'transparent',
-  //   },
-  //   itemText: {
-  //     color: '#fff',
-  //   },
-  //   container: {
-  //     // width: "93%",
 
-  //    },
-  //    flatlist: {
-  //    //  flexWrap: 'wrap',
-  //   // flexDirection:'column'
-  //    },
-  //    content: {
-  //    // alignItems: 'flex-end'
-  //    },
-  //   top: {
-  //     //height: "45%",
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //     backgroundColor: "green"
-  //   },
-  //   profileimage: {
-  //     width: 140,
-  //     height: 140,
-  //     borderRadius: 100,
-  //     borderWidth: 4,
-  //     borderColor: "black",
-  //     backgroundColor: "yellow"
-  //   },
-  //   center: {
-  //    // height: "10%",
-  //     backgroundColor: "#7fbcac"
-  //   },
-  //    bottom: {
-  //      //height: "100%",
-  //    //  alignSelf:'center',
-  //      //backgroundColor: "#7fbcac",
-  //     // flexDirection: "row",
-  //      //flexWrap: "wrap",
-  //     // padding: 5,
-
-  //     // margin:5
-  //    },
   bottomItem: {
     width: "47%",
     height: "85%",
-    //padding: 5,
-    // borderWidth:1,
+
     margin: 5
 
-    //width: "93%",
-    // backgroundColor: 'rgba(0,0,0,0.5)',
-    //height:'60%',
-    //padding:80,
-    //  alignSelf: "center",
-    //  borderRadius: 40,
-    // marginTop: 20,
-    //  margin: 10,
   },
   bottomItemInner: {
-    // flex: 1,
-    backgroundColor: "#4796ae",
-    //  width:'50%',
-  //  height: "200%",
-    padding: 5,
-    borderRadius: 10,
+    backgroundColor: '#4796ae',
+    margin:10,
+    padding:10,
+    borderRadius: 7,
   }
 });

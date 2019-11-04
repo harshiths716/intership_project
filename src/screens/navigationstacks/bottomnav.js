@@ -24,7 +24,7 @@ import Taskinfo from '../Todo/Task/Taskinfo'
 import TodoList from '../Todo/components/TodoList';
 import EventPlan2 from '../view_events/eventplan2'
 import Edittask from '../view_events/edittask'
-import Editsubtask from '../view_events/editsubtask';
+import Editsubtask from '../view_events/editsubtask'
 import Upcomingeventinfo from '../view_events/Upcomingeventinfo';
 import Myeventinfo from '../view_events/Myeventinfo'
 export const Eventmy = createStackNavigator(
@@ -34,7 +34,7 @@ export const Eventmy = createStackNavigator(
 
 
 
-    Upcomingeventinfo :{screen:Myeventinfo}
+    Myeventinfo:{screen:Myeventinfo}
     // eventalter: {screen: Eventalter},
     //  wait:{screen:Waiting},
     // attend: {screen: Attendence},
@@ -44,7 +44,6 @@ export const Eventmy = createStackNavigator(
     headerMode: 'none',
   },
 );
-
 
 
 
@@ -59,15 +58,7 @@ export const Upcomming_stack = createStackNavigator(
   },
 );
 
-// export const myevent_stack = createStackNavigator(
-//   {
-//     Eventmy: {screen: Eventmy},
-//     
-//   },
-//   {
-//     headerMode: 'none',
-//   },
-// );
+
 
 export const bottomUser = createBottomTabNavigator(
   {

@@ -70,6 +70,7 @@ class Upcoming extends React.Component {
 
 
     return (
+
       <ScrollView style={styles.container}
       >
         <View style={styles.bottomItem}>
@@ -118,6 +119,7 @@ class Upcoming extends React.Component {
       );
     } else {
       return (
+
         <FlatList data={this.props.upcoming.data} renderItem={this.renderItem} />
       );
     }
@@ -170,8 +172,9 @@ class Upcoming extends React.Component {
 
           <CountDown
             style={styles.count}
+
             until={this.props.upcoming.timediff}
-            onFinish={() => alert('finished')}
+           // onFinish={() => alert('finished')}
             onPress={() => alert('hello')}
             size={30}
           />

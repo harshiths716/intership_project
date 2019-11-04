@@ -45,6 +45,7 @@ export default class Eventinfo extends Component {
     }
   };
 
+
   twotypes = (item) => {
     if (this.state.item) {
       return (
@@ -56,6 +57,7 @@ export default class Eventinfo extends Component {
             style={{ fontSize: 40, fontFamily: "Roboto", paddingLeft: "5%", fontWeight: "bold" }}
           >
             {" "}
+
             {this.state.item.eName}
           </Text>
           <Text
@@ -84,11 +86,13 @@ export default class Eventinfo extends Component {
 
             startime:    {this.state.item.startTime}
           </Text>
+
           </TouchableOpacity>
         </View>
       );
     }
   }
+
 
 
 

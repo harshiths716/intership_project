@@ -73,6 +73,7 @@ class EventsAssigned extends Component {
           <TouchableOpacity //key={item.events._id}
             style={styles.bottomItemInner}
             onPress={() => {
+
               navigate('Assignedeventinfo', item);
             }}>
             <Text

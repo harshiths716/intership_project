@@ -1,6 +1,6 @@
 import React from 'react';
 //import Apicall from "../../networking/apicall";
-import OfflineNotice from '../reuseablecomponents/error'
+import OfflineNotice from '../reuseablecomponents/error';
 // import {sign_in} from '../../../app/Actions/login-actions';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -20,33 +20,25 @@ import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 
 import {connect} from 'react-redux';
 
-
-
 class SplashScreen extends React.Component {
   render() {
     const viewStyles = [
-    //  styles.container,
-      { backgroundColor: 'orange' }
+      //  styles.container,
+      {backgroundColor: 'orange'},
     ];
     const textStyles = {
       color: 'white',
       fontSize: 40,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
     };
 
     return (
       <View style={viewStyles}>
-        <Text style={textStyles}>
-          Splash Screen
-        </Text>
+        <Text style={textStyles}>Splash Screen</Text>
       </View>
     );
   }
 }
-
-
-
-
 
 class Loginsc extends React.Component {
   constructor(props) {
@@ -93,51 +85,47 @@ class Loginsc extends React.Component {
       console.warn('async error');
     }
 
-if(this.props.userdata1.success === false){
-  alert('wrong credetials')
-}
-
-    if (this.props.userdata1.success === true) {
-      if (this.props.userdata1.isOrganiser === true) {
-                if(this.props.userdata1.isAdmin === false)
-
-        this.props.navigation.navigate('Organizer');
-      }
+    if (this.props.userdata1.success === false) {
+      alert('wrong credetials');
     }
 
-
+    if (this.props.userdata1.success === true) { 
+      if (this.props.userdata1.isOrganiser === true) {
+        if (this.props.userdata1.isAdmin === false)
+          this.props.navigation.navigate('Organizer');
+      }
+    }
 
     if (this.props.userdata1.success === true) {
       if (this.props.userdata1.isOrganiser === false) {
-        if(this.props.userdata1.isAdmin === false )
-        this.props.navigation.navigate('User');
+        if (this.props.userdata1.isAdmin === false)
+          this.props.navigation.navigate('User');
       }
     }
 
-
- if (this.props.userdata1.success === true) {
+    if (this.props.userdata1.success === true) {
       if (this.props.userdata1.isOrganiser === true) {
-        if(this.props.userdata1.isAdmin === true){
-        console.warn('admin')
-        this.props.navigation.navigate('Admin');}
+        if (this.props.userdata1.isAdmin === true) {
+          console.warn('admin');
+          this.props.navigation.navigate('Admin');
+        }
       }
     }
-
-
   }
 
-  handleSubmit(obj) {
+  async handleSubmit(obj) {
     // var endpoint='/users/authenticate'
     // var method = ''
 
-if(this.props.username && this.props.password){
-  this.props.sign_in(obj);
+    if (this.props.username && this.props.password) {
+    await  this.props.sign_in(obj);
+    } else {
+      alert('fiels not filled');
+    }
 
-}
 
-else{
-  alert('fiels not filled')
-}
+  
+
 
 
   }
@@ -147,10 +135,9 @@ else{
 
     return (
       <View style={styles.container}>
-                <OfflineNotice/>
+        <OfflineNotice />
 
         <ScrollView>
-
           <View style={{flex: 1}}>
             <Image
               source={require('../resources/logo2.png')}
