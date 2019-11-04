@@ -24,7 +24,7 @@ class AddTodo extends Component {
   };
 
   render() {
-    //   console.log('inside AddTodo')
+
 
     return (
       <View style={{flexDirection: 'row', marginHorizontal: 20}}>

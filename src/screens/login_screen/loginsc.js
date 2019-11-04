@@ -82,7 +82,7 @@ class Loginsc extends React.Component {
         JSON.stringify(this.props.userdata1),
       );
     } catch (e) {
-      console.warn('async error');
+    
     }
 
     if (this.props.userdata1.success === false) {
@@ -106,7 +106,7 @@ class Loginsc extends React.Component {
     if (this.props.userdata1.success === true) {
       if (this.props.userdata1.isOrganiser === true) {
         if (this.props.userdata1.isAdmin === true) {
-          console.warn('admin');
+          
           this.props.navigation.navigate('Admin');
         }
       }

@@ -144,7 +144,7 @@ constructor(props) {
   
   render() {
 
-    console.log('data',this.state.data)
+   
     return (
       <ScrollView style={styles.scrollView}>
         <View style={{backgroundColor: 'white'}}>

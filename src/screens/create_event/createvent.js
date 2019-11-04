@@ -126,14 +126,13 @@ class Createvent extends Component {
   }
 
   setDate = (event, date, v) => {
-    console.log(event);
     if (event.type == 'set') {
       if (this.state.mode === 'time') {
         let dat = new Date(
           this.state[v].toISOString().substr(0, 11) +
             date.toISOString().substr(11),
         );
-        console.log('dat',dat);
+      
         this.setState(
           {
             [v]: dat,
@@ -143,7 +142,7 @@ class Createvent extends Component {
           () => console.log(v + ' ' + this.state[v]),
         );
       } else {
-        console.log('Selected the date' + date + '');
+     
         this.setState({
           [v]: date,
           mode: 'time',
@@ -166,11 +165,10 @@ class Createvent extends Component {
     try {
       value = await AsyncStorage.getItem('userdata');
       count = JSON.parse(value);
-      console.warn(count);
+   
       this.setState({userdata: count});
     } catch (e) {
-      console.warn('async error');
-      console.warn(e);
+  
     }
 
     this.props.sendUserDetails(count);
@@ -314,9 +312,9 @@ class Createvent extends Component {
       },
       response => {
         if (response.didCancel) {
-          console.warn('Really ??');
+       
         } else if (response.error) {
-          console.warn(response.error);
+      
         } else {
           this.setState({});
         }
@@ -328,7 +326,7 @@ class Createvent extends Component {
     iddata.push({id: id, email: email});
     idarray.push(id);
     this.setState({idarray: iddata});
-    console.warn('new', this.state.idarray);
+
   };
   renderItem = ({item}) => {
     return (
@@ -388,7 +386,7 @@ idarray.unshift(this.state.userdata.UserID)
   };
 
   render() {
-    console.warn('iisisiis',this.props.userdetails);
+
     const {show, mode, date} = this.state;
     return (
       <View style={{flex: 1, padding: 30, backgroundColor: '#f5fcff'}}>

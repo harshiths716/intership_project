@@ -73,22 +73,19 @@ var data=''
       value = await AsyncStorage.getItem('userdata');
       count = JSON.parse(value);
     } catch (e) {
-      console.warn('async error');
-      console.warn(e);
+    
     }
     
     this.props.sendUserDetails(count);
-   console.warn('inside componetdid mount');
-    //console.warn('outside map******************');
+  
     this.props.data.map(item => {
-    //  console.warn('map***************');
+ 
       if (this.state.data.id == item.id && item.flag !== false) {
-        // console.warn('inside shit>>>',item)
-
+     
         if (item === null) {
-        //  console.warn('null');
+    
         } else {
-       //   console.warn('hiiiiiiiiiiiiiiiiii', item.ownership);
+    
           this.setState({
             desc: item.description,
             budget: item.Budget,
@@ -126,7 +123,7 @@ var data=''
     // }else{
     iddata = id;
     this.setState({idarray1: email});
-  //  console.warn('new', this.state.idarray1);
+  
   };
   renderItem = ({item}) => {
     return (
@@ -148,7 +145,7 @@ var data=''
 
   componentWillUnmount() {
     this.sendtask();
-    console.warn('unmounting');
+
   }
 
   renderItem1 = ({item}) => {
@@ -198,15 +195,15 @@ var data=''
   };
 
   setDate = (event, date, v) => {
-   // console.warn(event);
+
     if (event.type == 'set') {
       if (this.state.mode === 'time') {
-    //    console.warn('state',this.state[v])
+
         let dat = new Date(
           this.state[v].toISOString().substr(0, 11) +
             date.toISOString().substr(11),
         );
-    //    console.warn('nnnnnnnnnnnnn',dat);
+
         this.setState(
           {
             [v]: dat,
@@ -216,7 +213,7 @@ var data=''
           () => console.warn(v + ' ' + this.state[v]),
         );
       } else {
-        console.warn('Selected the date' + date + '');
+  
         this.setState({
           [v]: date,
           mode: 'time',
@@ -250,7 +247,7 @@ var data=''
       createdBy:count.UserID,
       flag: true,
     };
-  //  console.warn('inside unmounting....');
+ 
     this.props.addorganizer(data);
   };
 
@@ -261,10 +258,7 @@ apihit=()=>{
 }
   render() {
     const {show, mode, date} = this.state;
-// if(this.props.createEventid!=undefined){
-//     console.warn('state data',this.state.data,'props data',this.props.createEventid.eventId);
-//     }
-//     console.warn('state data',this.state.data)
+
     return (
       <View style={{flex: 1, padding: '5%'}}>
          
@@ -382,7 +376,7 @@ const mapDispatchToProps = dispatch => ({
   // adddeadline: data => dispatch(adddeadline(data)),
   deletearray: data => dispatch(deletearray(data)),
 });
-console.log('inside VisibleTodos');
+
 
 export default connect(
   mapStateToProps,

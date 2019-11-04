@@ -108,8 +108,7 @@ class Eventtaskview extends React.Component {
     value = await AsyncStorage.getItem('userdata');
     count = JSON.parse(value);
       } catch (e) {
-        console.warn('async error')
-        console.warn(e)
+       
       }
      data_data = {token: count.token};
     this.props.send_accepted_task_events(data_data);

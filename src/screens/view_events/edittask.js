@@ -92,7 +92,7 @@ export default class Edittask extends Component {
 
 
   render() {
-  // console.warn(this.state.data.subtask);
+  
     return (
       <View style={{flex: 1, padding: '5%'}}>
         <KeyboardAvoidingView behavior="padding">
@@ -150,9 +150,7 @@ export default class Edittask extends Component {
             onChangeText={text => this.setState({budget: text})}
           />
           {
-            //   console.warn('lala',this.state.data)
-            /* // {this.addsubtask()}
-// {this.subtask()} */
+            
           }
         </KeyboardAvoidingView>
       </View>

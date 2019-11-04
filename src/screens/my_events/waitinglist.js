@@ -100,7 +100,7 @@ return  this.state.dataResponse.map((val,index) => {
 });
   }
   render() {
-    console.warn('waitinglist',this.state.item )
+ 
 
     if(this.state.dataResponse.length==0)
     {

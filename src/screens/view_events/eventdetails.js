@@ -49,7 +49,7 @@ export default class Eventdetail extends Component {
       if (value && value1 !== null) {
         await this.setState({ token: value });
         await this.setState({ username: value1 });
-        //   console.log(value)
+        
       }
     } catch (e) {
       // error reading value
@@ -66,7 +66,7 @@ export default class Eventdetail extends Component {
     endpoint = "joinevent";
     Apicall(endpoint, body, this.state.token).then(responseJson => {
       this.setState({ dataResponse: responseJson });
-     //   console.log(responseJson.message)
+   
         if (responseJson.message) {
           alert(responseJson.message);
         } else {

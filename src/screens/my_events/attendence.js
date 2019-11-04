@@ -49,7 +49,7 @@ export default class Attendence extends Component {
       return el != null;
     });
 
-    console.log("temp", temp);
+   
     var tempCheckBoxChecked = this.state.checkBoxChecked;
     tempCheckBoxChecked[participantID] = !value;
     await this.setState({ attendance: temp });
@@ -69,7 +69,7 @@ export default class Attendence extends Component {
   };
 
   _onSubmit2 = () => {
-    console.log("inside");
+  
     return fetch("http://ef69aaaf.ngrok.io/attendance", {
       method: "POST",
       headers: {
@@ -86,7 +86,7 @@ export default class Attendence extends Component {
       })
 
       .catch(error => {
-        console.error(error);
+  
       });
 
     //   alert(responseJson.message);
@@ -110,7 +110,7 @@ export default class Attendence extends Component {
       {
         tempCheckValues[val.participantID] = false;
       }
-      console.log("val", val);
+  
 
       return (
         <View key={val.participantID} style={{ flexDirection: "column" }}>
@@ -156,7 +156,7 @@ export default class Attendence extends Component {
         </View>
       );
     } else {
-      console.log("checkBoxChecked", this.state.checkBoxChecked);
+   
       return (
         <View style={{ flex: 1 }}>
           <TouchableOpacity

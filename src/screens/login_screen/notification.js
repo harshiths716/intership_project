@@ -41,11 +41,11 @@ export default class Notification extends Component {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
         // user has a device token
-        console.log('fcmToken:', fcmToken);
+       
         await AsyncStorage.setItem('fcmToken', fcmToken);
       }
     }
-    console.log('fcmToken:', fcmToken);
+   
   }
 
   //2
@@ -56,7 +56,7 @@ export default class Notification extends Component {
       this.getToken();
     } catch (error) {
       // User has rejected permissions
-      console.log('permission rejected');
+      
     }
   }
 
@@ -66,7 +66,7 @@ export default class Notification extends Component {
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
       const { title, body } = notification;
-      console.log('onNotification:');
+   
       
         const localNotification = new firebase.notifications.Notification({
           sound: 'sampleaudio',
@@ -96,7 +96,7 @@ export default class Notification extends Component {
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       const { title, body } = notificationOpen.notification;
-      console.log('onNotificationOpened:');
+  
       Alert.alert(title, body)
     });
 
@@ -106,7 +106,7 @@ export default class Notification extends Component {
     const notificationOpen = await firebase.notifications().getInitialNotification();
     if (notificationOpen) {
       const { title, body } = notificationOpen.notification;
-      console.log('getInitialNotification:');
+      
       Alert.alert(title, body)
     }
     /*
@@ -114,7 +114,7 @@ export default class Notification extends Component {
     * */
     this.messageListener = firebase.messaging().onMessage((message) => {
       //process data message
-      console.log("JSON.stringify:", JSON.stringify(message));
+     
     });
   }
 

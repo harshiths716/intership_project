@@ -73,12 +73,12 @@ class Myevents extends React.Component {
   }
 
   _onSubmit = (obj) => {
-console.warn('inside on submit')
+
 this.props.organized_events(obj)
   };
 
   _enroll = (obj) => {
-    console.warn('inside enroll')
+
 
 this.props.participated_events(obj)
   };
@@ -99,7 +99,7 @@ this.props.participated_events(obj)
         </View>
       );
     } else {
-     // console.log(this.props.organizedapi)
+ 
       return (
         
         <FlatList
@@ -120,8 +120,7 @@ try{
     value = await AsyncStorage.getItem('userdata');
     count = JSON.parse(value);
       } catch (e) {
-        console.warn('async error')
-        console.warn(e)
+     
       }
 
 

@@ -91,7 +91,7 @@ export default class PastEvents extends React.Component {
  
   renderItem = ({ item, index }) => {
 
-    console.warn(item);
+   
     const { navigate } = this.props.navigation;
     
 
@@ -213,39 +213,9 @@ export default class PastEvents extends React.Component {
       starCount: rating
     });
   }
-  // date4= () => {
-  // /// let date3;
-  //   var dddd = new Date();
-  //   console.log("@new Date  ", dddd.toISOString().substr(0, 10));
-
-  //  this.setState({ date3: dddd.toISOString().substr(0, 10) });
-
-  // };
-  // async componentDidMount() {
-
-
-  //   var dddd = new Date();
-  //   console.log("@new Date  ", dddd.toISOString().substr(0, 10));
-
-  //   await this.setState({ date: dddd.toISOString().substr(0, 10) });
-
-
-  //   try {
-  //     const value = await AsyncStorage.getItem("token");
-  //     const value1 = await AsyncStorage.getItem("username");
-  //     if (value && value1 !== null) {
-  //       await this.setState({ token: value });
-  //       await this.setState({ username: value1 });
-  //       //   console.log(value)
-  //     }
-  //   } catch (e) {
-  //     // error reading value
-  //   }
-  // //  this._upcoming();
-
-  // }
+ 
   render() {
-    //  console.warn(data.users[0].name)
+ 
     return (
 
       <ScrollView style={styles.scrollView}>

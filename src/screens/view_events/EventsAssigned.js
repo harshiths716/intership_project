@@ -37,15 +37,14 @@ class EventsAssigned extends Component {
       value = await AsyncStorage.getItem('userdata');
       data = JSON.parse(value);
     } catch (e) {
-      console.warn('async error');
-      console.warn(e);
+      
     }
 
     this.props.sendAssignedEvents(data);
   }
 
   reject = () => {
-    console.warn('reject');
+    
     var rejectdata = {
       token: data.token,
       comment: this.state.comment,
@@ -64,7 +63,7 @@ class EventsAssigned extends Component {
   };
 
   renderItem = ({item}) => {
-    //console.warn(item);
+ 
     const {navigate} = this.props.navigation;
 
     return (
@@ -140,7 +139,7 @@ class EventsAssigned extends Component {
   // }
 
   render() {
-      console.warn('assigned data',this.props.assignedEvents)
+    
     return (
       <View style={{flex: 1}}>
         <ScrollView style={styles.scrollView}>
@@ -217,7 +216,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 function send_assignedEvents(data1) {
-  console.warn('inside send func');
+
   return {type: SEND_ASSIGNEDEVENTS, payload: data1};
 }
 
