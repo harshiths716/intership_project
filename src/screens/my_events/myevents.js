@@ -184,74 +184,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 20
   },
-  //   item: {
-  //     backgroundColor: '#4D243D',
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //     flex: 1,
-  //     margin: 1,
-  //     height: Dimensions.get('window').width / numColumns, // approximate a square
-  //   },
-  //   itemInvisible: {
-  //     backgroundColor: 'transparent',
-  //   },
-  //   itemText: {
-  //     color: '#fff',
-  //   },
-  //   container: {
-  //     // width: "93%",
 
-  //    },
-  //    flatlist: {
-  //    //  flexWrap: 'wrap',
-  //   // flexDirection:'column'
-  //    },
-  //    content: {
-  //    // alignItems: 'flex-end'
-  //    },
-  //   top: {
-  //     //height: "45%",
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //     backgroundColor: "green"
-  //   },
-  //   profileimage: {
-  //     width: 140,
-  //     height: 140,
-  //     borderRadius: 100,
-  //     borderWidth: 4,
-  //     borderColor: "black",
-  //     backgroundColor: "yellow"
-  //   },
-  //   center: {
-  //    // height: "10%",
-  //     backgroundColor: "#7fbcac"
-  //   },
-  //    bottom: {
-  //      //height: "100%",
-  //    //  alignSelf:'center',
-  //      //backgroundColor: "#7fbcac",
-  //     // flexDirection: "row",
-  //      //flexWrap: "wrap",
-  //     // padding: 5,
-
-  //     // margin:5
-  //    },
   bottomItem: {
     width: "47%",
     height: "85%",
-    //padding: 5,
-    // borderWidth:1,
+
     margin: 5
 
-    //width: "93%",
-    // backgroundColor: 'rgba(0,0,0,0.5)',
-    //height:'60%',
-    //padding:80,
-    //  alignSelf: "center",
-    //  borderRadius: 40,
-    // marginTop: 20,
-    //  margin: 10,
   },
   bottomItemInner: {
     backgroundColor: '#4796ae',
