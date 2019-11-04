@@ -317,3 +317,24 @@ export const add_subtask_api_hit = async body => {
     console.warn('add task error');
   }
 };
+
+
+export const button_api_hit = async body => {
+  try {
+    const response = await fetch(ip + body.endpoint, {
+      method: body.method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+         Authorization: "Bearer " + body.token
+      },
+      body: JSON.stringify(body.data),
+    });
+
+    const data = await response.json();
+    // console.warn('api-data', data);
+    return data;
+  } catch (e) {
+    console.warn('add task error');
+  }
+};
