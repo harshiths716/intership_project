@@ -33,10 +33,9 @@ class EventPlan2 extends Component {
     try {
       value = await AsyncStorage.getItem('userdata');
       count = JSON.parse(value);
-      console.warn('my details', count);
+  
     } catch (e) {
-      console.warn('async error');
-      console.warn(e);
+    
     }
     data_data = {_id: this.state.data._id, token: count.token};
 
@@ -130,7 +129,7 @@ class EventPlan2 extends Component {
     );
   };
   render() {
-    console.warn('tasks', this.props.taskdetails);
+
     return (
       <ScrollView style={styles.scrollView}>
         <View style={{backgroundColor: 'white'}}>

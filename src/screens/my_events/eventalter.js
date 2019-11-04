@@ -257,7 +257,7 @@ export default class Eventalter extends Component {
   };
 
   render() {
-    console.warn("props,eventalter", this.state.item);
+ 
 
     return (
       <View style={{ flex: 1 }}>

@@ -30,9 +30,9 @@ export default class Google extends Component {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       await GoogleSignin.revokeAccess();
-      console.log('Success:', userInfo);
+     
 
-      console.warn('test', userInfo);
+     
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // sign in was cancelled
@@ -43,7 +43,7 @@ export default class Google extends Component {
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         Alert.alert('play services not available or outdated');
       } else {
-        console.log('Something went wrong:', error.toString());
+        
         Alert.alert('Something went wrong', error.toString());
         this.setState({
           error,

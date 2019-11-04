@@ -88,27 +88,22 @@ async componentDidMount(){
         value = await AsyncStorage.getItem('userdata');
         count = JSON.parse(value);
       } catch (e) {
-        console.warn('async error');
-        console.warn(e);
+        
       }
       
       this.props.sendUserDetails(count);
 }
 
   _onChange(i){
-      console.log(i)
+      
       let arr=this.state.check;
       arr[i]=!arr[i];
       this.setState({check:arr},()=>console.log(this.state.check))
   }
-//   renderItem = ({item,index}) => {
-//       console.log(index)
-//     return (
-//          );
-//   };
+
 
   segricate = (obj) => {
-console.warn(obj)
+
     var rebels = this.props.userdetails.filter(function (pilot) {
         return pilot.desgs.dName === obj;
       });
@@ -117,7 +112,7 @@ console.warn(obj)
   };
 
   render() {
-  //    console.warn('desig data',this.props.userdetails)
+
     return (
       <ScrollView style={styles.scrollView}>
         <View style={{backgroundColor: 'white'}}>
@@ -142,7 +137,7 @@ console.warn(obj)
           </View>
 
           {  this.state.data.map((item,index)=>{
-       // console.log(item)
+      
         return(
             <View style={styles.container}>
             <View style={styles.containerr}>

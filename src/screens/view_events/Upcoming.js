@@ -141,11 +141,10 @@ class Upcoming extends React.Component {
    try {
     value = await AsyncStorage.getItem('userdata');
     count = JSON.parse(value);
-    console.warn('my details',count)
+  
 
       } catch (e) {
-        console.warn('async error')
-        console.warn(e)
+     
       }
      data_data = {date:date,token: count.token};
     this.props.sendUpcoming(data_data);
@@ -197,7 +196,7 @@ const mapDispatchToProps = dispatch => ({
 
 
 function send_Upcoming(data) {
-  console.warn('inside send func');
+  
   return {type: SEND_UPCOMING, payload: data};
 }
 

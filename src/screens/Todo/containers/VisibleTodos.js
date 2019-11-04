@@ -15,7 +15,7 @@ import TodoList from '../components/TodoList';
 
     navi=(item)=>{
 
-          console.warn('item',item)
+         
           this.props.navigateprops.navigate('taskinfo',item)
       }
 
@@ -72,7 +72,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   toggleTodo: id => dispatch(toggleTodo(id)),
 });
-console.log('inside VisibleTodos');
+
 
 export default connect(
   mapStateToProps,
