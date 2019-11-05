@@ -8,7 +8,7 @@ function* getorganizedApiData(actions) {
     const data = yield call(myeventsOrganized_API,actions.payload);
     yield put(organized_events_done(data));
   } catch (e) {
-    console.warn(e);
+    
   }
 }
 
@@ -18,7 +18,7 @@ function* getparticipatedApiData(actions) {
     const data = yield call(myeventsparticipated_API,actions.payload);
     yield put(participated_events_done(data));
   } catch (e) {
-    console.warn(e);
+ 
   }
 }
 export default function* mySagaMyeventsEvents() {

@@ -9,7 +9,7 @@ function* get_accepted_task_events_Api_Data(actions) {
     const data = yield call(accepted_task_events_Api,actions.payload);
     yield put(receive_accepted_task_events(data));
   } catch (e) {
-    console.warn(e);
+
   }
 }
 
@@ -18,7 +18,7 @@ function* get_added_task_Api_Data(actions) {
       const data = yield call(add_task_api_hit,actions.payload);
       yield put(add_task_api_done(data));
     } catch (e) {
-      console.warn(e);
+  
     }
   }
   
@@ -27,7 +27,7 @@ function* get_added_task_Api_Data(actions) {
       const data = yield call(get_task_api_hit,actions.payload);
       yield put(get_task_api_done(data));
     } catch (e) {
-      console.warn(e);
+    
     }
   }
   
@@ -36,7 +36,7 @@ function* get_added_task_Api_Data(actions) {
       const data = yield call(add_subtask_api_hit,actions.payload);
       yield put(add_subtask_api_done(data));
     } catch (e) {
-      console.warn(e);
+
     }
   }
 
