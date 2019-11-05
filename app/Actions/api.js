@@ -304,6 +304,7 @@ export const add_subtask_api_hit = async body => {
 
 
 export const button_api_hit = async body => {
+  console.warn(body.data)
   try {
     const response = await fetch(ip + body.endpoint, {
       method: body.method,
@@ -312,10 +313,11 @@ export const button_api_hit = async body => {
         'Content-Type': 'application/json',
          Authorization: "Bearer " + body.token
       },
-      body: JSON.stringify(body.data),
+      body: JSON.stringify({eventId:body.data}),
     });
 
     const data = await response.json();
+
     return data;
   } catch (e) {
   }

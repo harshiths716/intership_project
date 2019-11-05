@@ -151,7 +151,10 @@ class EventPlan2 extends Component {
                     height: '90%',
                     backgroundColor: 'blue',
                     margin: '1%',
-                  }}>
+                  }}
+                  
+onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data: this.props.taskdetails[0].eventId._id,token:count.token,method:'PUT'})}
+                  >
                   <Text>Publish</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -160,7 +163,9 @@ class EventPlan2 extends Component {
                     height: '90%',
                     backgroundColor: 'blue',
                     margin: '1%',
-                  }}>
+                  }}
+                  onPress={()=>this.props.cancel({endpoint:'/events/cancelEvent',data: this.props.taskdetails[0].eventId._id,token:count.token,method:'PUT'})}
+                  >
                   <Text>Cancel</Text>
                 </TouchableOpacity>
               </View>
@@ -180,7 +185,9 @@ class EventPlan2 extends Component {
                     height: '90%',
                     backgroundColor: 'blue',
                     margin: '1%',
-                  }}>
+                  }}
+                  onPress={()=>this.props.upload()}
+                  >
                   <Text>Poster</Text>
                 </TouchableOpacity>
               </View>
@@ -210,13 +217,19 @@ class EventPlan2 extends Component {
 }
 
 import {get_task_api} from '../../../app/Actions/Task_actions';
-
+import {cancel,publish,upload} from '../../../app/Actions/button_action'
 const mapStateToProps = state => ({
   taskdetails: state.Task.taskdetails,
+  response:state.Button_reducer.response
 });
 
 const mapDispatchToProps = dispatch => ({
   get_task_api: data => dispatch(get_task_api(data)),
+cancel:data=>dispatch(cancel(data)),
+publish:data=>dispatch(publish(data)),
+upload:data=>dispatch(upload(data)),
+
+
 });
 
 export default connect(
