@@ -20,58 +20,35 @@ import CountDown from 'react-native-countdown-component';
 import StarRating from 'react-native-star-rating';
 import Apicall from '../networking/apicall2';
 import {connect} from 'react-redux';
-// var data=[
-//     {
-//         _id: "5d9ddb3120a8dc6397db99ce",
-//         eName: "Hackathon 2019",
-//         venue: "Pasta Street,Koramangala",
-//         description: "coding event",
-//         isOpen: true,
-//         msgs: " ",
-//         startTime: "2019-12-10T09:30:00.000Z",
-//         endTime: "2019-12-13T09:30:00.000Z",
-//         isPlanned: false,
-//         __v: 0,
-//         capacity: 100,
-//         Hi: true
-//     }
-    
-// ]
- export default class Upcomingeventinfo extends React.Component {
+var data=''
+var count=''
+class Upcomingeventinfo extends React.Component {
 constructor(props) {
     super(props);
     this.state = {
      data:this.props.navigation.state.params
     };
-
-
-
-
-
-    //this.renderItem = this.renderItem.bind(this);
-    // this.upevents = this.upevents.bind(this);
   }
-  static navigationOptions = {
-    title: 'upcoming events',
-    headerLeft: <LogoTitle />,
-    headerRight: <View style={{flexDirection: 'row'}}></View>,
-    headerStyle: {
-      backgroundColor: 'white',
-    },
-    headerTintColor: 'white',
-    headerTitleStyle: {
-      textAlign: 'center',
-      color: 'black',
-      // fontWeight: "bold",
-      fontFamily: 'Roboto',
-    },
-  };
+
+
+
+
+  async componentDidMount() {
+    try {
+      value = await AsyncStorage.getItem('userdata');
+      count = JSON.parse(value);
+  
+    } catch (e) {
+    
+    }
+  }
+
+
   renderItem = (item) => {
 
 
     return (
-      <ScrollView style={styles.container} 
-      >
+      <ScrollView style={styles.container}>
         <View style={styles.bottomItem}>
           <TouchableOpacity>
              
@@ -142,29 +119,17 @@ constructor(props) {
       </ScrollView>
     );
   };
-  // upevents = () => {
-        
-  //     return (
-  //       <FlatList
-  //         data={data}
-  //         renderItem={this.renderItem}
-  //       />
-  //     );
-  //   };
-  // upevents = () => {
-    
-  //     return (
-  //       <FlatList data={this.state.data} 
-  //       renderItem={this.renderItem} />
-  //     );
-    
-  // };
   
-  
-  render() {
+  componentWillUnmount(){
+    this.props.clear()
+  }
 
-    
+handle_join(){
+  data={endpoint:'/eventParticipant/joinEvent',method:'POST',data:{eventId:this.state.data._id},token:count.token}
+  this.props.join(data)
+}
 
+  render() {    
     return (
       <ScrollView style={styles.scrollView}>
         <View style={{backgroundColor: 'white'}}>
@@ -177,20 +142,36 @@ constructor(props) {
           {this.renderItem(this.state.data)}
        
         </View>
-        <TouchableOpacity>
-        <Button
- 
-    title={"JOIN"}
-    style={styles.buttonStyle}
->
-
-</Button>
+        <TouchableOpacity style={{width:'100%',height:40,backgroundColor:"blue",alignItems:'center'}}
+        onPress={()=>this.handle_join()}>
+       <Text style={{fontFamily:'Roboto',fontSize:24,color:'white'}}>Join</Text>
 </TouchableOpacity>
        
+{this.props.response.message && alert(this.props.response.message)}
+
       </ScrollView>
     );
   }
 }
+
+
+import {join,clear_response} from '../../../app/Actions/button_action'
+const mapStateToProps = state => ({
+  response:state.Button_reducer.response
+});
+
+const mapDispatchToProps = dispatch => ({
+
+join:(data)=>dispatch(join(data)),
+clear: ()=>dispatch(clear_response())
+
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Upcomingeventinfo);
+
 
 
 

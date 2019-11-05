@@ -34,16 +34,11 @@ export function cancel_done(item) {
 }
 
 
-export const INVITE = 'INVITE';
-export const INVITE_DONE = 'INVITE_DONE';
-
-export function invite(item) {
-  return {type: INVITE, payload: item};
+export const CLEAR_RESPONSE = 'CLEAR_RESPONSE';
+export function clear_response(item) {
+  return {type:CLEAR_RESPONSE, payload: item};
 }
 
-export function invite_done(item) {
-  return {type: INVITE_DONE, payload: item};
-}
 
 
 

@@ -2,7 +2,7 @@ import {
   UPLOAD_DONE,
   PUBLISH_DONE,
   CANCEL_DONE,
-  INVITE_DONE,
+  CLEAR_RESPONSE,
   JOIN_DONE,
   WITHDRAW_DONE,
 } from '../Actions/button_action';
@@ -23,10 +23,10 @@ const Button_reducer = (state = {response: ''}, action) => {
         ...state,
         response: action.payload,
       };
-    case INVITE_DONE:
+    case CLEAR_RESPONSE:
       return {
         ...state,
-        response: action.payload,
+        response: '',
       };
     case JOIN_DONE:
       return {

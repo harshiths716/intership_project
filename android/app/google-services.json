@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "929636501127-1j1jiujh43ptiglpg8g30dtghkiub0q3.apps.googleusercontent.com",
+          "client_id": "929636501127-0nd2eidlhd3c3fukf65p3f64u562fq18.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.eventsmobile",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+            "certificate_hash": "1845e42b94b262cac5b133cb1c585cd43ee36a11"
           }
         },
         {

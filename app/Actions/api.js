@@ -313,12 +313,14 @@ export const button_api_hit = async body => {
         'Content-Type': 'application/json',
          Authorization: "Bearer " + body.token
       },
-      body: JSON.stringify({eventId:body.data}),
+      body: JSON.stringify(body.data),
     });
 
     const data = await response.json();
 
     return data;
   } catch (e) {
+console.warn('error')
+
   }
 };

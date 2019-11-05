@@ -128,8 +128,13 @@ class EventPlan2 extends Component {
       <FlatList data={this.props.taskdetails} renderItem={this.renderItem} />
     );
   };
-  render() {
 
+
+
+  componentWillUnmount(){
+    this.props.clear()
+  }
+  render() {
     return (
       <ScrollView style={styles.scrollView}>
         <View style={{backgroundColor: 'white'}}>
@@ -153,7 +158,7 @@ class EventPlan2 extends Component {
                     margin: '1%',
                   }}
                   
-onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data: this.props.taskdetails[0].eventId._id,token:count.token,method:'PUT'})}
+onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data:{eventId: this.props.taskdetails[0].eventId._id},token:count.token,method:'PUT'})}
                   >
                   <Text>Publish</Text>
                 </TouchableOpacity>
@@ -164,7 +169,7 @@ onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data: this.prop
                     backgroundColor: 'blue',
                     margin: '1%',
                   }}
-                  onPress={()=>this.props.cancel({endpoint:'/events/cancelEvent',data: this.props.taskdetails[0].eventId._id,token:count.token,method:'PUT'})}
+                  onPress={()=>this.props.cancel({endpoint:'/events/cancelEvent',data:{eventId: this.props.taskdetails[0].eventId._id},token:count.token,method:'PUT'})}
                   >
                   <Text>Cancel</Text>
                 </TouchableOpacity>
@@ -190,6 +195,10 @@ onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data: this.prop
                   >
                   <Text>Poster</Text>
                 </TouchableOpacity>
+
+{this.props.response.message && alert(this.props.response.message)}
+
+
               </View>
               <View style={{flex: 1, flexDirection: 'row'}}>
                 <TouchableOpacity
@@ -217,7 +226,7 @@ onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data: this.prop
 }
 
 import {get_task_api} from '../../../app/Actions/Task_actions';
-import {cancel,publish,upload} from '../../../app/Actions/button_action'
+import {cancel,publish,upload,clear_response} from '../../../app/Actions/button_action'
 const mapStateToProps = state => ({
   taskdetails: state.Task.taskdetails,
   response:state.Button_reducer.response
@@ -228,7 +237,7 @@ const mapDispatchToProps = dispatch => ({
 cancel:data=>dispatch(cancel(data)),
 publish:data=>dispatch(publish(data)),
 upload:data=>dispatch(upload(data)),
-
+clear: ()=>dispatch(clear_response())
 
 });
 

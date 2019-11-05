@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from 'react-native-google-signin';
 //import Apicall from "../../networking/apicall";
 import OfflineNotice from '../reuseablecomponents/error';
 // import {sign_in} from '../../../app/Actions/login-actions';
@@ -123,18 +128,26 @@ class Loginsc extends React.Component {
     }
   }
 
-
+  _configureGoogleSignIn() {
+    GoogleSignin.configure({
+      webClientId:
+        '929636501127-g6oujuoi5uofeh7eilvnv0b2s3jnknoi.apps.googleusercontent.com',
+      offlineAcess: true,
+    });
+  }
 
 
   async componentDidMount() {
     this.checkPermission();
     this.createNotificationListeners(); //add this line
-    
+    this._configureGoogleSignIn();
+
   }
 
   componentWillUnmount() {
     this.notificationListener;
     this.notificationOpenedListener;
+    
   }
 
   //1
@@ -146,6 +159,34 @@ class Loginsc extends React.Component {
       this.requestPermission();
     }
   }
+
+
+  signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      this.props.login;
+      await GoogleSignin.revokeAccess();
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // sign in was cancelled
+        Alert.alert('cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation in progress already
+        Alert.alert('in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert('play services not available or outdated');
+      } else {
+        Alert.alert('Something went wrong', error.toString());
+        this.setState({
+          error,
+        });
+      }
+    }
+  };
+
+
 
   //3
   async getToken() {
@@ -262,6 +303,13 @@ class Loginsc extends React.Component {
                 
               }}
             />
+<GoogleSigninButton
+        style={{width: 192, height: 48}}
+        size={GoogleSigninButton.Size.Wide}
+        color={GoogleSigninButton.Color.Dark}
+        onPress={this.signIn}
+        disabled={false}
+      />
 
             <FloatingLabelInput
               label="username"
@@ -282,7 +330,10 @@ class Loginsc extends React.Component {
               onPress={() => this.handleSubmit(userdata)}>
               <Text style={styles.txt}>SIGN IN</Text>
             </TouchableOpacity>
+
+            
           </View>
+         
         </ScrollView>
       </View>
       </ImageBackground>
