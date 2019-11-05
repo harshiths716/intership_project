@@ -13,6 +13,7 @@ import {
   Alert,
   ScrollView,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 import firebase from 'react-native-firebase';
@@ -243,6 +244,10 @@ class Loginsc extends React.Component {
     userdata = {email: this.props.username, password: this.props.password,fcmToken:fcm};
 
     return (
+      <ImageBackground
+      source={require('../resources/3.jpg')}
+      style={styles.backgroundImage}
+    >
       <View style={styles.container}>
         <OfflineNotice />
         {/* <Notification /> */}
@@ -254,14 +259,14 @@ class Loginsc extends React.Component {
                 width: '100%',
                 height: '9%',
                 alignSelf: 'center',
-                marginTop: '8%',
-                marginBottom: '10%',
+                
               }}
             />
 
             <FloatingLabelInput
-              label="Username"
+              label="username"
               value={this.props.username}
+              style={{width:66,height:44,color:'white'}}
               onChangeText={this.props.typeusername}
             />
 
@@ -280,6 +285,7 @@ class Loginsc extends React.Component {
           </View>
         </ScrollView>
       </View>
+      </ImageBackground>
     );
   }
 }
@@ -313,27 +319,35 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: '8%',
-    backgroundColor: '#f5fcff',
+    width:'100%',
+    height:'100%',
+    padding: '12%'
+  
   },
   button: {
     backgroundColor: '#278eb0',
     alignSelf: 'center',
-    borderRadius: 7,
+    borderRadius: 19,
     marginBottom: '100%',
-    width: '45%',
+    width: '55%',
     height: '10%',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.8,
-    shadowRadius: 1,
-    elevation: 7,
+    position:'relative',
+    top:92
+    //elevation: 7,
   },
-
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.7 
+  },
   txt: {
     paddingTop: 10,
     fontSize: 22,
     color: 'white',
+    fontWeight:'bold',
 
     alignSelf: 'center',
   },
@@ -343,4 +357,8 @@ const styles = StyleSheet.create({
   img: {
     borderRadius: 45,
   },
+  // yo:{
+  //   alignContent:"center"
+
+  // }
 });
