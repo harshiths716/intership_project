@@ -22,7 +22,7 @@ export const toggleTodo = (id) => ({
 })
 
 
-export const subtoggleTodo = (id) => ( console.warn('toggle'),{
+export const subtoggleTodo = (id) => ({
     type: TOGGLE_SUBTODO,
     id
 })

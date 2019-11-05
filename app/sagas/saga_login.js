@@ -6,16 +6,16 @@ import {login_api_hit} from '../Actions/login-actions'
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getLoginApiData(actions) {
-  // console.warn('inside getapidata',actions)
+
   try {
-  //  console.warn('i am inside saga')
+  
 
     // do api call
     const data = yield call(Login_api,actions.payload);
-    // console.warn("data in saga"+JSON.stringify(data))
+
     yield put(login_api_hit(data));
   } catch (e) {
-    console.warn(e);
+  
   }
 }
 
@@ -26,16 +26,16 @@ import {upcoming_api_hit} from '../Actions/upcoming'
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getUpcomingApiData(actions) {
-  // console.warn('inside getapidata',actions)
+
   try {
-  //  console.warn('i am inside saga')
+
 
     // do api call
     const data = yield call(Upcoming_api,actions.payload);
-    // console.warn("data in saga"+JSON.stringify(data))
+    
     yield put(upcoming_api_hit(data));
   } catch (e) {
-    console.warn(e);
+ 
   }
 }
 
@@ -49,7 +49,6 @@ function* getUpcomingApiData(actions) {
   dispatched while a fetch is already pending, that pending fetch is cancelled
   and only the latest one will be run.
 */
-//console.warn('i am inside saga')
 
 export default function* mySagaLogin() {
  yield takeEvery(SIGN_IN, getLoginApiData);
