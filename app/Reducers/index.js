@@ -38,7 +38,6 @@ const sagaMiddleware = createSagaMiddleware();
 // }
 
 let store = createStore(AppReducers,applyMiddleware(sagaMiddleware));
-//console.warn('iam in mid')
 
 
 export default store;

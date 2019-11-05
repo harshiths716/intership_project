@@ -2,7 +2,7 @@ import {PARTICIPATED_EVENT_DONE,ORGANIZED_EVENT_DONE} from '../Actions/myevents_
 const Myevents = (state = {organizedapi:'',participatedapi:'',apicall:false},action) => {
   switch (action.type) {
     case ORGANIZED_EVENT_DONE:
-      console.warn(action.payload)
+ 
         return{
             ...state,
             organizedapi:action.payload

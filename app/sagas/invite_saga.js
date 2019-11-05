@@ -9,7 +9,7 @@ function* get_designation_Api_Data(actions) {
       const data = yield call(add_subtask_api_hit,actions.payload);
       yield put(add_subtask_api_done(data));
     } catch (e) {
-      console.warn(e);
+    
     }
   }
 

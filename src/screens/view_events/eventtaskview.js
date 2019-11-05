@@ -116,7 +116,6 @@ class Eventtaskview extends React.Component {
 
 
   render() {
-console.warn('accepted events',this.props.acceptedevents)
 
     return (
       <ScrollView style={styles.scrollView}>
