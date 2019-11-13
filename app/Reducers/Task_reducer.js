@@ -2,7 +2,7 @@
 import { RECEIVE_ACCEPTED_TASK_EVENTS,ADD_TASK_API_DONE,GET_TASK_API_DONE,ADD_SUBTASK_API_DONE } from '../Actions/Task_actions'
 
 
-const Task = (state = {acceptedevents:'',tasksent:'',taskdetails:'',subtasksent:''}, action) => {
+const Task = (state = {acceptedevents:'',tasksent:'',taskdetails:[],subtasksent:''}, action) => {
     switch (action.type) {
         case RECEIVE_ACCEPTED_TASK_EVENTS:
             return  {

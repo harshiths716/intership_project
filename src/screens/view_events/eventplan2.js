@@ -18,6 +18,7 @@ import {Switch, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler';
 var count = '';
+var eventId = '';
 class EventPlan2 extends Component {
   constructor(props) {
     super(props);
@@ -27,57 +28,22 @@ class EventPlan2 extends Component {
       eventID: '',
       flag: true,
       data: this.props.navigation.state.params,
+      name: '',
     };
   }
   async componentDidMount() {
     try {
       value = await AsyncStorage.getItem('userdata');
       count = JSON.parse(value);
-  
-    } catch (e) {
-    
-    }
+    } catch (e) {}
     data_data = {_id: this.state.data._id, token: count.token};
+    this.props.sendUserDetails(count);
 
     this.props.get_task_api(data_data);
   }
- renderitem2 = ({item}) => {
-    return (
-      <ScrollView>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={{padding: '2%'}}
-            onPress={() =>
-              this.props.navigation.navigate('editsubtask', {
-                text: '',
-                eventId: this.props.taskdetails[0].eventId._id,
-                id: '',
-              })
-            }>
-            <Text
-              style={{
-                fontSize: 20,
-                fontFamily: 'Roboto',
-                textAlign: 'center',
-                borderWidth: 1,
-                borderRadius: 6,
-                borderColor: '#E91E63',
-                width: '100%',
-                padding: 5,
-                backgroundColor: '#FFEB3B',
-                fontWeight: 'bold',
-              }}>
-              {item.asd}
-            </Text>
-          </TouchableOpacity>
-          {/* <TouchableOpacity >
-                              
-                                </TouchableOpacity> */}
-        </View>
-      </ScrollView>
-    );
-  };
-  renderItem = ({item}) => {
+
+  renderItem = ({item, index}) => {
+    //let secondindex = index
     return (
       //  <ScrollView>
       <View style={{flex: 1}}>
@@ -87,7 +53,7 @@ class EventPlan2 extends Component {
               onPress={() =>
                 this.props.navigation.navigate('taskinfo', {
                   text: item.tName,
-                  eventId: this.props.taskdetails[0].eventId._id,
+                  eventId: eventId,
                   id: '',
                 })
               }>
@@ -105,7 +71,7 @@ class EventPlan2 extends Component {
               onPress={() =>
                 this.props.navigation.navigate('editsubtask', {
                   text: '',
-                  eventId: this.props.taskdetails[0].eventId._id,
+                  eventId: eventId,
                   id: item._id,
                 })
               }>
@@ -115,40 +81,98 @@ class EventPlan2 extends Component {
               />
             </TouchableOpacity>
           </View>
-          {item.subtName && (
-            <FlatList data={item.subtName} renderItem={this.renderitem2} />
-          )}
+
+          <FlatList
+            data={this.props.taskdetails[0].eventSubTask[index]}
+            renderItem={item => this.item(item)}
+          />
         </TouchableOpacity>
       </View>
       //</ScrollView>
     );
   };
+
+  item = ({item}) => {
+    return (
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <TouchableOpacity
+          style={{padding: '2%'}}
+          onPress={() =>
+            this.props.navigation.navigate('editsubtask', {
+              text: item.subTname,
+              eventId: eventId,
+              ownership: item.ownership,
+            })
+          }>
+          <Text
+            style={{
+              fontSize: 20,
+              fontFamily: 'Roboto',
+              textAlign: 'center',
+              borderWidth: 1,
+              borderRadius: 6,
+              borderColor: '#E91E63',
+              width: '100%',
+              padding: 5,
+              backgroundColor: '#FFEB3B',
+              fontWeight: 'bold',
+            }}>
+            {item.subTname}
+          </Text>
+         
+        </TouchableOpacity>
+        <Text style={{backgroundColor: 'green'}}>
+            {this.segricate(item.ownership) + ''}
+          </Text>
+      </View>
+    );
+  };
   upevents = () => {
     return (
-      <FlatList data={this.props.taskdetails} renderItem={this.renderItem} />
+      <FlatList
+        data={this.props.taskdetails[0].eventTask}
+        renderItem={this.renderItem}
+      />
+      // null
     );
   };
 
+  segricate = obj => {
+    console.warn('obj', obj);
+    if (this.props.userdetails.length != 0) {
+      
+      var rebels = this.props.userdetails.filter(function(pilot) {
+        /// console.warn(pilot.userDesg)
+        return pilot._id === obj;
+      });
 
+      // await  this.setState({name:rebels.name})
+       console.warn('name asterr',rebels)
+      return rebels[0].name;
+      //  return null
+    }
+    else{
+      console.warn("code reached else")
+    }
+  }
+ 
 
-  componentWillUnmount(){
-    this.props.clear()
+  componentWillUnmount() {
+    this.props.clear();
   }
   render() {
+    if (this.props.taskdetails.length != 0) {
+      eventId = this.props.taskdetails[0].eventTask[0].eventId;
+    }
+    // if(this.props.userdetails){
+    //   console.warn(this.props.userdetails)
+    // }
+    //console.warn(this.props.taskdetails)
     return (
       <ScrollView style={styles.scrollView}>
         <View style={{backgroundColor: 'white'}}>
-          {this.props.taskdetails != '' && (
+          {this.props.taskdetails.length != 0 && ( //&& console.warn(this.props.taskdetails[0].eventTask)
             <View style={{flex: 1}}>
-              <Text
-                style={{
-                  fontSize: 32,
-                  fontFamily: 'Roboto',
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                }}>
-                event name: {this.props.taskdetails[0].eventId.eName}
-              </Text>
               <View style={{flex: 1, flexDirection: 'row'}}>
                 <TouchableOpacity
                   style={{
@@ -157,9 +181,14 @@ class EventPlan2 extends Component {
                     backgroundColor: 'blue',
                     margin: '1%',
                   }}
-                  
-onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data:{eventId: this.props.taskdetails[0].eventId._id},token:count.token,method:'PUT'})}
-                  >
+                  onPress={() =>
+                    this.props.publish({
+                      endpoint: '/events/publishEvent',
+                      data: {eventId: eventId},
+                      token: count.token,
+                      method: 'PUT',
+                    })
+                  }>
                   <Text>Publish</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -169,13 +198,20 @@ onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data:{eventId: 
                     backgroundColor: 'blue',
                     margin: '1%',
                   }}
-                  onPress={()=>this.props.cancel({endpoint:'/events/cancelEvent',data:{eventId: this.props.taskdetails[0].eventId._id},token:count.token,method:'PUT'})}
-                  >
+                  onPress={() =>
+                    this.props.cancel({
+                      endpoint: '/events/cancelEvent',
+                      data: {eventId: eventId},
+                      token: count.token,
+                      method: 'PUT',
+                    })
+                  }>
                   <Text>Cancel</Text>
                 </TouchableOpacity>
               </View>
               <View style={{flex: 1, flexDirection: 'row'}}>
-                <TouchableOpacity onPress={()=>this.props.navigation.navigate('invite')}
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('invite')}
                   style={{
                     width: '50%',
                     height: '90%',
@@ -191,21 +227,19 @@ onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data:{eventId: 
                     backgroundColor: 'blue',
                     margin: '1%',
                   }}
-                  onPress={()=>this.props.upload()}
-                  >
+                  onPress={() => this.props.upload()}>
                   <Text>Poster</Text>
                 </TouchableOpacity>
 
-{this.props.response.message && alert(this.props.response.message)}
-
-
+                {this.props.response.message &&
+                  alert(this.props.response.message)}
               </View>
               <View style={{flex: 1, flexDirection: 'row'}}>
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('taskinfo', {
                       text: '',
-                      eventId: this.props.taskdetails[0].eventId._id,
+                      eventId: eventId,
                       id: '',
                     })
                   }>
@@ -216,9 +250,9 @@ onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data:{eventId: 
                   <Text>Add Task</Text>
                 </TouchableOpacity>
               </View>
+              {this.upevents()}
             </View>
           )}
-          {this.upevents()}
         </View>
       </ScrollView>
     );
@@ -226,19 +260,27 @@ onPress={()=>this.props.publish({endpoint:'/events/publishEvent',data:{eventId: 
 }
 
 import {get_task_api} from '../../../app/Actions/Task_actions';
-import {cancel,publish,upload,clear_response} from '../../../app/Actions/button_action'
+import {
+  cancel,
+  publish,
+  upload,
+  clear_response,
+} from '../../../app/Actions/button_action';
+import {sendUserDetails} from '../../../app/Actions/create_event_action';
+
 const mapStateToProps = state => ({
   taskdetails: state.Task.taskdetails,
-  response:state.Button_reducer.response
+  response: state.Button_reducer.response,
+  userdetails: state.CreateEvent.userdetails,
 });
 
 const mapDispatchToProps = dispatch => ({
   get_task_api: data => dispatch(get_task_api(data)),
-cancel:data=>dispatch(cancel(data)),
-publish:data=>dispatch(publish(data)),
-upload:data=>dispatch(upload(data)),
-clear: ()=>dispatch(clear_response())
-
+  cancel: data => dispatch(cancel(data)),
+  publish: data => dispatch(publish(data)),
+  upload: data => dispatch(upload(data)),
+  clear: () => dispatch(clear_response()),
+  sendUserDetails: data => dispatch(sendUserDetails(data)),
 });
 
 export default connect(

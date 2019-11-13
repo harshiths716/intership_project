@@ -7,10 +7,12 @@ import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
+import io.github.traviskn.rnuuidgenerator.RNUUIDGeneratorPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnativecommunity.checkbox.ReactCheckBoxPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.imagepicker.ImagePickerPackage;
-import io.invertase.firebase.RNFirebasePackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 // import com.reactlibrary.googlesignin.RNGoogleSignInPackage;
 import com.facebook.react.ReactNativeHost;
@@ -18,7 +20,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
 import java.util.List;
-
+import io.invertase.firebase.storage.RNFirebaseStoragePackage; // <-- Add this line
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -35,6 +37,8 @@ public class MainApplication extends Application implements ReactApplication {
       // example:
       // packages.add(new MyReactNativePackage());
       packages.add(new RNFirebaseMessagingPackage()); // <-- Add this line
+      packages.add(new RNFirebaseStoragePackage()); // <-- Add this line
+
       return packages;
     }
 
