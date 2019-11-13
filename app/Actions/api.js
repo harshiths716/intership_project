@@ -1,17 +1,6 @@
-var ip = 'http://f0e60571.ngrok.io';
-
-export const fetchData = async () => {
-  try {
-    const response = await fetch('https://randomuser.me/api');
-    const data = await response.json();
-    return data;
-  } catch (e) {
-    
-  }
-};
+var ip = 'http://b73b0db7.ngrok.io';
 
 export const Login_api = async body => {
-  
   try {
     const response = await fetch(ip + '/users/authenticate', {
       method: 'POST',
@@ -27,7 +16,6 @@ export const Login_api = async body => {
   
     return data;
   } catch (e) {
-   
   }
 };
 
@@ -257,7 +245,7 @@ export const add_task_api_hit = async body => {
 export const get_task_api_hit = async body => {
   try {
 
-    const response = await fetch(ip + '/eventTasks/viewEventPlan/'+body._id, {
+    const response = await fetch(ip + '/eventTasks/showAll/'+body._id, {
       method: 'GET',
       headers: {
         Accept: 'application/json',

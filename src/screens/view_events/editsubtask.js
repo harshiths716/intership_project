@@ -35,9 +35,9 @@ var data=''
     super(props);
 
     this.state = {
-      data: this.props.navigation.state.params,
+    //  data: this.props.navigation.state.params,
       isStartTimePickerVisible: false,
-      text: '',
+      text: this.props.navigation.state.params.text,
       listHolder: '',
       search: '',
       idarray1:'',
@@ -50,7 +50,8 @@ var data=''
       date: new Date(),
       start: new Date(),
       end: new Date(),
-      taskname:''
+      taskname:'',
+      ownership:this.props.navigation.state.params.ownership
     };
   }
 
@@ -260,7 +261,7 @@ apihit=()=>{
   render() {
     const {show, mode, date} = this.state;
 
-//     }
+    console.warn(this.props.navigation.state.params)
  
     return (
       <View style={{flex: 1, padding: '5%'}}>
@@ -352,11 +353,6 @@ subtasksent:state.Task.subtasksent,
   userdetails: state.CreateEvent.userdetails,
   createEventid:state.CreateEvent.createEventid,
 
-  //   description:state.Taskinfo_reducer.description,
-  //   tName:state.Taskinfo_reducer.tName,
-  //   ownership:state.Taskinfo_reducer.ownership,
-  //   Budget:state.Taskinfo_reducer.Budget,
-  //   deadline:state.Taskinfo_reducer.deadline,
   data: state.Taskinfo_reducer,
   createEventid: state.CreateEvent.createEventid,
   // navigateprops:this.props.navigateprops
