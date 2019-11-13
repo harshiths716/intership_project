@@ -4,13 +4,15 @@ import {
   TouchableOpacity,
   Text,
   View,
+  ImageBackground,
+  Image,
   FlatList,
   Dimensions,
 } from 'react-native';
 import AsyncStorage from "@react-native-community/async-storage";
 
 //import FadeInView from "./animation";
-import {Switch, Image} from 'react-native';
+import {Switch} from 'react-native';
 import LogoTitle from '../reuseablecomponents/headerlogo';
 import moment from 'moment';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -70,7 +72,7 @@ class Upcoming extends React.Component {
 
 
     return (
-
+      
       <ScrollView style={styles.container}
       >
         <View style={styles.bottomItem}>
@@ -78,26 +80,27 @@ class Upcoming extends React.Component {
           onPress={() => this.props.navigation.navigate('Upcomingeventinfo',item)}>
             <Text
               numberOfLines={1}
-              style={{fontSize: 17, fontFamily: 'Roboto'}}>
+              style={{fontSize: 17, fontFamily: 'Roboto', fontWeight:'bold',textAlign:'center',color:'white'}}>
               {item.eName}
             </Text>
             <Text
-              style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
+              style={{fontFamily: 'Roboto', fontSize: 17, fontWeight:'17',textAlign:'center',color:'white'}}>
               {item.startTime.substr(0, 10)}
             </Text>
             <Text
               numberOfLines={1}
-              style={{fontSize: 17, fontFamily: 'Roboto'}}>
+              style={{fontSize: 17, fontFamily: 'Roboto', fontWeight:'17',textAlign:'center',color:'white'}}>
               {item.venue}
             </Text>
             <Text
               numberOfLines={1}
-              style={{color: 'white', fontSize: 14, fontFamily: 'Roboto'}}>
+              style={{ fontWeight:'17', fontSize: 17, fontFamily: 'Roboto',textAlign:'center',color:'white'}}>
               {item.description}
             </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
+      
     );
   };
 
@@ -159,14 +162,18 @@ class Upcoming extends React.Component {
 
 
     return (
-      <ScrollView style={styles.scrollView}>
-        <View style={{backgroundColor: 'white'}}>
-          <View style={{flex:1}}>
+      <ImageBackground
+      source={require('../resources/3.jpg')}
+      style={styles.backgroundImage}
+    >
+      <ScrollView >
+      <View style={{flex:1}}>
+       
             <Image
               style={styles.stretch}
               source={require('../resources/img.jpg')}
             />
-          </View>
+         
           {this.props.upcoming!=null && this.upevents()}
 
           <CountDown
@@ -177,9 +184,13 @@ class Upcoming extends React.Component {
             onPress={() => alert('hello')}
             size={30}
           />
+          <Text style={styles.yellow}>
+            TILL NEXT EVENT
+          </Text>
         </View>
        
       </ScrollView>
+      </ImageBackground>
     );
   }
 }
@@ -214,17 +225,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'red',
   },
-  scrollView: {
-   // backgroundColor: 'pink',
-    marginHorizontal: 20,
-  },
+  // scrollView: {
+  //  // backgroundColor: 'pink',
+  //   marginHorizontal: 20,
+  // },
   count: {flex: 3},
   stretch: {
     width: 430,
     height: 300,
     resizeMode: 'center',
   },
-
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 1.2
+  },
   stretch: {
     width: 430,
     height: 200,
@@ -235,18 +253,26 @@ const styles = StyleSheet.create({
     flex: 1,
     // marginVertical: 20
   },
+  yellow:{
+    fontWeight:'bold',
+    position:'relative',
+    left:133,
+    fontSize:22
+  },
 
   count: {
     flexDirection: 'column-reverse',
   },
   bottomItem: {
     width: '100%',
-    padding: '2%',
+    
+    padding: '8%',
   },
   bottomItemInner: {
-    backgroundColor: '#4796ae',
-    padding: 5,
-    borderRadius: 7,
+    backgroundColor: '#3F729B',
+    padding: 7,
+    borderColor:'black',
+    
   },
   ScrollView: {
     backgroundColor: 'red',

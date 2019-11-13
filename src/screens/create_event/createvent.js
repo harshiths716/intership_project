@@ -246,8 +246,8 @@ class Createvent extends Component {
   };
   capacitypicker = () => {
     return (
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        <Text style={{fontSize: 18}}>capacity</Text>
+      <View style={{flex: 1, flexDirection: 'row',position:'relative',top:27}}>
+        <Text style={{fontSize: 18,position:'relative',top:10}}>capacity</Text>
         <Picker
           //label='capacity'
           mode="dropdown"

@@ -90,9 +90,7 @@ class Loginsc extends React.Component {
       );
     } catch (e) {}
 
-    if (this.props.userdata1.success === false) {
-      alert('wrong credetials');
-    }
+   
 
     if (this.props.userdata1.success === true) {
       if (this.props.userdata1.isOrganiser === true) {
@@ -122,10 +120,15 @@ class Loginsc extends React.Component {
     // var method = ''
 
     if (this.props.username && this.props.password) {
-      await this.props.sign_in(obj);
+     this.props.sign_in(obj);
     } else {
       alert('fiels not filled');
     }
+
+    if (this.props.userdata1.success === false) {
+      alert('wrong credetials');
+    }
+
   }
 
   _configureGoogleSignIn() {
@@ -303,13 +306,7 @@ class Loginsc extends React.Component {
                 
               }}
             />
-<GoogleSigninButton
-        style={{width: 192, height: 48}}
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={this.signIn}
-        disabled={false}
-      />
+
 
             <FloatingLabelInput
               label="username"
@@ -324,7 +321,18 @@ class Loginsc extends React.Component {
               value={this.props.password}
               onChangeText={this.props.typepassword}
             />
+<GoogleSigninButton
+        style={styles.googlebut}
+        size={GoogleSigninButton.Size.Wide}
+        color={GoogleSigninButton.Color.Dark}
+        onPress={this.signIn}
+        disabled={false}
+      />
 
+      <Text style={styles.orr}>
+OR
+
+      </Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.handleSubmit(userdata)}>
@@ -376,16 +384,17 @@ const styles = StyleSheet.create({
   
   },
   button: {
-    backgroundColor: '#278eb0',
+    backgroundColor: '#0275d8',
     alignSelf: 'center',
     borderRadius: 19,
     marginBottom: '100%',
-    width: '55%',
-    height: '10%',
+    width: '60%',
+    height: '7%',
     position:'relative',
-    top:92
+    top:22
     //elevation: 7,
   },
+  
   backgroundImage: {
     flex: 1,
     width: '100%',
@@ -394,12 +403,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     opacity: 0.7 
   },
+  orr:{
+    position:'relative',
+    top:108,
+    left:150,
+fontWeight:'bold',
+fontSize:15
+  },
+  googlebut:{
+    width: 192,
+     height: 48,
+     position:'relative',
+     top:208,
+     left:62,
+  },
   txt: {
-    paddingTop: 10,
+    paddingTop: 5,
     fontSize: 22,
     color: 'white',
     fontWeight:'bold',
-
     alignSelf: 'center',
   },
   error: {

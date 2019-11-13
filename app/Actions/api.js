@@ -312,3 +312,26 @@ console.warn('error')
 
   }
 };
+
+
+export const send_invites_api_hit = async body => {
+  console.warn(body.data)
+  try {
+    const response = await fetch(ip + body.endpoint, {
+      method: body.method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+         Authorization: "Bearer " + body.token
+      },
+      body: JSON.stringify(body.data),
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (e) {
+console.warn('error')
+
+  }
+};
