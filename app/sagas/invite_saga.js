@@ -1,21 +1,22 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
-import {GET_DESIGNATION}  from '../Actions/invite_action'
-import {} from "../Actions/api";
+import {SEND_INVITES,send_invite_done}  from '../Actions/invite_action'
+import {send_invites_api_hit} from "../Actions/api";
 
 
-function* get_designation_Api_Data(actions) {
+function* send_invites_api_saga(actions) {
     try {
-      const data = yield call(add_subtask_api_hit,actions.payload);
-      yield put(add_subtask_api_done(data));
+      const data = yield call(send_invites_api_hit,actions.payload);
+      console.log(this.state.data)
+      yield put(send_invite_done(data));
     } catch (e) {
     
     }
   }
 
 
-export default function* mySagaTask() {
- yield takeEvery(GET_DESIGNATION, get_accepted_task_events_Api_Data);
+export default function* mySagaInvites() {
+ yield takeEvery(SEND_INVITES,send_invites_api_saga)
 
 
 }

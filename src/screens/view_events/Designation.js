@@ -22,21 +22,21 @@ import StarRating from 'react-native-star-rating';
 import Apicall from '../networking/apicall2';
 import {connect} from 'react-redux';
 import { CheckBox } from 'react-native';
-var data=[
-    {
-        eName: "veni",
+// var data=[
+//     {
+//         eName: "veni",
         
-    },
-    {
-        eName: "vidi",
+//     },
+//     {
+//         eName: "vidi",
         
-    },
-    {
-        eName: "vici",
+//     },
+//     {
+//         eName: "vici",
         
-    }
+//     }
     
-]
+// ]
  export default class Designation extends React.Component {
 constructor(props) {
     super(props);
@@ -177,6 +177,26 @@ constructor(props) {
   }
 }
 
+
+import {
+ send_invites
+} from '../../../app/Actions/invite_action';
+const mapStateToProps = state => ({
+  invitesapidata: state.Invite.invitesapidata,
+
+});
+
+const mapDispatchToProps = dispatch => ({
+  send_invites: data => dispatch(send_invites(data)),
+
+});
+
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EventsAssigned);
 
 
 const styles = StyleSheet.create({

@@ -28,7 +28,7 @@ const Firststack = createAppContainer(
     },
     {
       headerMode: 'none',
-      initialRouteName: 'Organizer',
+      initialRouteName: 'Loginsc',
     },
   ),
 );
