@@ -68,13 +68,8 @@ class EventsAssigned extends Component {
 
     return (
     //  <ScrollView style={styles.container}>
-        <View style={{flex:1}}>
-          <TouchableOpacity //key={item.events._id}
-            style={styles.bottomItemInner}
-            onPress={() => {
-
-              navigate('Assignedeventinfo', item);
-            }}>
+        <View style={styles.bottomItemInner}>
+          
             <Text
               style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
               {item.events.eName}
@@ -104,7 +99,7 @@ class EventsAssigned extends Component {
                 <Text> Reject</Text>
               </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+          
         </View>
      // </ScrollView>
     );

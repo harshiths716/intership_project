@@ -51,7 +51,7 @@ export default class FloatingLabelInput extends Component {
         })
       };
       return (
-        <View style={{ paddingTop: 18 }}>
+        <View style={{ paddingTop: 18,position:'relative',top:36 }}>
           <Animated.Text style={labelStyle}>{label}</Animated.Text>
           <TextInput
             {...props}
