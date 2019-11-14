@@ -1,6 +1,6 @@
 
 import {RECEIVE_USER_DETAILS,receiveUserDetails,CREATE_EVENT_API_DONE} from '../Actions/create_event_action'
-const CreateEvent = (state = {createEventid:''},action) => {
+const CreateEvent = (state = {createEventid:'',userdetails:[]},action) => {
   switch (action.type) {
     case CREATE_EVENT_API_DONE:
         
@@ -9,7 +9,6 @@ const CreateEvent = (state = {createEventid:''},action) => {
             createEventid:action.payload
         }
     case RECEIVE_USER_DETAILS:
-  
         return{
             ...state,
             userdetails:action.payload
