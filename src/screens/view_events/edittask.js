@@ -91,6 +91,31 @@ export default class Edittask extends Component {
   };
 
 
+  addname = (id, email) => {
+    iddata.push({id: id, email: email});
+    idarray.push(id);
+    this.setState({idarray: iddata});
+
+  };
+  renderItem = ({item}) => {
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.bottomItem}>
+          <TouchableOpacity
+            style={styles.bottomItemInner}
+            onPress={() => this.addname(item._id, item.email)}>
+            <Text
+              numberOfLines={1}
+              style={{fontSize: 17, fontFamily: 'Roboto'}}>
+              {item.name}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  };
+
+
   render() {
   
     return (

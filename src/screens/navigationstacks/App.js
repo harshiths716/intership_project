@@ -34,9 +34,13 @@ FirebaseStorageUploader
    },
     {
       headerMode: 'none',
+   // initialRouteName: 'Loginsc'
+     initialRouteName: 'Organizer'
 
-      initialRouteName: 'new_firebase'
+
+     // initialRouteName: 'new_firebase'
       //initialRouteName: 'Organizer'
+
 
     }
   )
