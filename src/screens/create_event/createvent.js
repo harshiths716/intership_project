@@ -12,6 +12,7 @@ import {
   Text,
   Image,
   StyleSheet,
+  ImageBackground,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
@@ -226,7 +227,7 @@ class Createvent extends Component {
       <Picker
         note
         mode="dropdown"
-        style={{width: 250}}
+        style={{width: 250,position:'relative',top:47}}
         selectedValue={this.state.selectedvenue}
         onValueChange={this.onValueChangevenue.bind(this)}>
         <Picker.Item label="NL:Main Building" value="NL:Main Building" />
@@ -246,7 +247,7 @@ class Createvent extends Component {
   };
   capacitypicker = () => {
     return (
-      <View style={{flex: 1, flexDirection: 'row',position:'relative',top:27}}>
+      <View style={{flex: 1, flexDirection: 'row',position:'relative',top:47}}>
         <Text style={{fontSize: 18,position:'relative',top:10}}>capacity</Text>
         <Picker
           //label='capacity'
@@ -389,8 +390,13 @@ idarray.unshift(this.state.userdata.UserID)
 
     const {show, mode, date} = this.state;
     return (
-      <View style={{flex: 1, padding: 30, backgroundColor: '#f5fcff'}}>
+      <ImageBackground
+      source={require('../resources/3.jpg')}
+      style={styles.backgroundImage}
+    >
+      <View style={{flex: 1, padding: 30}}>
         <ScrollView>
+          <View style={{position:'relative',bottom:42}}>
           <FloatingLabelInput
             label="Event Name"
             value={this.state.ename}
@@ -406,6 +412,7 @@ idarray.unshift(this.state.userdata.UserID)
               this.setState({desc: text});
             }}
           />
+          
           <View style={{flex: 1}}>
             {this.state.idarray != null &&
               this.state.idarray.map(item => (
@@ -421,6 +428,7 @@ idarray.unshift(this.state.userdata.UserID)
               this.list(text);
             }}
           />
+          </View>
           <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
 
           {this.state.iscapacity
@@ -431,7 +439,7 @@ idarray.unshift(this.state.userdata.UserID)
           {this.state.isvenuepicker
             ? this.venuepicker()
             : this.inputbox('enter event venue', 'venue')}
-
+<View style={{position:'relative',bottom:87,flexDirection:'row',}}>
           {show && (
             <DateTimePicker
               value={date}
@@ -443,19 +451,21 @@ idarray.unshift(this.state.userdata.UserID)
             />
           )}
          {/* <Text>{this.state.start!=typeof([]) ? this.state.start:null }</Text>  */}
+        
           <Button
-            title="Please select start time"
+            title=" select start time"
             onPress={() => this._show('start')}
           />
          {/* <Text>{this.state.end }</Text>  */}
-
+<View style ={{position:'relative',left:40}}>
           <Button
-            title="Please select end time"
+            title="select end time"
             onPress={() => this._show('end')}
           />
-
+          </View>
+</View>
           {/* <Button title="choose poster" onPress={this.handleposter} /> */}
-
+         
           <TouchableOpacity
             style={{
               marginTop: '5%',
@@ -463,6 +473,8 @@ idarray.unshift(this.state.userdata.UserID)
               width: '150%',
               borderRadius: 5,
               backgroundColor: '#4287f5',
+            
+             
             }}
             onPress={() =>this.apihit()}>
             <Text
@@ -477,6 +489,7 @@ idarray.unshift(this.state.userdata.UserID)
           </TouchableOpacity>
         </ScrollView>
       </View>
+      </ImageBackground>
     );
   }
 }
@@ -488,6 +501,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#555',
   },
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.7 
+  }
 });
 
 const mapStateToProps = state => ({

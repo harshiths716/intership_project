@@ -168,15 +168,7 @@ class Upcoming extends React.Component {
     >
       <ScrollView >
       <View style={{flex:1}}>
-       
-            <Image
-              style={styles.stretch}
-              source={require('../resources/img.jpg')}
-            />
-         
-          {this.props.upcoming!=null && this.upevents()}
-
-          <CountDown
+      <CountDown
             style={styles.count}
 
             until={this.props.upcoming.timediff}
@@ -186,7 +178,16 @@ class Upcoming extends React.Component {
           />
           <Text style={styles.yellow}>
             TILL NEXT EVENT
-          </Text>
+            {this.props.upcoming.data.eName}
+                     </Text>
+            {/* <Image
+              style={styles.stretch}
+              source={require('../resources/img.jpg')}
+            /> */}
+         
+          {this.props.upcoming!=null && this.upevents()}
+
+          
         </View>
        
       </ScrollView>
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
   stretch: {
     width: 430,
     height: 300,
-    resizeMode: 'center',
+    resizeMode: 'fit',
   },
   backgroundImage: {
     flex: 1,
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
   yellow:{
     fontWeight:'bold',
     position:'relative',
-    left:133,
+    left:70,
     fontSize:22
   },
 
@@ -266,12 +267,15 @@ const styles = StyleSheet.create({
   bottomItem: {
     width: '100%',
     
-    padding: '8%',
+    padding: '2%',
   },
   bottomItemInner: {
     backgroundColor: '#3F729B',
     padding: 7,
     borderColor:'black',
+    borderRadius:11,
+    width:'100%',
+    
     
   },
   ScrollView: {

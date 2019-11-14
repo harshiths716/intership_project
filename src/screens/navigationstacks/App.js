@@ -34,6 +34,7 @@ FirebaseStorageUploader
    },
     {
       headerMode: 'none',
+
       initialRouteName: 'new_firebase'
       //initialRouteName: 'Organizer'
 
