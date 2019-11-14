@@ -14,6 +14,9 @@ import EventPlan2 from '../view_events/eventplan2'
 import Designation from '../view_events/invites'
 import Myeventinfo from '../view_events/Myeventinfo';
 import Upcomingeventinfo from '../view_events/Upcomingeventinfo';
+import UploadFile from '../view_events/upload_file'
+import FirebaseStorageUploader from '../view_events/FirebaseStorageUploader'
+import new_firebase from '../view_events/new_firebase'
 const Firststack = createAppContainer(
   createSwitchNavigator(
     {
@@ -23,11 +26,22 @@ const Firststack = createAppContainer(
      User,
     Organizer,
 Notification,
+GoogleButton,
 Admin,
+UploadFile,
+new_firebase,
+FirebaseStorageUploader
    },
     {
       headerMode: 'none',
-      initialRouteName: 'Loginsc'
+   // initialRouteName: 'Loginsc'
+     initialRouteName: 'Organizer'
+
+
+     // initialRouteName: 'new_firebase'
+      //initialRouteName: 'Organizer'
+
+
     }
   )
 );

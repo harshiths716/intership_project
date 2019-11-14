@@ -21,6 +21,6 @@ export default function* mySagaButton() {
  yield takeEvery(PUBLISH,joinApiData);
  yield takeEvery(WITHDRAW,joinApiData);
  yield takeEvery(UPLOAD,joinApiData);
- yield takeEvery(INVITE,joinApiData);
+// yield takeEvery(INVITE,joinApiData);
  yield takeEvery(CANCEL,joinApiData);
 }

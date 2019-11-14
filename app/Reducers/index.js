@@ -18,6 +18,8 @@ import Task from './Task_reducer'
 import mySagaTask from '../sagas/Task_saga'
 import Button_reducer from './button_reducer'
 import mySagaButton from '../sagas/button_saga'
+import Invite from './invite_reducer'
+import mySagaInvites from '../sagas/invite_saga'
 const AppReducers = combineReducers({
    TextChanger,
    CreateEvent,
@@ -29,7 +31,8 @@ const AppReducers = combineReducers({
     subtodos,
     CreateEvent,
     Button_reducer,
-    Taskinfo_reducer,Task
+    Taskinfo_reducer,Task,
+    Invite
 });
 const sagaMiddleware = createSagaMiddleware();
 
@@ -49,3 +52,4 @@ sagaMiddleware.run(mySagaCreateEvent)
 sagaMiddleware.run(mySagaMyeventsEvents)
 sagaMiddleware.run(mySagaTask)
 sagaMiddleware.run(mySagaButton)
+sagaMiddleware.run(mySagaInvites)

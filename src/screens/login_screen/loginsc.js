@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from 'react-native-google-signin';
 //import Apicall from "../../networking/apicall";
 import OfflineNotice from '../reuseablecomponents/error';
 // import {sign_in} from '../../../app/Actions/login-actions';
@@ -85,9 +90,7 @@ class Loginsc extends React.Component {
       );
     } catch (e) {}
 
-    if (this.props.userdata1.success === false) {
-      alert('wrong credetials');
-    }
+   
 
     if (this.props.userdata1.success === true) {
       if (this.props.userdata1.isOrganiser === true) {
@@ -117,24 +120,37 @@ class Loginsc extends React.Component {
     // var method = ''
 
     if (this.props.username && this.props.password) {
-      await this.props.sign_in(obj);
+     this.props.sign_in(obj);
     } else {
       alert('fiels not filled');
     }
+
+    if (this.props.userdata1.success === false) {
+      alert('wrong credetials');
+    }
+
   }
 
-
+  _configureGoogleSignIn() {
+    GoogleSignin.configure({
+      webClientId:
+        '929636501127-g6oujuoi5uofeh7eilvnv0b2s3jnknoi.apps.googleusercontent.com',
+      offlineAcess: true,
+    });
+  }
 
 
   async componentDidMount() {
     this.checkPermission();
     this.createNotificationListeners(); //add this line
-    
+    this._configureGoogleSignIn();
+
   }
 
   componentWillUnmount() {
     this.notificationListener;
     this.notificationOpenedListener;
+    
   }
 
   //1
@@ -146,6 +162,34 @@ class Loginsc extends React.Component {
       this.requestPermission();
     }
   }
+
+
+  signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      this.props.login;
+      await GoogleSignin.revokeAccess();
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // sign in was cancelled
+        Alert.alert('cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation in progress already
+        Alert.alert('in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert('play services not available or outdated');
+      } else {
+        Alert.alert('Something went wrong', error.toString());
+        this.setState({
+          error,
+        });
+      }
+    }
+  };
+
+
 
   //3
   async getToken() {
@@ -263,6 +307,7 @@ class Loginsc extends React.Component {
               }}
             />
 
+
             <FloatingLabelInput
               label="username"
               value={this.props.username}
@@ -276,13 +321,27 @@ class Loginsc extends React.Component {
               value={this.props.password}
               onChangeText={this.props.typepassword}
             />
+<GoogleSigninButton
+        style={styles.googlebut}
+        size={GoogleSigninButton.Size.Wide}
+        color={GoogleSigninButton.Color.Dark}
+        onPress={this.signIn}
+        disabled={false}
+      />
 
+      <Text style={styles.orr}>
+OR
+
+      </Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.handleSubmit(userdata)}>
               <Text style={styles.txt}>SIGN IN</Text>
             </TouchableOpacity>
+
+            
           </View>
+         
         </ScrollView>
       </View>
       </ImageBackground>
@@ -325,16 +384,17 @@ const styles = StyleSheet.create({
   
   },
   button: {
-    backgroundColor: '#278eb0',
+    backgroundColor: '#0275d8',
     alignSelf: 'center',
     borderRadius: 19,
     marginBottom: '100%',
-    width: '55%',
-    height: '10%',
+    width: '60%',
+    height: '7%',
     position:'relative',
-    top:92
+    top:22
     //elevation: 7,
   },
+  
   backgroundImage: {
     flex: 1,
     width: '100%',
@@ -343,12 +403,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     opacity: 0.7 
   },
+  orr:{
+    position:'relative',
+    top:108,
+    left:150,
+fontWeight:'bold',
+fontSize:15
+  },
+  googlebut:{
+    width: 192,
+     height: 48,
+     position:'relative',
+     top:208,
+     left:62,
+  },
   txt: {
-    paddingTop: 10,
+    paddingTop: 5,
     fontSize: 22,
     color: 'white',
     fontWeight:'bold',
-
     alignSelf: 'center',
   },
   error: {
