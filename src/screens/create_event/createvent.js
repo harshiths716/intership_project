@@ -380,7 +380,7 @@ idarray.unshift(this.state.userdata.UserID)
       token: this.state.userdata.token
 
     };
-    this.props.create_event(body);
+ //   this.props.create_event(body);
     this.props.navigation.navigate('todo');
 
   };

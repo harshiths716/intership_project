@@ -1,4 +1,4 @@
-var ip = 'http://b73b0db7.ngrok.io';
+var ip = 'http://054af04b.ngrok.io';
 
 export const Login_api = async body => {
   try {

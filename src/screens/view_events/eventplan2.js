@@ -43,7 +43,6 @@ class EventPlan2 extends Component {
   }
 
   renderItem = ({item, index}) => {
-    //let secondindex = index
     return (
       //  <ScrollView>
       <View style={{flex: 1}}>
@@ -53,8 +52,13 @@ class EventPlan2 extends Component {
               onPress={() =>
                 this.props.navigation.navigate('taskinfo', {
                   text: item.tName,
-                  eventId: eventId,
-                  id: '',
+                  eventId:item.eventId,
+                  id:item._id ,
+                  description:item.description,
+                  ownership: this.segricate(item.ownership) + '',
+                  ownershipId:item.ownership,
+                  budget:item.budget,
+                  deadline:item.deadline,
                 })
               }>
               <Text
@@ -69,10 +73,15 @@ class EventPlan2 extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate('editsubtask', {
+                this.props.navigation.navigate('taskinfo', {
                   text: '',
-                  eventId: eventId,
-                  id: item._id,
+                  eventId:item.eventId,
+                  id:item._id ,
+                  description:'',
+                  ownership:'',
+                  budget:null,
+                  deadline:'',
+                //  new:null
                 })
               }>
               <Image
@@ -122,7 +131,7 @@ class EventPlan2 extends Component {
          
         </TouchableOpacity>
         <Text style={{backgroundColor: 'green'}}>
-            {this.segricate(item.ownership) + ''}
+            {this.segricate(item.ownership)+''}
           </Text>
       </View>
     );
@@ -147,8 +156,8 @@ class EventPlan2 extends Component {
       });
 
       // await  this.setState({name:rebels.name})
-       console.warn('name asterr',rebels)
-      return rebels[0].name;
+      // console.warn('name asterr',rebels)
+      return rebels[0].email;
       //  return null
     }
     else{
@@ -241,6 +250,7 @@ class EventPlan2 extends Component {
                       text: '',
                       eventId: eventId,
                       id: '',
+
                     })
                   }>
                   <Image

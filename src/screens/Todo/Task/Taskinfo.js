@@ -28,19 +28,21 @@ import {
 } from '../../../../app/Actions/taskinfo_actions';
 
 var iddata = '';
-var count=''
-var data=''
- export class Taskinfo extends React.Component {
+var count = '';
+var data = '';
+export class Taskinfo extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log('in constructor');
     this.state = {
       data: this.props.navigation.state.params,
       isStartTimePickerVisible: false,
       text: '',
       listHolder: '',
       search: '',
-      idarray1:'',
+      idarray1: this.props.navigation.state.params.eventId
+        ? this.props.navigation.state.params.ownership
+        : '',
       StartTime: '',
       desc: '',
       budget: '',
@@ -50,7 +52,7 @@ var data=''
       date: new Date(),
       start: new Date(),
       end: new Date(),
-      taskname:''
+      taskname: '',
     };
   }
 
@@ -72,25 +74,22 @@ var data=''
     try {
       value = await AsyncStorage.getItem('userdata');
       count = JSON.parse(value);
-    } catch (e) {
-    
-    }
-    
+    } catch (e) {}
+
     this.props.sendUserDetails(count);
-  
+
     this.props.data.map(item => {
- 
       if (this.state.data.id == item.id && item.flag !== false) {
-     
         if (item === null) {
-    
         } else {
-    
           this.setState({
             desc: item.description,
             budget: item.Budget,
             StartTime: item.deadline,
-            idarray1: item.ownership,
+            idarray1: {
+              email: this.segricate(item.ownership) + '',
+              id: item.ownership,
+            },
           });
 
           // item.id
@@ -100,8 +99,39 @@ var data=''
         }
       }
     });
-    this.setState({taskname:this.state.data.text})
+    this.setState({taskname: this.state.data.text});
+
+    this.state.data.eventId &&
+      this.setState(
+        {
+          data: this.props.navigation.state.params,
+          idarray1: this.props.navigation.state.params.eventId
+            ? {
+                email: this.props.navigation.state.params.ownership + '',
+                id: this.props.navigation.state.params.ownershipId,
+              }
+            : '',
+        },
+        console.warn('in component did mount'),
+      );
   }
+
+  segricate = obj => {
+    console.warn('obj', obj);
+    if (this.props.userdetails.length != 0) {
+      var rebels = this.props.userdetails.filter(function(pilot) {
+        /// console.warn(pilot.userDesg)
+        return pilot._id === obj;
+      });
+
+      // await  this.setState({name:rebels.name})
+      // console.warn('name asterr',rebels)
+      return rebels[0].email;
+      //  return null
+    } else {
+      console.warn('code reached else');
+    }
+  };
 
   list(text) {
     const newData = this.props.userdetails.filter(function(item) {
@@ -122,8 +152,7 @@ var data=''
     //   alert('only one ownership')
     // }else{
     iddata = id;
-    this.setState({idarray1: email});
-  
+    this.setState({idarray1: {email: email, id: id}});
   };
   renderItem = ({item}) => {
     return (
@@ -145,7 +174,6 @@ var data=''
 
   componentWillUnmount() {
     this.sendtask();
-
   }
 
   renderItem1 = ({item}) => {
@@ -167,38 +195,36 @@ var data=''
     );
   };
 
-  addsubtask = () => {
-    return (
-      <View style={{flexDirection: 'row', marginHorizontal: 20}}>
-        <TextInput
-          onChangeText={text => this.setState({text})}
-          value={this.state.text}
-          placeholder="Eg. Create New task"
-          style={{
-            borderWidth: 1,
-            borderColor: '#f2f2e1',
-            backgroundColor: '#eaeaea',
-            height: 50,
-            flex: 1,
-            padding: 5,
-          }}
-        />
-        <TouchableOpacity
-          style={{justifyContent: 'center'}}
-          onPress={() =>
-            this.props.addsubTodo(this.state.text) && this.setState({text: ''})
-          }>
-          <Text style={{fontSize: 35}}>+</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  // addsubtask = () => {
+  //   return (
+  //     <View style={{flexDirection: 'row', marginHorizontal: 20}}>
+  //       <TextInput
+  //         onChangeText={text => this.setState({text})}
+  //         value={this.state.text}
+  //         placeholder="Eg. Create New task"
+  //         style={{
+  //           borderWidth: 1,
+  //           borderColor: '#f2f2e1',
+  //           backgroundColor: '#eaeaea',
+  //           height: 50,
+  //           flex: 1,
+  //           padding: 5,
+  //         }}
+  //       />
+  //       <TouchableOpacity
+  //         style={{justifyContent: 'center'}}
+  //         onPress={() =>
+  //           this.props.addsubTodo(this.state.text) && this.setState({text: ''})
+  //         }>
+  //         <Text style={{fontSize: 35}}>+</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // };
 
   setDate = (event, date, v) => {
-
     if (event.type == 'set') {
       if (this.state.mode === 'time') {
-
         let dat = new Date(
           this.state[v].toISOString().substr(0, 11) +
             date.toISOString().substr(11),
@@ -213,7 +239,6 @@ var data=''
           () => console.warn(v + ' ' + this.state[v]),
         );
       } else {
-  
         this.setState({
           [v]: date,
           mode: 'time',
@@ -234,34 +259,38 @@ var data=''
   };
 
   sendtask = () => {
-     data = {
-       token:count.token,
+    data = {
+      token: count.token,
       id: this.state.data.id,
-      eventId:this.state.data.eventId ?this.state.data.eventId :this.props.createEventid.eventId,
+      eventId: this.state.data.eventId
+        ? this.state.data.eventId
+        : this.props.createEventid.eventId,
       completed: this.state.data.completed,
-      ownership: iddata,
+      ownership: this.state.data.eventId
+        ? this.state.data.ownershipId
+        : this.state.idarray1.id,
       description: this.state.desc,
-      tName: this.state.data.eventId ?this.state.taskname:this.state.data.text,
+      tName: this.state.data.eventId
+        ? this.state.taskname
+        : this.state.data.text,
       Budget: this.state.budget,
       deadline: this.state.end,
-      createdBy:count.UserID,
+      createdBy: count.UserID,
       flag: true,
     };
- 
+
     this.props.addorganizer(data);
   };
 
-
-apihit=()=>{
-  this.sendtask()
-  this.props.add_task_api(data)
-}
+  apihit = () => {
+    this.sendtask();
+    this.props.add_task_api(data);
+  };
   render() {
     const {show, mode, date} = this.state;
-
+    console.warn(this.state.data);
     return (
       <View style={{flex: 1, padding: '5%'}}>
-         
         <KeyboardAvoidingView behavior="padding">
           <TouchableOpacity
             style={{backgroundColor: 'black', width: '20%', height: '10%'}}
@@ -271,23 +300,27 @@ apihit=()=>{
             </Text>
           </TouchableOpacity>
 
-            <FloatingLabelInput
-              label="Task Name"
-             // value={this.state.taskname}
-              defaultValue={this.state.data.text}
-              onChangeText={text => {
-               this.setState({taskname:text})
-              }}
-            />
-         
+          <FloatingLabelInput
+            label="Task Name"
+            // value={this.state.taskname}
+            defaultValue={
+              this.state.data.eventId
+                ? this.state.data.text
+                : this.state.taskname
+            }
+            onChangeText={text => {
+              this.setState({taskname: text});
+            }}
+          />
 
-         
-
-          <Text style={{color: 'blue'}}>{this.state.idarray1}</Text>
+          <Text style={{color: 'blue'}}>
+            Ownership:{this.state.idarray1.email}
+          </Text>
 
           <FloatingLabelInput
             label="Add ownership"
-            value={this.state.search}
+            // defaultValue={this.state.data.eventId ?this.state.data.ownership:this.state.idarray1}
+            value={this.state.ownership}
             onChangeText={text => {
               this.list(text);
             }}
@@ -296,11 +329,14 @@ apihit=()=>{
           <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
           {/* </View> */}
 
+          <Text>Date:{this.state.end.toString().substring(0, 10)} </Text>
+          <Text>Time{this.state.end.toString().substring(15, 21)}</Text>
+
           {show && (
             <DateTimePicker
               value={date}
               mode={mode}
-              is24Hour={false}
+              is24Hour={true}
               display="default"
               minimumDate={date}
               onChange={(e, d) => this.setDate(e, d, this.state.type)}
@@ -318,20 +354,27 @@ apihit=()=>{
 
           <FloatingLabelInput
             label={'Add Description'}
-            value={this.state.desc}
+            defaultValue={
+              this.state.data.eventId
+                ? this.state.data.description
+                : this.state.desc
+            }
             onChangeText={text => this.setState({desc: text})}
           />
 
-          <FloatingLabelInput
-            label={'Add Budget'}
-            value={this.state.budget}
-            onChangeText={text => this.setState({budget: text})}
-          />
-          {
-            //   console.warn('lala',this.state.data)
-            /* // {this.addsubtask()}
-// {this.subtask()} */
-          }
+          {this.state.data.budget == null ? (
+            <View style={{flex: 1}}></View>
+          ) : (
+            <FloatingLabelInput
+              label={'Add Budget'}
+              defaultValue={
+                this.state.data.eventId 
+                  ? this.state.data.budget 
+                  : this.state.budget&& console.warn('1',this.state.data.budget)
+              }
+              onChangeText={text => this.setState({budget: text})}
+            />
+          )}
         </KeyboardAvoidingView>
       </View>
     );
@@ -348,13 +391,12 @@ const styles = StyleSheet.create({
   },
 });
 
-
-import {add_task_api} from '../../../../app/Actions/Task_actions'
+import {add_task_api} from '../../../../app/Actions/Task_actions';
 const mapStateToProps = state => ({
   subtodos: state.subtodos,
-tasksent:state.Task.tasksent,
+  tasksent: state.Task.tasksent,
   userdetails: state.CreateEvent.userdetails,
-  createEventid:state.CreateEvent.createEventid,
+  createEventid: state.CreateEvent.createEventid,
 
   //   description:state.Taskinfo_reducer.description,
   //   tName:state.Taskinfo_reducer.tName,
@@ -372,13 +414,9 @@ const mapDispatchToProps = dispatch => ({
   sendUserDetails: data => dispatch(sendUserDetails(data)),
   addorganizer: data => dispatch(addorganizer(data)),
   // adddesc: data => dispatch(adddesc(data)),
-  add_task_api:data=>dispatch(add_task_api(data)),
+  add_task_api: data => dispatch(add_task_api(data)),
   // adddeadline: data => dispatch(adddeadline(data)),
   deletearray: data => dispatch(deletearray(data)),
 });
 
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Taskinfo);
+export default connect(mapStateToProps, mapDispatchToProps)(Taskinfo);
