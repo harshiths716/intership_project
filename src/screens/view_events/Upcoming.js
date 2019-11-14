@@ -9,7 +9,7 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-community/async-storage';
 
 //import FadeInView from "./animation";
 import {Switch} from 'react-native';
@@ -22,9 +22,8 @@ import StarRating from 'react-native-star-rating';
 import Apicall from '../networking/apicall2';
 import {connect} from 'react-redux';
 
-
-var count =0
-var value = 0
+var count = 0;
+var value = 0;
 class Upcoming extends React.Component {
   constructor(props) {
     super(props);
@@ -42,12 +41,7 @@ class Upcoming extends React.Component {
       C: '',
       D: '',
       A: '',
-
     };
-
-
-
-
 
     //this.renderItem = this.renderItem.bind(this);
     // this.upevents = this.upevents.bind(this);
@@ -69,44 +63,65 @@ class Upcoming extends React.Component {
   };
 
   renderItem = ({item}) => {
-
-
     return (
-      
-      <ScrollView style={styles.container}
-      >
+      <ScrollView style={styles.container}>
         <View style={styles.bottomItem}>
-          <TouchableOpacity style={styles.bottomItemInner}
-          onPress={() => this.props.navigation.navigate('Upcomingeventinfo',item)}>
+          <TouchableOpacity
+            style={styles.bottomItemInner}
+            onPress={() =>
+              this.props.navigation.navigate('Upcomingeventinfo', item)
+            }>
             <Text
               numberOfLines={1}
-              style={{fontSize: 17, fontFamily: 'Roboto', fontWeight:'bold',textAlign:'center',color:'white'}}>
+              style={{
+                fontSize: 17,
+                fontFamily: 'Roboto',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                color: 'white',
+              }}>
               {item.eName}
             </Text>
             <Text
-              style={{fontFamily: 'Roboto', fontSize: 17, fontWeight:'17',textAlign:'center',color:'white'}}>
+              style={{
+                fontFamily: 'Roboto',
+                fontSize: 17,
+                fontWeight: '17',
+                textAlign: 'center',
+                color: 'white',
+              }}>
               {item.startTime.substr(0, 10)}
             </Text>
             <Text
               numberOfLines={1}
-              style={{fontSize: 17, fontFamily: 'Roboto', fontWeight:'17',textAlign:'center',color:'white'}}>
+              style={{
+                fontSize: 17,
+                fontFamily: 'Roboto',
+                fontWeight: '17',
+                textAlign: 'center',
+                color: 'white',
+              }}>
               {item.venue}
             </Text>
             <Text
               numberOfLines={1}
-              style={{ fontWeight:'17', fontSize: 17, fontFamily: 'Roboto',textAlign:'center',color:'white'}}>
+              style={{
+                fontWeight: '17',
+                fontSize: 17,
+                fontFamily: 'Roboto',
+                textAlign: 'center',
+                color: 'white',
+              }}>
               {item.description}
             </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-      
     );
   };
 
-
   upevents = () => {
-    if (this.props.upcoming.length<1) {
+    if (this.props.upcoming.length < 1) {
       return (
         <View style={{flex: 1}}>
           <Text
@@ -122,8 +137,10 @@ class Upcoming extends React.Component {
       );
     } else {
       return (
-
-        <FlatList data={this.props.upcoming.data} renderItem={this.renderItem} />
+        <FlatList
+          data={this.props.upcoming.data}
+          renderItem={this.renderItem}
+        />
       );
     }
   };
@@ -134,63 +151,48 @@ class Upcoming extends React.Component {
     });
   }
 
+  async componentDidMount() {
+    var dddd = new Date();
+    let date = dddd.toISOString();
 
- async componentDidMount() {
-
-   var dddd = new Date();
-   let date = dddd.toISOString();
-
-
-   try {
-    value = await AsyncStorage.getItem('userdata');
-    count = JSON.parse(value);
-  
-
-      } catch (e) {
-     
-      }
-     data_data = {date:date,token: count.token};
+    try {
+      value = await AsyncStorage.getItem('userdata');
+      count = JSON.parse(value);
+    } catch (e) {}
+    data_data = {date: date, token: count.token};
     this.props.sendUpcoming(data_data);
-
-
   }
 
-  componentDidUpdate() {
-  }
+  componentDidUpdate() {}
 
   render() {
-
-
     return (
       <ImageBackground
-      source={require('../resources/3.jpg')}
-      style={styles.backgroundImage}
-    >
-      <ScrollView >
-      <View style={{flex:1}}>
-      <CountDown
-            style={styles.count}
-
-            until={this.props.upcoming.timediff}
-           // onFinish={() => alert('finished')}
-            onPress={() => alert('hello')}
-            size={30}
-          />
-          <Text style={styles.yellow}>
-            TILL NEXT EVENT
-            {this.props.upcoming.data.eName}
-                     </Text>
+        source={require('../resources/3.jpg')}
+        style={styles.backgroundImage}>
+        <ScrollView>
+          { this.props.upcoming.timediff!=undefined ?
+          <View style={{flex: 1}}>
+            <CountDown
+              style={styles.count}
+              until={this.props.upcoming.timediff}
+              // onFinish={() => alert('finished')}
+              onPress={() => alert('hello')}
+              size={30}
+            />
+            <Text style={styles.yellow}>TILL NEXT EVENT</Text>
+            <Text style={styles.yellow}>
+              {' '}
+              {this.props.upcoming.data && this.props.upcoming.data[0].eName}
+            </Text>
             {/* <Image
               style={styles.stretch}
               source={require('../resources/img.jpg')}
             /> */}
-         
-          {this.props.upcoming!=null && this.upevents()}
 
-          
-        </View>
-       
-      </ScrollView>
+            {this.props.upcoming != null && this.upevents()}
+          </View>:<Text>no events</Text>}
+        </ScrollView>
       </ImageBackground>
     );
   }
@@ -203,19 +205,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   sendUpcoming: data => dispatch(send_Upcoming(data)),
-
 });
 
-
 function send_Upcoming(data) {
-  
   return {type: SEND_UPCOMING, payload: data};
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Upcoming);
+export default connect(mapStateToProps, mapDispatchToProps)(Upcoming);
 
 const styles = StyleSheet.create({
   button: {
@@ -240,9 +236,9 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    justifyContent: "center",
-    alignItems: "center",
-    opacity: 1.2
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 1.2,
   },
   stretch: {
     width: 430,
@@ -254,11 +250,11 @@ const styles = StyleSheet.create({
     flex: 1,
     // marginVertical: 20
   },
-  yellow:{
-    fontWeight:'bold',
-    position:'relative',
-    left:70,
-    fontSize:22
+  yellow: {
+    fontWeight: 'bold',
+    position: 'relative',
+    left: 70,
+    fontSize: 22,
   },
 
   count: {
@@ -266,17 +262,15 @@ const styles = StyleSheet.create({
   },
   bottomItem: {
     width: '100%',
-    
+
     padding: '2%',
   },
   bottomItemInner: {
     backgroundColor: '#3F729B',
     padding: 7,
-    borderColor:'black',
-    borderRadius:11,
-    width:'100%',
-    
-    
+    borderColor: 'black',
+    borderRadius: 11,
+    width: '100%',
   },
   ScrollView: {
     backgroundColor: 'red',

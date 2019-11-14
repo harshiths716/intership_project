@@ -290,19 +290,22 @@ export class Taskinfo extends React.Component {
     const {show, mode, date} = this.state;
     console.warn(this.state.data);
     return (
-      <View style={{flex: 1, padding: '5%'}}>
-        <KeyboardAvoidingView behavior="padding">
+
+      <View style={{flex: 1}}>
+
+<ScrollView style={{padding: '4%'}}>
           <TouchableOpacity
-            style={{backgroundColor: 'black', width: '20%', height: '10%'}}
+            style={{backgroundColor: 'black', width: '20%', height: '9%'}}
             onPress={() => this.apihit()}>
             <Text style={{color: 'white', alignSelf: 'center', fontSize: 24}}>
               Done
             </Text>
           </TouchableOpacity>
 
+
           <FloatingLabelInput
-            label="Task Name"
-            // value={this.state.taskname}
+            label="Task Name" 
+            // style={{margin:"5%"}}           // value={this.state.taskname}
             defaultValue={
               this.state.data.eventId
                 ? this.state.data.text
@@ -313,9 +316,13 @@ export class Taskinfo extends React.Component {
             }}
           />
 
-          <Text style={{color: 'blue'}}>
-            Ownership:{this.state.idarray1.email}
+          <Text 
+          style={{color: 'blue',margin:"2%"}}
+          >
+            Ownership:{this.state.idarray1!=undefined ?this.state.idarray1.email:null }
           </Text>
+
+
 
           <FloatingLabelInput
             label="Add ownership"
@@ -325,12 +332,14 @@ export class Taskinfo extends React.Component {
               this.list(text);
             }}
           />
+
+
           {/* <View style={{flex:1}}> */}
           <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
           {/* </View> */}
 
-          <Text>Date:{this.state.end.toString().substring(0, 10)} </Text>
-          <Text>Time{this.state.end.toString().substring(15, 21)}</Text>
+          <Text style={{color:'green',margin:'2%'}}>Date:{this.state.end.toString().substring(0, 10)} </Text>
+          <Text style={{color:'green',margin:'2%'}}>Time{this.state.end.toString().substring(15, 21)}</Text>
 
           {show && (
             <DateTimePicker
@@ -342,10 +351,6 @@ export class Taskinfo extends React.Component {
               onChange={(e, d) => this.setDate(e, d, this.state.type)}
             />
           )}
-          {/* <Button
-            title="Please select start time"
-            onPress={() => this._show('start')}
-          /> */}
 
           <Button
             title="Please select end time"
@@ -362,9 +367,9 @@ export class Taskinfo extends React.Component {
             onChangeText={text => this.setState({desc: text})}
           />
 
-          {this.state.data.budget == null ? (
-            <View style={{flex: 1}}></View>
-          ) : (
+          {this.state.data.budget == 'no' ? 
+            <View style={{flex: 1}}><Text>hi</Text></View>
+           : 
             <FloatingLabelInput
               label={'Add Budget'}
               defaultValue={
@@ -374,21 +379,16 @@ export class Taskinfo extends React.Component {
               }
               onChangeText={text => this.setState({budget: text})}
             />
-          )}
-        </KeyboardAvoidingView>
+          }
+          <View style={{flex:1,marginTop:10}}></View>
+          </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  input: {
-    height: 44,
-    fontSize: 20,
-    color: '#000',
-    borderBottomWidth: 1,
-    borderBottomColor: '#555',
-  },
+
 });
 
 import {add_task_api} from '../../../../app/Actions/Task_actions';

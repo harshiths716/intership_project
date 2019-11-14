@@ -28,11 +28,11 @@ import {
   sendUserDetails,
   create_event,
 } from '../../../app/Actions/create_event_action';
-import { State } from 'react-native-gesture-handler';
+import {State} from 'react-native-gesture-handler';
 
 var iddata = [];
 var idarray = [];
-var count =''
+var count = '';
 class Createvent extends Component {
   constructor(props) {
     super(props);
@@ -64,13 +64,13 @@ class Createvent extends Component {
       iscapacity: false,
       listHolder: '',
       search: '',
-      idarray:[],
+      idarray: [],
       // dataResponse:'',
       //id:[]
       show: false,
       mode: 'date',
       date: new Date(),
-      start:new Date('2020-06-12T14:42:42'),
+      start: new Date('2020-06-12T14:42:42'),
       end: new Date('2020-06-12T14:42:42'),
     };
   }
@@ -133,7 +133,7 @@ class Createvent extends Component {
           this.state[v].toISOString().substr(0, 11) +
             date.toISOString().substr(11),
         );
-      
+
         this.setState(
           {
             [v]: dat,
@@ -143,7 +143,6 @@ class Createvent extends Component {
           () => console.log(v + ' ' + this.state[v]),
         );
       } else {
-     
         this.setState({
           [v]: date,
           mode: 'time',
@@ -166,22 +165,22 @@ class Createvent extends Component {
     try {
       value = await AsyncStorage.getItem('userdata');
       count = JSON.parse(value);
-   
+
       this.setState({userdata: count});
-    } catch (e) {
-  
-    }
+    } catch (e) {}
 
     this.props.sendUserDetails(count);
   }
 
   list(text) {
     const newData = this.props.userdetails.filter(function(item) {
-      const itemData = item.email.substring(0, item.email.indexOf('@')).toUpperCase();
+      const itemData = item.email
+        .substring(0, item.email.indexOf('@'))
+        .toUpperCase();
       const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1 && item.desgs.isOrganiser ===true;
+      return itemData.indexOf(textData) > -1 && item.desgs.isOrganiser === true;
     });
-    this.setState({listHolder:newData,search:text});
+    this.setState({listHolder: newData, search: text});
     if (text == '') {
       this.setState({listHolder: ''});
     }
@@ -199,9 +198,7 @@ class Createvent extends Component {
       this.state.chosenDate &&
       this.state.selectedvenue !== ''
     ) {
-     
     }
-
   };
 
   typepicker = () => {
@@ -227,7 +224,7 @@ class Createvent extends Component {
       <Picker
         note
         mode="dropdown"
-        style={{width: 250,position:'relative',top:47}}
+        style={{width: 250, position: 'relative', top: 47}}
         selectedValue={this.state.selectedvenue}
         onValueChange={this.onValueChangevenue.bind(this)}>
         <Picker.Item label="NL:Main Building" value="NL:Main Building" />
@@ -247,8 +244,11 @@ class Createvent extends Component {
   };
   capacitypicker = () => {
     return (
-      <View style={{flex: 1, flexDirection: 'row',position:'relative',top:47}}>
-        <Text style={{fontSize: 18,position:'relative',top:10}}>capacity</Text>
+      <View
+        style={{flex: 1, flexDirection: 'row', position: 'relative', top: 47}}>
+        <Text style={{fontSize: 18, position: 'relative', top: 10}}>
+          capacity
+        </Text>
         <Picker
           //label='capacity'
           mode="dropdown"
@@ -313,9 +313,7 @@ class Createvent extends Component {
       },
       response => {
         if (response.didCancel) {
-       
         } else if (response.error) {
-      
         } else {
           this.setState({});
         }
@@ -327,7 +325,6 @@ class Createvent extends Component {
     iddata.push({id: id, email: email});
     idarray.push(id);
     this.setState({idarray: iddata});
-
   };
   renderItem = ({item}) => {
     return (
@@ -367,7 +364,7 @@ class Createvent extends Component {
   };
 
   apihit = () => {
-idarray.unshift(this.state.userdata.UserID)
+    idarray.unshift(this.state.userdata.UserID);
     body = {
       eName: this.state.ename,
       venue: this.state.selectedvenue,
@@ -378,117 +375,114 @@ idarray.unshift(this.state.userdata.UserID)
       endTime: this.state.end,
       createdBy: this.state.userdata.UserID,
       organisers: idarray,
-      token: this.state.userdata.token
-
+      token: this.state.userdata.token,
     };
- //   this.props.create_event(body);
+    //   this.props.create_event(body);
     this.props.navigation.navigate('todo');
-
   };
 
   render() {
-
     const {show, mode, date} = this.state;
     return (
       <ImageBackground
-      source={require('../resources/3.jpg')}
-      style={styles.backgroundImage}
-    >
-      <View style={{flex: 1, padding: 30}}>
-        <ScrollView>
-          <View style={{position:'relative',bottom:42}}>
-          <FloatingLabelInput
-            label="Event Name"
-            value={this.state.ename}
-            onChangeText={text => {
-              this.setState({ename: text});
-            }}
-          />
+        source={require('../resources/3.jpg')}
+        style={styles.backgroundImage}>
+        <View style={{flex: 1, padding: 30}}>
+          <ScrollView>
+            <View style={{flex:1}}>
+              <FloatingLabelInput
+                label="Event Name"
+                value={this.state.ename}
+                onChangeText={text => {
+                  this.setState({ename: text});
+                }}
+              />
 
-          <FloatingLabelInput
-            label="Event Description"
-            value={this.state.desc}
-            onChangeText={text => {
-              this.setState({desc: text});
-            }}
-          />
-          
-          <View style={{flex: 1}}>
-            {this.state.idarray != null &&
-              this.state.idarray.map(item => (
-                <Text key={item._id} style={{color: 'blue'}}>
-                  {item.email}
-                </Text>
-              ))}
-          </View>
-          <FloatingLabelInput
-            label="Add organizers"
-            value={this.state.search}
-            onChangeText={text => {
-              this.list(text);
-            }}
-          />
-          </View>
-          <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
+              <FloatingLabelInput
+                label="Event Description"
+                value={this.state.desc}
+                onChangeText={text => {
+                  this.setState({desc: text});
+                }}
+              />
 
-          {this.state.iscapacity
-            ? this.inputbox('enter the capacity', 'capacity')
-            : this.capacitypicker()}
-
-
-          {this.state.isvenuepicker
-            ? this.venuepicker()
-            : this.inputbox('enter event venue', 'venue')}
-<View style={{position:'relative',bottom:87,flexDirection:'row',}}>
-          {show && (
-            <DateTimePicker
-              value={date}
-              mode={mode}
-              is24Hour={false}
-              display="default"
-              minimumDate={date}
-              onChange={(e, d) => this.setDate(e, d, this.state.type)}
+              <View style={{flex: 1}}>
+                {this.state.idarray != null &&
+                  this.state.idarray.map(item => (
+                    <Text key={item._id} style={{color: 'blue'}}>
+                      {item.email}
+                    </Text>
+                  ))}
+              </View>
+              <FloatingLabelInput
+                label="Add organizers"
+                value={this.state.search}
+                onChangeText={text => {
+                  this.list(text);
+                }}
+              />
+            </View>
+            <FlatList
+              data={this.state.listHolder}
+              renderItem={this.renderItem}
             />
-          )}
-         {/* <Text>{this.state.start!=typeof([]) ? this.state.start:null }</Text>  */}
-        
-          <Button
-            title=" select start time"
-            onPress={() => this._show('start')}
-          />
-         {/* <Text>{this.state.end }</Text>  */}
-<View style ={{position:'relative',left:40}}>
-          <Button
-            title="select end time"
-            onPress={() => this._show('end')}
-          />
-          </View>
-</View>
-          {/* <Button title="choose poster" onPress={this.handleposter} /> */}
-         
-          <TouchableOpacity
-            style={{
-              marginTop: '5%',
-              alignSelf: 'center',
-              width: '150%',
-              borderRadius: 5,
-              backgroundColor: '#4287f5',
-            
-             
-            }}
-            onPress={() =>this.apihit()}>
-            <Text
+
+            {this.state.iscapacity
+              ? this.inputbox('enter the capacity', 'capacity')
+              : this.capacitypicker()}
+
+            {this.state.isvenuepicker
+              ? this.venuepicker()
+              : this.inputbox('enter event venue', 'venue')}
+            <View
+              style={{position: 'relative', bottom: 87, flexDirection: 'row'}}>
+              {show && (
+                <DateTimePicker
+                  value={date}
+                  mode={mode}
+                  is24Hour={false}
+                  display="default"
+                  minimumDate={date}
+                  onChange={(e, d) => this.setDate(e, d, this.state.type)}
+                />
+              )}
+              {/* <Text>{this.state.start!=typeof([]) ? this.state.start:null }</Text>  */}
+
+              <Button
+                title=" select start time"
+                onPress={() => this._show('start')}
+              />
+              {/* <Text>{this.state.end }</Text>  */}
+              <View style={{position: 'relative', left: 40}}>
+                <Button
+                  title="select end time"
+                  onPress={() => this._show('end')}
+                />
+              </View>
+            </View>
+            {/* <Button title="choose poster" onPress={this.handleposter} /> */}
+
+            <TouchableOpacity
               style={{
-                fontSize: 25,
-                fontFamily: 'Roboto',
+                marginTop: '5%',
                 alignSelf: 'center',
-                color: 'white',
-              }}>
-              NEXT
-            </Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
+                width: '150%',
+                borderRadius: 5,
+                backgroundColor: '#4287f5',
+              }}
+              onPress={() => this.apihit()}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  fontFamily: 'Roboto',
+                  alignSelf: 'center',
+                  color: 'white',
+                }}>
+                NEXT
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
       </ImageBackground>
     );
   }
@@ -505,15 +499,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    justifyContent: "center",
-    alignItems: "center",
-    opacity: 0.7 
-  }
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.7,
+  },
 });
 
 const mapStateToProps = state => ({
   userdetails: state.CreateEvent.userdetails,
-  createEventid:state.CreateEvent.createEventid
+  createEventid: state.CreateEvent.createEventid,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -521,7 +515,4 @@ const mapDispatchToProps = dispatch => ({
   create_event: data => dispatch(create_event(data)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Createvent);
+export default connect(mapStateToProps, mapDispatchToProps)(Createvent);

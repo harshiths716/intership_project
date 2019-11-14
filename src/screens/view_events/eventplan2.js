@@ -70,6 +70,9 @@ class EventPlan2 extends Component {
                 }}>
                 {item.tName}
               </Text>
+              <Text style={{color: 'green'}}>
+            {this.segricate(item.ownership)+''}
+          </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
@@ -79,7 +82,7 @@ class EventPlan2 extends Component {
                   id:item._id ,
                   description:'',
                   ownership:'',
-                  budget:null,
+                  budget:'no',
                   deadline:'',
                 //  new:null
                 })
@@ -248,9 +251,13 @@ class EventPlan2 extends Component {
                   onPress={() =>
                     this.props.navigation.navigate('taskinfo', {
                       text: '',
-                      eventId: eventId,
-                      id: '',
-
+                      eventId:eventId,
+                      id:'' ,
+                      description:'',
+                      ownership: '',
+                      ownershipId:'',
+                      budget:'',
+                      deadline:'',
                     })
                   }>
                   <Image
