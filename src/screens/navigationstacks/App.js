@@ -4,14 +4,16 @@ import Loginsc from "../login_screen/loginsc";
 import Stacknav from "./bottomnav.js";
 import GoogleButton from '../login_screen/GoogleButton'
 import Notification from '../login_screen/notification'
-import {User,Organizer} from './SideDrawer'
+import {User,Organizer,Admin} from './SideDrawer'
 import React, {Component} from 'react';
 import Upcoming from '../view_events/Upcoming'
 import {Provider} from 'react-redux';
 import TodoApp from '../Todo/TodoApp'
 import store from '../../../app/Reducers/index';
-
-
+import EventPlan2 from '../view_events/eventplan2'
+import Designation from '../view_events/invites'
+import Myeventinfo from '../view_events/Myeventinfo';
+import Upcomingeventinfo from '../view_events/Upcomingeventinfo';
 const Firststack = createAppContainer(
   createSwitchNavigator(
     {
@@ -20,7 +22,8 @@ const Firststack = createAppContainer(
       Loginsc,
      User,
     Organizer,
-    //GoogleButton   
+Notification,
+Admin,
    },
     {
       headerMode: 'none',

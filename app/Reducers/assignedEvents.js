@@ -1,15 +1,21 @@
-import * as Actions from '../Actions/Login_ActionTypes';
-import {TYPE_USERNAME,TYPE_PASSWORD,SIGN_IN,RECEIVE_LOGIN_API}  from '../Actions/Login_ActionTypes'
-import {SEND_UPCOMING,RECEIVE_UPCOMING}  from '../Actions/upcoming'
-import {ACCEPT_EVENT_API} from '../Actions/eventsAssigned'
-const AssignedEvents = (state = {acceptapi:''},action) => {
+import {REJECT_EVENT_DONE,ACCEPT_EVENT_API,ACCEPT_EVENT_DONE} from '../Actions/eventsAssigned'
+const AssignedEvents = (state = {acceptapi:'',apicall:false},action) => {
   switch (action.type) {
     case ACCEPT_EVENT_API:
         return{
             ...state,
             acceptapi:action.payload
         }
-
+        case ACCEPT_EVENT_DONE:
+          return{
+              ...state,
+              apicall:true
+          }
+          case REJECT_EVENT_DONE:
+          return{
+              ...state,
+              apicall:true
+          }
     default:
       return state;
   }

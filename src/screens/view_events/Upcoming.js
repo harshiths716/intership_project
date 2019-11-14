@@ -70,9 +70,12 @@ class Upcoming extends React.Component {
 
 
     return (
-      <ScrollView style={styles.container}>
+
+      <ScrollView style={styles.container}
+      >
         <View style={styles.bottomItem}>
-          <TouchableOpacity style={styles.bottomItemInner}>
+          <TouchableOpacity style={styles.bottomItemInner}
+          onPress={() => this.props.navigation.navigate('Upcomingeventinfo',item)}>
             <Text
               numberOfLines={1}
               style={{fontSize: 17, fontFamily: 'Roboto'}}>
@@ -116,7 +119,8 @@ class Upcoming extends React.Component {
       );
     } else {
       return (
-        <FlatList data={this.props.upcoming} renderItem={this.renderItem} />
+
+        <FlatList data={this.props.upcoming.data} renderItem={this.renderItem} />
       );
     }
   };
@@ -137,16 +141,12 @@ class Upcoming extends React.Component {
    try {
     value = await AsyncStorage.getItem('userdata');
     count = JSON.parse(value);
+  
+
       } catch (e) {
-        console.warn('async error')
-        console.warn(e)
+     
       }
-
-
      data_data = {date:date,token: count.token};
-
-
-
     this.props.sendUpcoming(data_data);
 
 
@@ -171,8 +171,9 @@ class Upcoming extends React.Component {
 
           <CountDown
             style={styles.count}
-            until={2222222}
-            onFinish={() => alert('finished')}
+
+            until={this.props.upcoming.timediff}
+           // onFinish={() => alert('finished')}
             onPress={() => alert('hello')}
             size={30}
           />
@@ -195,7 +196,7 @@ const mapDispatchToProps = dispatch => ({
 
 
 function send_Upcoming(data) {
-  console.warn('inside send func');
+  
   return {type: SEND_UPCOMING, payload: data};
 }
 

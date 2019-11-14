@@ -1,7 +1,7 @@
 import { ADD_TODO, TOGGLE_TODO,ADD_SUBTODO,TOGGLE_SUBTODO } from './Todo_actionTypes'
 
 let nextId = 0
-export const addTodo = (text) => (    console.warn('addtodo'),
+export const addTodo = (text) => (   
 {
     type: ADD_TODO,
     id: nextId++,
@@ -22,7 +22,7 @@ export const toggleTodo = (id) => ({
 })
 
 
-export const subtoggleTodo = (id) => ( console.warn('toggle'),{
+export const subtoggleTodo = (id) => ({
     type: TOGGLE_SUBTODO,
     id
 })

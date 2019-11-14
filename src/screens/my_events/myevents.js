@@ -6,10 +6,12 @@ import LogoTitle from "../reuseablecomponents/headerlogo";
 import moment from "moment";
 //import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-community/async-storage";
-import Apicall from "../networking/apicall";
+import {organized_events,participated_events} from '../../../app/Actions/myevents_actions'
+import {connect} from 'react-redux'
 
 const numColumns = 2;
-export default class Myevents extends React.Component {
+var data_data=''
+class Myevents extends React.Component {
   state = {
     switchValue: false,
     token: "",
@@ -17,36 +19,16 @@ export default class Myevents extends React.Component {
     dataResponse: ""
   };
 
-  // static navigationOptions = {
-    
-  //    title: 'My events',
-  //    headerLeft: <LogoTitle />,
-  //    headerRight: (
-  //      <View style={{ flexDirection: "row" }}>
-
-  //      </View>
-  //    ),
-  //    headerStyle: {
-  //      backgroundColor: "white"
-  //    },
-  //    headerTintColor: "white",
-  //    headerTitleStyle: {
-  //      textAlign:'center',
-  //      color:'black',
-  //     // fontWeight: "bold",
-  //      fontFamily: "Roboto"
-  //    }
-  //  };
 
   toggleSwitch = value => {
     //onValueChange of the switch this function will be called
     this.setState({ switchValue: value });
     //state changes according to switch
-    if (value == true) {
-      this.truecall();
-    } else {
-      this.falsecall();
-    }
+    if (value === true) {
+      this._enroll(data_data)
+        } else {
+          this._onSubmit(data_data)
+        }
     //which will result in re-render the text
   };
 
@@ -61,37 +43,22 @@ export default class Myevents extends React.Component {
     return y;
   };
 
-  truecall = () => {
-    this._enroll();
-  };
-  falsecall = () => {
-    this._onSubmit();
-  };
+
 
   //////////////edit this for enrolled events
 
-  renderItem = ({ item, index }) => {
-    console.warn(item);
-    const { navigate } = this.props.navigation;
-    if (item.eventID) {
+  renderItem = ({item}) => {
+   
       return (
-        <View style={styles.bottomItem}>
+        <View style={{flex:1}}>
           <TouchableOpacity
             style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("eventalter", item);
-            }}
-          >
-            <Text
-              style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
-            >
-              {this.datetime(item.events.startTime)}
-            </Text>
-            <Text  numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.events.ename}
+            onPress={() => this.props.navigation.navigate('Myeventinfo',item)}>
+            <Text style={{ fontSize: 17, fontFamily: "Roboto" }}>
+              {item.events.venue}
             </Text>
             <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.events.venue}
+              {item.events.eName}
             </Text>
             <Text
               numberOfLines={1}
@@ -102,106 +69,21 @@ export default class Myevents extends React.Component {
           </TouchableOpacity>
         </View>
       );
-    } else {
-      return (
-        <View style={styles.bottomItem}>
-          <TouchableOpacity
-            style={styles.bottomItemInner}
-            onPress={() => {
-              navigate("eventalter", item);
-            }}
-          >
-            <Text
-              style={{ fontFamily: "Roboto", fontSize: 17, color: "#ffffff" }}
-            >
-              {this.datetime(item.startTime)}
-            </Text>
-            <Text style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {this.year(item.endTime)}
-            </Text>
-            <Text numberOfLines={1} style={{ fontSize: 17, fontFamily: "Roboto" }}>
-              {item.ename}
-            </Text>
-            <Text
-              numberOfLines={1}
-              style={{ color: "white", fontSize: 14, fontFamily: "Roboto" }}
-            >
-              {item.description}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
+    
+  }
+
+  _onSubmit = (obj) => {
+
+this.props.organized_events(obj)
   };
 
-  _onSubmit = () => {
+  _enroll = (obj) => {
 
 
-
-
-    body={
-      userID: this.state.username
-    }
-    endpoint="organisedEvents"
-
-    
-     Apicall(endpoint,body,this.state.token).then(responseJson => {
-      this.setState({ dataResponse: responseJson });
-    })
-
-    // //console.warn('sad',this.state.token)
-    // return fetch("http://192.168.1.151:8000/", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + this.state.token
-    //   },
-    //   body: JSON.stringify()
-    // })
-    //   .then(response => response.json())
-    //   .then(responseText => {
-    //     this.setState({ dataResponse: responseText });
-    //     // console.log('response',responseText )
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
-  };
-
-  _enroll = () => {
-
-    body={
-      participantID: this.state.username
-    }
-    endpoint="eventenrolled"
-
-    
-     Apicall(endpoint,body,this.state.token).then(responseJson => {
-      this.setState({ dataResponse: responseJson });
-    })
-    //console.warn('sad',this.state.token)
-    // return fetch("http://192.168.1.151:8000/", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + this.state.token
-    //   },
-    //   body: JSON.stringify()
-    // })
-    //   .then(response => response.json())
-    //   .then(responseText => {
-    //     this.setState({ dataResponse: responseText });
-
-    //     console.log("response12 enroll", responseText);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
+this.props.participated_events(obj)
   };
   noevents = () => {
-    if (this.state.dataResponse.result) {
+    if (this.props.organizedapi.result) {
       return (
         <View style={{ flex: 1 }}>
           <Text
@@ -217,35 +99,37 @@ export default class Myevents extends React.Component {
         </View>
       );
     } else {
+ 
       return (
+        
         <FlatList
           // numColumns={3}
-          data={this.state.dataResponse}
+          data={this.props.organizedapi}
          // style={styles.container}
-          renderItem={this.renderItem}
-          numColumns={numColumns}
+         renderItem={(item)=>this.renderItem(item)}
+         //numColumns={numColumns}
+         keyExtractor={item => item._id}
+
         />
       );
     }
   };
 
   async componentDidMount() {
-    try {
-      const value = await AsyncStorage.getItem("token");
-      const value1 = await AsyncStorage.getItem("username");
-      if (value && value1 !== null) {
-        await this.setState({ token: value });
-        await this.setState({ username: value1 });
-        //   console.log(value)
+try{
+    value = await AsyncStorage.getItem('userdata');
+    count = JSON.parse(value);
+      } catch (e) {
+     
       }
-    } catch (e) {
-      // error reading value
-    }
-    this._onSubmit();
+
+
+     data_data = {token: count.token}
+
+    this._onSubmit(data_data);
   }
 
   render() {
-    //  console.warn(data.users[0].name)
     return (
       <View style={{ backgroundColor: "white" }}>
         <View
@@ -276,86 +160,41 @@ export default class Myevents extends React.Component {
   }
 }
 
+
+const mapStateToProps = state => ({
+  organizedapi: state.Myevents.organizedapi,
+});
+
+const mapDispatchToProps = dispatch => ({
+  participated_events: data => dispatch(participated_events(data)),
+  organized_events:data=>dispatch(organized_events(data))
+});
+
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Myevents);
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginVertical: 20
   },
-  //   item: {
-  //     backgroundColor: '#4D243D',
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //     flex: 1,
-  //     margin: 1,
-  //     height: Dimensions.get('window').width / numColumns, // approximate a square
-  //   },
-  //   itemInvisible: {
-  //     backgroundColor: 'transparent',
-  //   },
-  //   itemText: {
-  //     color: '#fff',
-  //   },
-  //   container: {
-  //     // width: "93%",
 
-  //    },
-  //    flatlist: {
-  //    //  flexWrap: 'wrap',
-  //   // flexDirection:'column'
-  //    },
-  //    content: {
-  //    // alignItems: 'flex-end'
-  //    },
-  //   top: {
-  //     //height: "45%",
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //     backgroundColor: "green"
-  //   },
-  //   profileimage: {
-  //     width: 140,
-  //     height: 140,
-  //     borderRadius: 100,
-  //     borderWidth: 4,
-  //     borderColor: "black",
-  //     backgroundColor: "yellow"
-  //   },
-  //   center: {
-  //    // height: "10%",
-  //     backgroundColor: "#7fbcac"
-  //   },
-  //    bottom: {
-  //      //height: "100%",
-  //    //  alignSelf:'center',
-  //      //backgroundColor: "#7fbcac",
-  //     // flexDirection: "row",
-  //      //flexWrap: "wrap",
-  //     // padding: 5,
-
-  //     // margin:5
-  //    },
   bottomItem: {
     width: "47%",
     height: "85%",
-    //padding: 5,
-    // borderWidth:1,
+
     margin: 5
 
-    //width: "93%",
-    // backgroundColor: 'rgba(0,0,0,0.5)',
-    //height:'60%',
-    //padding:80,
-    //  alignSelf: "center",
-    //  borderRadius: 40,
-    // marginTop: 20,
-    //  margin: 10,
   },
   bottomItemInner: {
-    // flex: 1,
-    backgroundColor: "#4796ae",
-    //  width:'50%',
-  //  height: "200%",
-    padding: 5,
-    borderRadius: 10,
+    backgroundColor: '#4796ae',
+    margin:10,
+    padding:10,
+    borderRadius: 7,
   }
 });

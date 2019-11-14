@@ -10,7 +10,6 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
-//import FadeInView from "./animation";
 import {Switch, Image} from 'react-native';
 //import LogoTitle from "./headerlogo";
 import moment from 'moment';
@@ -20,8 +19,8 @@ import Dialog, {DialogContent} from 'react-native-popup-dialog';
 import FloatingLabelInput from '../reuseablecomponents/Floatinput';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-
-var data;
+import {acceptEvents, rejectEvents} from '../../../app/Actions/eventsAssigned';
+var data='';
 
 class EventsAssigned extends Component {
   constructor(props) {
@@ -29,50 +28,52 @@ class EventsAssigned extends Component {
     this.state = {
       comment: '',
       visible: false,
-      eventID:'',
+      eventID: '',
     };
   }
 
-  accept = async () => {
-
-    try {
-      value = await AsyncStorage.getItem('userdata');
-      data = JSON.parse(value);
-    } catch (e) {
-      console.warn('async error');
-      console.warn(e);
-    }
-
-this.props.acceptevent(data)
-  };
   async componentDidMount() {
     try {
       value = await AsyncStorage.getItem('userdata');
       data = JSON.parse(value);
     } catch (e) {
-      console.warn('async error');
-      console.warn(e);
+      
     }
 
     this.props.sendAssignedEvents(data);
   }
-  reject = obj => {
-    console.warn('inside');
 
-    this.setState({visible: true,eventID:obj});
+  reject = () => {
+    
+    var rejectdata = {
+      token: data.token,
+      comment: this.state.comment,
+      eventID: this.state.eventID,
+    };
+    this.props.rejectEvent(rejectdata);
+    this.setState({visible: false});
+
+    this.props.sendAssignedEvents(data);
   };
 
-  renderItem = ({item, index}) => {
-    console.warn(item);
+  accept = obj => {
+    var aceptdata = {token: data.token, eventID: obj};
+    this.props.acceptEvents(aceptdata);
+    this.props.sendAssignedEvents(data);
+  };
+
+  renderItem = ({item}) => {
+ 
     const {navigate} = this.props.navigation;
 
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.bottomItem}>
-          <TouchableOpacity
+    //  <ScrollView style={styles.container}>
+        <View style={{flex:1}}>
+          <TouchableOpacity //key={item.events._id}
             style={styles.bottomItemInner}
             onPress={() => {
-              navigate('eventdet', item);
+
+              navigate('Assignedeventinfo', item);
             }}>
             <Text
               style={{fontFamily: 'Roboto', fontSize: 17, color: '#ffffff'}}>
@@ -90,133 +91,134 @@ this.props.acceptevent(data)
               {item.events.description}
             </Text>
             <View style={styles.containerr}>
-              <TouchableOpacity style={styles.button} onPress={this.onPress}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.accept(item.events._id)}>
                 <Text> Accept </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button1}
-                onPress={() => this.reject(item.eventID)}>
+                onPress={() =>
+                  this.setState({visible: true, eventID: item.events._id})
+                }>
                 <Text> Reject</Text>
               </TouchableOpacity>
             </View>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+     // </ScrollView>
     );
   };
 
   upevents = () => {
-    if (this.props.assignedEvents.length < 1) {
-      return (
-        <View style={{flex: 1}}>
-          <Text
-            style={{
-              fontFamily: 'Roboto',
-              fontSize: 30,
-              opacity: 0.1,
-              alignSelf: 'center',
-            }}>SEND_ASSIGNEDEVENTS
-            no events
-          </Text>
-        </View>
-      );
-    } else {
-      return (
-        <FlatList
-          // numColumns={3}
-          data={this.props.assignedEvents}
-          // style={styles.container}
-          renderItem={this.renderItem}
-          // numColumns={numColumns}
-        />
-      );
-    }
+    return (
+      <FlatList
+        data={this.props.assignedEvents}
+        renderItem={(item)=>this.renderItem(item)}
+        keyExtractor={item => item._id}
+      />
+    );
   };
 
-  // dialog=()=>{
-  //   return(
-      
-
-  //   );
+  noevent = () => {
+    // if (this.props.assignedEvents.length < 1) {
+    return (
+      <View style={{flex: 1}}>
+        <Text
+          style={{
+            fontFamily: 'Roboto',
+            fontSize: 30,
+            opacity: 0.1,
+            alignSelf: 'center',
+          }}>
+          no events
+        </Text>
+      </View>
+    );
+  };
   // }
 
   render() {
-    //  console.warn(data.users[0].name)
+    
     return (
-      <View style={{flex:1}}>
-      <ScrollView style={styles.scrollView}>
-        <View style={{backgroundColor: 'white'}}>{this.upevents()}</View>
+      <View style={{flex: 1}}>
+        <ScrollView style={styles.scrollView}>
+          <View style={{backgroundColor: 'white'}}>
+            {this.props.assignedEvents != null
+              ? this.upevents()
+              : this.noevent()}
+          </View>
         </ScrollView>
-        
-         {/* {this.state.visible?this.dialog():null} */}
 
+        {/* {this.state.visible?this.dialog():null} */}
 
-         <Dialog
-      width="80%"
-      height="40%"
-      //padding='10%'
-      visible={this.state.visible}
-      onTouchOutside={() => {
-        this.setState({visible: false});
-      }}>
-      <DialogContent>
-      <KeyboardAvoidingView behavior='padding'>
-        <View style={{width: '100%', height: '100%'}}>
-          <TextInput
-            style={{fontSize: 24}}
-            placeholder="comment"
-            value={this.state.comment}
-            onChangeText={text=>{this.setState({comment:text})}}
-          />
+        <Dialog
+          width="80%"
+          height="40%"
+          //padding='10%'
+          visible={this.state.visible}
+          onTouchOutside={() => {
+            this.setState({visible: false});
+          }}>
+          <DialogContent>
+            <KeyboardAvoidingView behavior="padding">
+              <View style={{width: '100%', height: '100%'}}>
+                <TextInput
+                  style={{fontSize: 24}}
+                  placeholder="comment"
+                  value={this.state.comment}
+                  onChangeText={text => {
+                    this.setState({comment: text});
+                  }}
+                />
 
-          <TouchableOpacity
-            style={{
-              margin:20,
-              alignSelf:'center',
-              width: '60%',
-              height: '30%',
-              backgroundColor: 'green',
-            }} onpress={()=>{this.accept()}}
-            >
-            <Text style={{
-             fontSize:24 ,
-             alignSelf:'center',
-             paddingTop:10
-            }}>SEND</Text>
-          </TouchableOpacity>
-
-        </View>
-        </KeyboardAvoidingView>
-
-      </DialogContent>
-    </Dialog>
-        </View>
+                <TouchableOpacity
+                  style={{
+                    margin: 20,
+                    alignSelf: 'center',
+                    width: '60%',
+                    height: '30%',
+                    backgroundColor: 'green',
+                  }}
+                  onPress={() => this.reject()}>
+                  <Text
+                    style={{
+                      fontSize: 24,
+                      alignSelf: 'center',
+                      paddingTop: 10,
+                    }}>
+                    SEND
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </KeyboardAvoidingView>
+          </DialogContent>
+        </Dialog>
+      </View>
     );
   }
 }
 
-import {SEND_ASSIGNEDEVENTS,ACCEPT_EVENT} from '../../../app/Actions/eventsAssigned';
+import {
+  SEND_ASSIGNEDEVENTS,
+  ACCEPT_EVENT,
+} from '../../../app/Actions/eventsAssigned';
 const mapStateToProps = state => ({
   assignedEvents: state.TextChanger.assignedEvents,
-  
+  apicall: state.AssignedEvents.apicall,
 });
 
 const mapDispatchToProps = dispatch => ({
   sendAssignedEvents: data => dispatch(send_assignedEvents(data)),
-  acceptevent:data => dispatch(accept_event(data))
+  acceptEvents: data => dispatch(acceptEvents(data)),
+  rejectEvent: data => dispatch(rejectEvents(data)),
+  sendUserDetails: data => dispatch(sendUserDetails(data)),
 });
 
 function send_assignedEvents(data1) {
-  console.warn('inside send func');
+
   return {type: SEND_ASSIGNEDEVENTS, payload: data1};
 }
-
-function accept_event(data1) {
-//  console.warn('inside send func');
-  return {type: ACCEPT_EVENT, payload: data1};
-}
-
-
 
 export default connect(
   mapStateToProps,
@@ -248,7 +250,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   scrollView: {
-    //  backgroundColor: 'pink',
     marginHorizontal: 20,
   },
   count: {flex: 3},
@@ -260,7 +261,6 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    // marginVertical: 20
   },
   count: {
     flexDirection: 'column-reverse',
@@ -269,14 +269,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '50%',
     padding: '2%',
-    //height: "85%",
   },
   bottomItemInner: {
-    // flex: 1,
     backgroundColor: '#4796ae',
-    //  width:'50%',
-    //  height: "200%",
-    padding: 5,
+    margin:10,
+    padding:10,
     borderRadius: 7,
   },
   ScrollView: {

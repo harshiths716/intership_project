@@ -30,7 +30,7 @@ const TextChanger = (state = {username: '', password: '', status:'',userdata: ''
         upcoming:action.payload
       };
     case RECEIVE_LOGIN_API:
-       // console.warn('i am inside REV',JSON.stringify(action.payload))
+    
           return {
             ...state,
             userdata: action.payload,

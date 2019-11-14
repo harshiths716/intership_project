@@ -43,15 +43,15 @@ export default class FloatingLabelInput extends Component {
         }),
         fontSize: this._animatedIsFocused.interpolate({
           inputRange: [0, 1],
-          outputRange: [20, 14]
+          outputRange: [15, 20]
         }),
         color:this._animatedIsFocused.interpolate({
           inputRange: [0, 1],
-          outputRange: ["#aaa", "#000"]
+          outputRange: ["#000", "#000"]
         })
       };
       return (
-        <View style={{ paddingTop: 18 }}>
+        <View style={{ paddingTop: 34,position:'relative',top:34 }}>
           <Animated.Text style={labelStyle}>{label}</Animated.Text>
           <TextInput
             {...props}
@@ -66,11 +66,13 @@ export default class FloatingLabelInput extends Component {
   }
   const styles = StyleSheet.create({
     input: {
+    
       height: 44,
-      fontSize: 20,
+      fontSize:23,
       color: "#000",
       borderBottomWidth: 1,
-      borderBottomColor: "#555"
+      borderBottomColor: "#555",
+      
     }
   });
   

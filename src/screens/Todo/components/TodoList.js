@@ -6,7 +6,7 @@ const listdata = (props) => {
       {/* <TodoList todos={props.todos} toggleTodo={props.toggleTodo}  navigateprops={props.navigateprops}/> */}
 
       {props.todos.map(todo => (
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View   key={todo.id} style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity
             key={todo.id}
             style={{flexDirection: 'row', justifyContent: 'space-between'}}
@@ -20,7 +20,7 @@ const listdata = (props) => {
             </Text>
           </TouchableOpacity>
 
-          <Button title="DONE" onPress={() => props.toggleTodo(todo.id)} />
+          {/* <Button title="DONE" onPress={() => props.toggleTodo(todo.id)} /> */}
         </View>
       ))}
     </View>
