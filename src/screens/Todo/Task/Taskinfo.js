@@ -31,7 +31,6 @@ var iddata = '';
 var count = '';
 var data = '';
 
-
 export class Taskinfo extends React.Component {
   constructor(props) {
     super(props);
@@ -39,20 +38,29 @@ export class Taskinfo extends React.Component {
     this.state = {
       data: this.props.navigation.state.params,
       isStartTimePickerVisible: false,
+      ownership: '',
       text: '',
       listHolder: '',
       search: '',
-      idarray1:this.props.navigation.state.params.ownership,
+      idarray1: this.props.navigation.state.params.ownership,
       StartTime: '',
-      desc: '',
-      budget: '',
+      desc: this.props.navigation.state.params.description
+        ? this.props.navigation.state.params.description
+        : '',
+      budget: this.props.navigation.state.params.budget
+        ? this.props.navigation.state.params.budget
+        : '',
       deleting: 1,
       show: false,
       mode: 'date',
       date: new Date(),
       start: new Date(),
-      end: new Date(),
-      taskname: '',
+      end: this.props.navigation.state.params.deadline
+        ? this.props.navigation.state.params.deadline
+        : new Date(),
+      taskname: this.props.navigation.state.params.text
+        ? this.props.navigation.state.params.text
+        : '',
     };
   }
 
@@ -85,11 +93,8 @@ export class Taskinfo extends React.Component {
           this.setState({
             desc: item.description,
             budget: item.Budget,
-            StartTime: item.deadline,
-            idarray1: {
-              email: this.segricate(item.ownership) + '',
-              id: item.ownership,
-            },
+            end: item.deadline,
+            idarray1: item.ownership,
           });
 
           // item.id
@@ -101,18 +106,15 @@ export class Taskinfo extends React.Component {
     });
     this.setState({taskname: this.state.data.text});
 
-    this.state.data.eventId &&
+    this.state.data.type &&
       this.setState(
         {
           data: this.props.navigation.state.params,
-          idarray1: this.props.navigation.state.params.eventId
-            ? {
-                email: this.props.navigation.state.params.ownership + '',
-                id: this.props.navigation.state.params.ownershipId,
-              }
+          idarray1: this.props.navigation.state.params.type
+            ? this.state.data.ownership
             : '',
         },
-        console.warn('in component did mount'),
+        //console.warn('in component did mount'),
       );
   }
 
@@ -176,26 +178,6 @@ export class Taskinfo extends React.Component {
     this.sendtask();
   }
 
-  renderItem1 = ({item}) => {
-    return (
-      <ScrollView style={styles.container}>
-        <View style={styles.bottomItem}>
-          <TouchableOpacity
-            style={styles.bottomItemInner}
-            //  onPress={() => this.addname(item._id, item.email)}
-          >
-            <Text
-              numberOfLines={1}
-              style={{fontSize: 17, fontFamily: 'Roboto'}}>
-              {item.email}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    );
-  };
-
-
   setDate = (event, date, v) => {
     if (event.type == 'set') {
       if (this.state.mode === 'time') {
@@ -233,20 +215,21 @@ export class Taskinfo extends React.Component {
   };
 
   sendtask = () => {
+    const {type,completed}=this.state.data
     data = {
+      taskEndpoint:
+      type === 'ADD_TASK' || type === 'EDIT_TASK' || completed != undefined
+          ? '/eventTasks/createTask'
+          : '/eventSubTasks/createSubTask',
       token: count.token,
       id: this.state.data.id,
       eventId: this.state.data.eventId
         ? this.state.data.eventId
         : this.props.createEventid.eventId,
-      completed: this.state.data.completed,
-      ownership: this.state.data.eventId
-        ? this.state.data.ownershipId
-        : this.state.idarray1.id,
+      completed: this.state.data.eventId ? null : this.state.data.completed,
+      ownership: this.state.idarray1,
       description: this.state.desc,
-      tName: this.state.data.eventId
-        ? this.state.taskname
-        : this.state.data.text,
+      tName: this.state.taskname,
       Budget: this.state.budget,
       deadline: this.state.end,
       createdBy: count.UserID,
@@ -262,13 +245,14 @@ export class Taskinfo extends React.Component {
   };
   render() {
     const {show, mode, date} = this.state;
-    console.warn('yy', this.state.data, this.state.data.completed);
+  //   console.warn('yy', this.state.data.type);
+  //  const {type} = this.state.data;
     return (
       <View style={{flex: 1}}>
         <ScrollView style={{padding: '4%'}}>
           <TouchableOpacity
             style={{backgroundColor: 'black', width: '20%', height: '9%'}}
-            onPress={() => this.apihit()}>
+            onPress={() => this.apihit(this.state.data.type, this.state.data.completed)}>
             <Text style={{color: 'white', alignSelf: 'center', fontSize: 24}}>
               Done
             </Text>
@@ -277,35 +261,28 @@ export class Taskinfo extends React.Component {
           <FloatingLabelInput
             label="Task Name"
             // style={{margin:"5%"}}           // value={this.state.taskname}
-            defaultValue={
-              this.state.data.eventId
-                ? this.state.data.text
-                : this.state.taskname
-            }
+            value={this.state.taskname}
             onChangeText={text => {
               this.setState({taskname: text});
             }}
           />
 
           <Text style={{color: 'blue', margin: '2%'}}>
-            Ownership:{this.state.idarray1.email+""}
-            {/* {this.state.idarray1 != undefined
-              ? JSON.stringify(this.state.idarray1.email)
-              : null} */}
+            Ownership:
+            {this.state.idarray1 != undefined
+              ? this.state.idarray1.email
+              : null}
           </Text>
 
           <FloatingLabelInput
             label="Add ownership"
-            // defaultValue={this.state.data.eventId ?this.state.data.ownership:this.state.idarray1}
-            value={this.state.ownership}
+            defaultValue={this.state.ownership}
             onChangeText={text => {
               this.list(text);
             }}
           />
 
-          {/* <View style={{flex:1}}> */}
           <FlatList data={this.state.listHolder} renderItem={this.renderItem} />
-          {/* </View> */}
 
           <Text style={{color: 'green', margin: '2%'}}>
             Date:{this.state.end.toString().substring(0, 10)}{' '}
@@ -332,11 +309,7 @@ export class Taskinfo extends React.Component {
 
           <FloatingLabelInput
             label={'Add Description'}
-            defaultValue={
-              this.state.data.eventId
-                ? this.state.data.description
-                : this.state.desc
-            }
+            value={this.state.desc}
             onChangeText={text => this.setState({desc: text})}
           />
 
@@ -345,12 +318,7 @@ export class Taskinfo extends React.Component {
           this.state.data.completed != undefined ? (
             <FloatingLabelInput
               label={'Add Budget'}
-              defaultValue={
-                this.state.data.eventId
-                  ? this.state.data.budget
-                  : this.state.budget &&
-                    console.warn('1', this.state.data.budget)
-              }
+              value={this.state.budget + ''}
               onChangeText={text => this.setState({budget: text})}
             />
           ) : (
@@ -373,15 +341,8 @@ const mapStateToProps = state => ({
   tasksent: state.Task.tasksent,
   userdetails: state.CreateEvent.userdetails,
   createEventid: state.CreateEvent.createEventid,
-
-  //   description:state.Taskinfo_reducer.description,
-  //   tName:state.Taskinfo_reducer.tName,
-  //   ownership:state.Taskinfo_reducer.ownership,
-  //   Budget:state.Taskinfo_reducer.Budget,
-  //   deadline:state.Taskinfo_reducer.deadline,
   data: state.Taskinfo_reducer,
   createEventid: state.CreateEvent.createEventid,
-  // navigateprops:this.props.navigateprops
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -389,9 +350,7 @@ const mapDispatchToProps = dispatch => ({
   addsubTodo: text => dispatch(addsubTodo(text)),
   sendUserDetails: data => dispatch(sendUserDetails(data)),
   addorganizer: data => dispatch(addorganizer(data)),
-  // adddesc: data => dispatch(adddesc(data)),
   add_task_api: data => dispatch(add_task_api(data)),
-  // adddeadline: data => dispatch(adddeadline(data)),
   deletearray: data => dispatch(deletearray(data)),
 });
 

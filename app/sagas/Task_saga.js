@@ -16,6 +16,7 @@ function* get_accepted_task_events_Api_Data(actions) {
 function* get_added_task_Api_Data(actions) {
     try {
       const data = yield call(add_task_api_hit,actions.payload);
+      console.warn('data',data)
       yield put(add_task_api_done(data));
     } catch (e) {
   

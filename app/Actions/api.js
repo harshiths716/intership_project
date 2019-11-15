@@ -213,21 +213,21 @@ export const accepted_task_events_Api = async bod => {
 
 
 export const add_task_api_hit = async body => {
-
+console.warn(body)
   try {
-    const response = await fetch(ip + '/eventTasks/createTask', {
+    const response = await fetch(ip + body.taskEndpoint, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
          Authorization: "Bearer " + body.token
       },
-      body: JSON.stringify({
+      body:JSON.stringify({
         eventId:body.eventId,
         tName:body.tName,
         description:body.description,
-        ownership:body.ownership,
-        budget:body.Budget,
+        ownership:body.ownership.id,
+        budget:parseInt(body.Budget),
         deadline:body.deadline,
         createdBy:body.createdBy
       }),
@@ -258,33 +258,6 @@ export const get_task_api_hit = async body => {
 
     const data = await response.json();
   
-    return data;
-  } catch (e) {
-  }
-};
-
-
-export const add_subtask_api_hit = async body => {
-  try {
-    const response = await fetch(ip + '/eventSubTasks/createSubTask', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-         Authorization: "Bearer " + body.token
-      },
-      body: JSON.stringify({
-        eventId:body.eventId,
-        tId:body.id,
-        subTname:body.tName,
-        description:body.description,
-        ownership:body.ownership,
-        deadline:body.deadline,
-        createdBy:body.createdBy
-      }),
-    });
-
-    const data = await response.json();
     return data;
   } catch (e) {
   }

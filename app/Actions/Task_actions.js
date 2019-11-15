@@ -35,6 +35,7 @@ export function get_task_api(val) {
   }
 
   export function add_task_api(val) {
+    console.warn('inside add_task_api')
     return { type: ADD_TASK_API ,payload:val};
   }
 

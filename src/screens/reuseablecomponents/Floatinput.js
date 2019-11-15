@@ -36,6 +36,7 @@ export default class MyTextInput extends React.Component {
         placeholder={label}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
+        value={this.props.value}
         style={styles.textInput}
         {...otherProps}
       />

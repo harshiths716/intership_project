@@ -377,7 +377,7 @@ class Createvent extends Component {
       organisers: idarray,
       token: this.state.userdata.token,
     };
-    //   this.props.create_event(body);
+     // this.props.create_event(body);
     this.props.navigation.navigate('todo');
   };
 

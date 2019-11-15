@@ -10,6 +10,8 @@ const Task = (state = {acceptedevents:'',tasksent:'',taskdetails:[],subtasksent:
                 acceptedevents: action.payload,
               };
               case ADD_TASK_API_DONE:
+          console.warn('ADD_TASK_API_DONE')
+
               return  {
                 ...state,
                 tasksent: action.payload,
