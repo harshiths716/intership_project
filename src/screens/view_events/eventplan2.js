@@ -52,13 +52,14 @@ class EventPlan2 extends Component {
               onPress={() =>
                 this.props.navigation.navigate('taskinfo', {
                   text: item.tName,
-                  eventId:item.eventId,
-                  id:item._id ,
-                  description:item.description,
-                  ownership: this.segricate(item.ownership) + '',
-                  ownershipId:item.ownership,
-                  budget:item.budget,
-                  deadline:item.deadline,
+                  eventId: item.eventId,
+                  id: item._id,
+                  description: item.description,
+                  ownership: {email:this.segricate(item.ownership) + '',id:item.ownership},
+                //  ownershipId: item.ownership,
+                  budget: item.budget,
+                  deadline: item.deadline,
+                  type:'EDIT_TASK'
                 })
               }>
               <Text
@@ -71,20 +72,20 @@ class EventPlan2 extends Component {
                 {item.tName}
               </Text>
               <Text style={{color: 'green'}}>
-            {this.segricate(item.ownership)+''}
-          </Text>
+                {this.segricate(item.ownership) + ''}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate('taskinfo', {
                   text: '',
-                  eventId:item.eventId,
-                  id:item._id ,
-                  description:'',
-                  ownership:'',
-                  budget:'no',
-                  deadline:'',
-                //  new:null
+                  eventId: item.eventId,
+                  id: item._id,
+                  description: '',
+                  ownership: {email:this.segricate(item.ownership) + '',id:item.ownership},
+                  budget: 'no',
+                  deadline: '',
+                  type: 'ADD_SUBTASK',
                 })
               }>
               <Image
@@ -110,10 +111,13 @@ class EventPlan2 extends Component {
         <TouchableOpacity
           style={{padding: '2%'}}
           onPress={() =>
-            this.props.navigation.navigate('editsubtask', {
+            this.props.navigation.navigate('taskinfo', {
               text: item.subTname,
-              eventId: eventId,
-              ownership: item.ownership,
+              eventId: item.eventId,
+              ownership:{email:this.segricate(item.ownership) + '',id:item.ownership},
+              tId: item.tId,
+              id: item._id,
+              type: 'EDIT_SUBTASK',
             })
           }>
           <Text
@@ -131,11 +135,10 @@ class EventPlan2 extends Component {
             }}>
             {item.subTname}
           </Text>
-         
         </TouchableOpacity>
         <Text style={{backgroundColor: 'green'}}>
-            {this.segricate(item.ownership)+''}
-          </Text>
+          {this.segricate(item.ownership) + ''}
+        </Text>
       </View>
     );
   };
@@ -152,7 +155,6 @@ class EventPlan2 extends Component {
   segricate = obj => {
     console.warn('obj', obj);
     if (this.props.userdetails.length != 0) {
-      
       var rebels = this.props.userdetails.filter(function(pilot) {
         /// console.warn(pilot.userDesg)
         return pilot._id === obj;
@@ -162,12 +164,10 @@ class EventPlan2 extends Component {
       // console.warn('name asterr',rebels)
       return rebels[0].email;
       //  return null
+    } else {
+      console.warn('code reached else');
     }
-    else{
-      console.warn("code reached else")
-    }
-  }
- 
+  };
 
   componentWillUnmount() {
     this.props.clear();
@@ -251,13 +251,14 @@ class EventPlan2 extends Component {
                   onPress={() =>
                     this.props.navigation.navigate('taskinfo', {
                       text: '',
-                      eventId:eventId,
-                      id:'' ,
-                      description:'',
+                      eventId: eventId,
+                      id: '',
+                      description: '',
                       ownership: '',
-                      ownershipId:'',
-                      budget:'',
-                      deadline:'',
+                    //  ownershipId: '',
+                      budget: '',
+                      deadline: '',
+                      type: 'ADD_TASK',
                     })
                   }>
                   <Image
@@ -300,10 +301,7 @@ const mapDispatchToProps = dispatch => ({
   sendUserDetails: data => dispatch(sendUserDetails(data)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EventPlan2);
+export default connect(mapStateToProps, mapDispatchToProps)(EventPlan2);
 
 const styles = StyleSheet.create({
   button: {
