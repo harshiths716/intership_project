@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createAppContainer} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
+console.warn('4')
 import {bottomUser,bottomorganizer} from './bottomnav';
-import EventsAssigned from '../view_events/EventsAssigned'
-import PastEvents from '../view_events/PastEvents'
-import TodoApp from '../Todo/TodoApp'
+console.warn('5')
+import EventsAssigned from '../view_events/EventsAssignedRequest'
 import Eventtaskview from '../view_events/eventtaskview'
-import Edittask from '../view_events/edittask'
-import Editsubtask from '../view_events/editsubtask'
 import EventPlan2 from '../view_events/eventplan2'
 import Taskinfo from '../Todo/Task/Taskinfo'
 import Designation from '../view_events/invites'
@@ -100,28 +98,7 @@ const task_subtask = createStackNavigator({
             headerTintColor: '#fff',
         }),
     },
-    edittask: {
-        screen: Edittask,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Home Screen',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#FF7F5B',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-    editsubtask: {
-        screen: Editsubtask,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Home Screen',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#FF7F5B',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
+    
    taskinfo:{screen:Taskinfo,
     navigationOptions: ({ navigation }) => ({
         title: 'Home Screen',

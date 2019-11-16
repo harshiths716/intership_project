@@ -1,26 +1,24 @@
-import React, {Component, Fragment} from 'react';
+
+
+import React from 'react';
+import {UPCOMMING_API} from '../../app/apiConstant'  
 import {
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
   Text,
   View,
   ImageBackground,
-  Image,
   FlatList,
-  Dimensions,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {SEND_UPCOMING} from '../../app/Actions/upcoming_action';
 
-//import FadeInView from "./animation";
-import {Switch} from 'react-native';
-import LogoTitle from '../reuseablecomponents/headerlogo';
-import moment from 'moment';
-import {ScrollView} from 'react-native-gesture-handler';
+// import LogoTitle from '../reuseablecomponents/headerlogo';
 import CountDown from 'react-native-countdown-component';
-//import AsyncStorage from '@react-native-community/async-storage';
-import StarRating from 'react-native-star-rating';
-import Apicall from '../networking/apicall2';
 import {connect} from 'react-redux';
+import { NoEvent } from '../reuseablecomponents/noEvent';
+import { getUserData } from '../reuseablecomponents/asyncStorage';
+import OfflineNotice from '../reuseablecomponents/error';
 
 var count = 0;
 var value = 0;
@@ -46,21 +44,6 @@ class Upcoming extends React.Component {
     //this.renderItem = this.renderItem.bind(this);
     // this.upevents = this.upevents.bind(this);
   }
-  static navigationOptions = {
-    title: 'upcoming events',
-    headerLeft: <LogoTitle />,
-    headerRight: <View style={{flexDirection: 'row'}}></View>,
-    headerStyle: {
-      backgroundColor: 'white',
-    },
-    headerTintColor: 'white',
-    headerTitleStyle: {
-      textAlign: 'center',
-      color: 'black',
-      // fontWeight: "bold",
-      fontFamily: 'Roboto',
-    },
-  };
 
   renderItem = ({item}) => {
     return (
@@ -122,19 +105,7 @@ class Upcoming extends React.Component {
 
   upevents = () => {
     if (this.props.upcoming.length < 1) {
-      return (
-        <View style={{flex: 1}}>
-          <Text
-            style={{
-              fontFamily: 'Roboto',
-              fontSize: 30,
-              opacity: 0.1,
-              alignSelf: 'center',
-            }}>
-            no events
-          </Text>
-        </View>
-      );
+      NoEvent()
     } else {
       return (
         <FlatList
@@ -155,11 +126,10 @@ class Upcoming extends React.Component {
     var dddd = new Date();
     let date = dddd.toISOString();
 
-    try {
-      value = await AsyncStorage.getItem('userdata');
-      count = JSON.parse(value);
-    } catch (e) {}
-    data_data = {date: date, token: count.token};
+    getUserData().then((d)=>{
+count=d
+    })
+    data_data = {date: date, token: count.token,method:"GET",endpoint:UPCOMMING_API};
     this.props.sendUpcoming(data_data);
   }
 
@@ -170,8 +140,11 @@ class Upcoming extends React.Component {
       <ImageBackground
         source={require('../resources/3.jpg')}
         style={styles.backgroundImage}>
+          <OfflineNotice
+          data={this.props.upcoming}
+          />
         <ScrollView>
-          { this.props.upcoming.timediff!=undefined ?
+          { this.props.upcoming !=undefined ?
           <View style={{flex: 1}}>
             <CountDown
               style={styles.count}
@@ -198,7 +171,6 @@ class Upcoming extends React.Component {
   }
 }
 
-import {SEND_UPCOMING, RECEIVE_UPCOMING} from '../../../app/Actions/upcoming';
 const mapStateToProps = state => ({
   upcoming: state.TextChanger.upcoming,
 });

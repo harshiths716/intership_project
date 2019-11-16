@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 const { width } = Dimensions.get('window');
@@ -9,7 +9,19 @@ function MiniOfflineSign() {
     </View>
   );
 }
-class OfflineNotice extends PureComponent {
+
+
+function MiniWaiteSign() {
+  return (
+    <View style={styles.offlineContainer}>
+      <Text style={styles.offlineText}>please wait</Text>
+    </View>
+  );
+}
+
+
+
+class OfflineNotice extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,6 +43,14 @@ class OfflineNotice extends PureComponent {
       }
 
       render() {
+        const { data, ...otherProps } = this.props;
+
+if(data==undefined || data.length<1 ){
+  return <MiniWaiteSign 
+  {...otherProps}
+  />
+}
+
         if (!this.state.isConnected) {
           return <MiniOfflineSign />;
         }

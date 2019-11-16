@@ -1,0 +1,1 @@
+ 2jsXŠhr,src/screens/view_events/Assignedeventinfo.js

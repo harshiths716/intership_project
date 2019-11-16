@@ -1,0 +1,1 @@
+ 2jsXÍhr$src/screens/view_events/Eventinfo.js
